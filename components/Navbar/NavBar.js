@@ -198,7 +198,7 @@ const NavBar = () => {
 
   const randomAnouncement = announcement[Math.floor(Math.random() * announcement?.length)]
 
-
+console.log('announcement',announcement)
   return (
     <div className="fixed top-0 z-50 w-full ">
       {loading && <Loader isLoading={loading} />}

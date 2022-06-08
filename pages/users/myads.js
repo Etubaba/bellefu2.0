@@ -58,7 +58,13 @@ const [loading, setLoading] = useState(false);
     getProduct();
   }, []);
 
-  const all = [...published, ...pend, ...expired];
+  const combined = [...published, ...pend, ...expired];
+
+  const all = combined.length > 4 ? combined.slice(0, 4) : combined;
+
+  const pending=pend.length>4?pend.slice(0,4):pend;
+  const publish=published.length>4?published.slice(0,4):published;
+  const expire=expired.length>4?expired.slice(0,4):expired;
 
 
 
@@ -104,7 +110,7 @@ const [loading, setLoading] = useState(false);
               View All
             </p>
           </div>
-          <PublishedAds product={published} />
+          <PublishedAds product={publish} />
         </div>
         <div className="">
           <div className="flex items-center px-2 lg:px-4 justify-between pt-3">
@@ -118,7 +124,7 @@ const [loading, setLoading] = useState(false);
               View All
             </p>
           </div>
-          <MyAds products={pend} />
+          <MyAds products={pending} />
         </div>
         <div className="">
           <div className="flex items-center px-2 lg:px-4 justify-between pt-3">
@@ -132,7 +138,7 @@ const [loading, setLoading] = useState(false);
               View All
             </p>
           </div>
-          <ExpiredAds products={expired} />
+          <ExpiredAds products={expire} />
         </div>
       </div>
     </div>

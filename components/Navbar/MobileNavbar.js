@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { MdShoppingCart } from "react-icons/md";
 import { isLoggedIn, login, profileDetails } from "../../features/bellefuSlice";
 import axios from "axios";
-import Loader, { apiData, UserAvataUrl } from "../../constant";
+import Loader, { apiData, shopApi, UserAvataUrl } from "../../constant";
 import { FcShop } from "react-icons/fc";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -61,9 +61,9 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
       .then((res) => setUnread(res.data.unread));
   }, []);
 
-  const cartUrl = 'https://bellefu.inmotionhub.xyz/api/shop/list/cart/item/'
+
   useEffect(() => {
-    axios.get(`${cartUrl}${username?.id}`)
+    axios.get(`${shopApi}list/cart/item/${username?.id}`)
       .then(res => {
         setCartCount(res.data.data)
       })
