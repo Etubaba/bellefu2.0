@@ -20,7 +20,7 @@ import axios from "axios";
 
 import { apiData, UserAvataUrl } from "../../constant";
 
-const SingleProductMobileSidebar = ({ mobileDetails }) => {
+const SingleProductMobileSidebar = ({ mobileDetails,verified }) => {
   const isLoggedIn = useSelector(login);
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -163,7 +163,7 @@ const SingleProductMobileSidebar = ({ mobileDetails }) => {
     }
   };
 
-  const verified = useSelector((state) => state.bellefu?.verificationStatus);
+
   return (
     <div className="bg-bellefuWhite">
       <div className="flex flex-col space-y-3">

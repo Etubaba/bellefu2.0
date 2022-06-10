@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { apiData, UserAvataUrl } from "../../constant";
 
-const SingleProductSidebar = ({ userDetails, }) => {
+const SingleProductSidebar = ({ userDetails,verified }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -31,7 +31,7 @@ const SingleProductSidebar = ({ userDetails, }) => {
 
   const receiverId = userDetails[0]?.userId;
   const senderId = useSelector((state) => state.bellefu?.profileDetails?.id);
-  const verified = useSelector((state) => state.bellefu?.verificationStatus);
+  
   const isLoggedIn = useSelector(login);
   const handleMessage = () => {
     if (isLoggedIn) {
@@ -165,6 +165,8 @@ const SingleProductSidebar = ({ userDetails, }) => {
     p: 2,
   };
 
+
+  // console.log('verify',userDetails)
   return (
     <div className="bg-bellefuWhite rounded-md flex flex-col pb-10 ">
       <div className="flex items-center px-3 py-2 justify-center">

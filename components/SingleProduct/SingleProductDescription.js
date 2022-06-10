@@ -34,7 +34,7 @@ import axios from "axios";
 import { apiData, productImageUrl, videoUrl } from "../../constant";
 import { toast } from "react-toastify";
 
-const SingleProductDescription = ({ productDetails }) => {
+const SingleProductDescription = ({ productDetails,verified }) => {
   const [open, setOpen] = useState(true);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -188,16 +188,7 @@ const SingleProductDescription = ({ productDetails }) => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    const productViewed = async () => {
-      await axios
-        .post(`${apiData}add/product/view`, {
-          productId: productDetails[0]?.productId,
-        })
-        .then((res) => console.log(res));
-    };
-    productViewed();
-  }, []);
+ 
 
   const handleCall = () => {
     if (isLoggedIn) {
@@ -400,7 +391,7 @@ const SingleProductDescription = ({ productDetails }) => {
 
         <div className="py-3 px-3 lg:hidden">
           <div ref={ref} />
-          <SingleProductMobileSidebar mobileDetails={productDetails} />
+          <SingleProductMobileSidebar verified={verified} mobileDetails={productDetails} />
         </div>
 
         {/* end of product owner details */}

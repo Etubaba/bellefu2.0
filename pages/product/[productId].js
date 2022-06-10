@@ -48,7 +48,7 @@ const Product = ({ details, title, description, image }) => {
   const index = useSelector(homeData);
 
 
-
+console.log('product',newDetails)
 
   return (
     <>
@@ -134,6 +134,7 @@ const Product = ({ details, title, description, image }) => {
             {loading ? (
               <SingleProductBody
                 productDetails={newDetails}
+                verified={details.verification}
                 similarProductDetails={similarProductDetails}
               />
             ) : (
