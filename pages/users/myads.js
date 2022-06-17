@@ -19,6 +19,7 @@ const Ads = () => {
 const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+  const reload=useSelector((state)=>state.bellefu?.favLoad);
 
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const test = 1285;
@@ -32,7 +33,7 @@ const [loading, setLoading] = useState(false);
     };
 
     getProduct();
-  }, []);
+  }, [reload]);
 
   console.log(published);
 

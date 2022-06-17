@@ -5,16 +5,21 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { GrEdit } from "react-icons/gr";
 import { FcApproval } from "react-icons/fc";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { apiData, productImageUrl } from "../../../constant";
 import { toast } from "react-toastify";
+import { Modal } from "@mui/material";
+import { favUpdated } from "../../../features/bellefuSlice";
 
 const MyAd = ({ product }) => {
   const [open, setOpen] = useState(false);
+  const[modalopen,setModalOpen]=useState(false);
+  const [price, setPrice] = useState('');
 
   const router = useRouter();
+  const dispatch =useDispatch();
 
   const details = useSelector((state) => state.bellefu?.indexData);
 
@@ -28,6 +33,7 @@ const MyAd = ({ product }) => {
       .then(res => {
         if (res.data.status) {
           toast.info(`${product.title} is out of stock`, { position: 'top-right' })
+          dispatch(favUpdated())
         }
       })
 
@@ -43,15 +49,42 @@ const MyAd = ({ product }) => {
       .then(res => {
         if (res.data.status) {
           toast.success(` ${product.title} is now in stock`, { position: 'top-right' })
+          dispatch(favUpdated())
         }
       })
+  }
+
+
+  console.log('product',product);
+
+  const updatePrice = () => {
+    const formData=new FormData();
+    formData.append('productId',product.id);
+    formData.append('price',price);
+    axios({
+      url:`${apiData}change/product/price`,
+      method:'POST',
+      data:formData,
+      headers:{
+        'Content-Type':'multipart/form-data'
+      }
+    })
+    .then(res => {
+      if (res.data.status) {
+        toast.success(`${product.title} price updated`, { position: 'top-right' })
+        dispatch(favUpdated())
+        setModalOpen(false)
+      } else {
+        toast.error(`something went wrong try again.`, { position: 'top-right' })
+      }
+    }).catch(err => console.log(err))
   }
 
   return (
     <div className="w-full">
       <div className="bg-bellefuWhite p-3 rounded-md border border-[#dfdfdf]">
         <img
-          onClick={() => router.push(`/product/${product.productId}`)}
+          onClick={() => router.push(`/product/${product.id}`)}
           src={`${productImageUrl}${product.images[0]}`}
           className="rounded-md w-full h-44 object-cover"
         />
@@ -106,10 +139,10 @@ const MyAd = ({ product }) => {
               </p>
             </div>
             <li
-              onClick={() => setOpen(!open)}
+              onClick={() => {setOpen(!open);setModalOpen(true)}}
               className="px-2 py-1 hover:bg-bellefuBackground flex space-x-3 items-center cursor-pointer rounded">
               <GrEdit className="w-3 h-3 text-[#767873]" />
-              <span className="text-xs text-bellefuBlack1">Acending</span>
+              <span className="text-xs text-bellefuBlack1">update price</span>
             </li>
 
             {
@@ -134,6 +167,60 @@ const MyAd = ({ product }) => {
         </div>
       ) : null}
       {/* dropdown end */}
+      {/* price modal  */}
+      <Modal
+        open={modalopen}
+        onClose={() => setModalOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div
+          className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
+        // sx={edit}
+        >
+          <div className="grid grid-cols-6 gap-3  my-5">
+            <div className="col-span-6 sm:col-span-3">
+              <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
+                <p>Product Name</p>
+              </label>
+              <input
+              disabled={true}
+                // onChange={(e) => setProductsName(e.target.value)}
+                defaultValue={product.title}
+                type="text"
+                className="  bg-gray-100 p-[7px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-3">
+              <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
+                <p>price</p>
+              </label>
+              <input
+               onChange={(e) => setPrice(e.target.value)}
+                defaultValue={product.price}
+                type="number"
+                className="  bg-gray-100 p-[7px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+              />
+            </div>
+            
+           
+          </div>
+          <div className="flex my-4 md:w-[60%] lg:w-[60%] space-x-20 justify-between">
+            <button
+              className=" bg-gray-400 rounded-md py-2 px-5"
+              onClick={() => setModalOpen(false)}
+            >
+              <p className="text-xs text-white md:text-[15px]">Cancel</p>
+            </button>
+            <button
+              className="bg-bellefuOrange rounded-md py-2 px-5"
+              onClick={updatePrice}
+            >
+              <p className="text-xs text-white md:text-[15px]">save </p>
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
