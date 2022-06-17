@@ -464,6 +464,14 @@ const profile = ({ data1 }) => {
                         </p>
                       </button>
                       <button
+                        className=" bg-bellefuGreen rounded-md py-2 px-5"
+                        onClick={() => router.push('/createShop')}
+                      >
+                        <p className="text-xs text-white md:text-[15px]">
+                          create Shop
+                        </p>
+                      </button>
+                      <button
                         className="bg-bellefuOrange rounded-md py-2 px-5"
                         onClick={() => router.push("/postAds")}
                       >
