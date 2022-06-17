@@ -18,7 +18,7 @@ const Published = () => {
   const profile = useSelector(profileDetails);
   const router = useRouter();
 
-
+ const reload=useSelector((state)=>state.bellefu?.favLoad);
   const test = 1285;
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Published = () => {
     };
 
     getProduct();
-  }, []);
+  }, [reload]);
 
 
   const toPostAds = () => {

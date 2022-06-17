@@ -212,7 +212,7 @@ export default function CreateShop() {
 
           <p className="p-1 mx-3 mb-2 md:mb-6 text-center ">
             {" "}
-            Congratulations... Your shop creation was sucessful
+            Congratulations... Your shop creation was sucessfully
           </p>
           <div onClick={() => router.push(`/${userThings.id}`)}>
             <button onClick={() => router.push(`/${userThings.id}`)} className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm">
