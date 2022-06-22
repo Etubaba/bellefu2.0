@@ -132,7 +132,8 @@ function Cart() {
                                                     <span
                                                         onClick={(e) => {
                                                             e.stopPropagation()
-                                                            const item = cartList.find(item => item.catId === cart.catId)
+                                                            const item = cartList.find(item => item.cartId === cart.cartId)
+                                                              console.log('cart', item)
                                                             item.quantity += 1
                                                             setCartList(prev => [...prev])
 
@@ -156,7 +157,7 @@ function Cart() {
                                                         onClick={(e) => {
                                                             if (cart.quantity > 1) {
                                                                 e.stopPropagation()
-                                                                const item = cartList.find(item => item.catId === cart.catId)
+                                                                const item = cartList.find(item => item.cartId === cart.cartId)
                                                                 item.quantity -= 1
                                                                 setCartList(prev => [...prev])
 
@@ -210,7 +211,8 @@ function Cart() {
                                             <span
                                                 onClick={(e) => {
                                                     e.stopPropagation()
-                                                    const item = cartList.find(item => item.catId === cart.catId)
+                                                    const item = cartList.find(item => item.cartId === cart.cartId)
+                                                    console.log('cart', item)
                                                     item.quantity += 1
                                                     setCartList(prev => [...prev])
 
@@ -231,7 +233,7 @@ function Cart() {
                                             <span
                                                 onClick={() => {
                                                     if (cart.quantity > 1) {
-                                                        const item = cartList.find(item => item.catId === cart.catId)
+                                                        const item = cartList.find(item => item.cartId === cart.cartId)
                                                         item.quantity -= 1
                                                         setCartList(prev => [...prev])
 
