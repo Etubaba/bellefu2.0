@@ -18,7 +18,13 @@ import { toast } from "react-toastify";
 import Navbarsch from "./Navbarsch";
 import MobileNavbar from "./MobileNavbar";
 import axios from "axios";
-import { AnnoucementsUrl, apiData, APIV3, shopApi, UserAvataUrl } from "../../constant";
+import {
+  AnnoucementsUrl,
+  apiData,
+  APIV3,
+  shopApi,
+  UserAvataUrl,
+} from "../../constant";
 import Loader from "../../constant";
 
 const NavBar = () => {
@@ -37,9 +43,7 @@ const NavBar = () => {
   const msgRead = useSelector((state) => state.bellefu?.messageRead);
   const verify = useSelector((state) => state.bellefu?.verificationStatus);
   // const userDetails = useSelector(state => state.bellefu?.userDetails.id)
-  const cartCheck = useSelector(state => state.bellefu?.favLoad)
-
-
+  const cartCheck = useSelector((state) => state.bellefu?.favLoad);
 
   const toPostAds = () => {
     if (getIsLoggedIn && verify.phone && username.avatar !== "useravatar.jpg") {
@@ -50,7 +54,6 @@ const NavBar = () => {
         position: "top-right",
       });
       router.push("/login");
-
     } else if (!verify.phone) {
       toast.info("Verify your phone number to post Ads", {
         position: "top-right",
@@ -89,18 +92,13 @@ const NavBar = () => {
       .then((res) => setUnseen(res.data.unseen));
   }, [msgRead]);
 
-  //handle loading 
+  //handle loading
 
   if (loading) {
     setTimeout(() => {
-      setLoading(false)
+      setLoading(false);
     }, 3000);
   }
-
-
-
-
-
 
   //new notification
   useEffect(() => {
@@ -143,21 +141,15 @@ const NavBar = () => {
   // handling getting the addresses of a user
   useEffect(() => {
     const getAnnouncement = async () => {
-      await axios.get(
-        `${APIV3}list/announcement`
-      ).then((res) => {
-        setAnnouncement(res.data.data);
-      }).catch((err) => console.log(err))
-
-    }
+      await axios
+        .get(`${APIV3}list/announcement`)
+        .then((res) => {
+          setAnnouncement(res.data.data);
+        })
+        .catch((err) => console.log(err));
+    };
     getAnnouncement();
   }, []);
-
-
-
-
-
-
 
   const handleCreateShop = () => {
     if (getIsLoggedIn && username.avatar !== "useravatar.jpg") {
@@ -167,38 +159,32 @@ const NavBar = () => {
       toast.info("Login to create shop", { position: "top-right" });
       router.push("/login");
     } else if (username.avatar === "useravatar.jpg") {
-      toast.info("Update your profile details to create shop", { position: "top-right" });
+      toast.info("Update your profile details to create shop", {
+        position: "top-right",
+      });
       router.push("/users/profile");
       setLoading(!loading);
     }
-  }
-
+  };
 
   const manageShop = () => {
     if (getIsLoggedIn) {
-      router.push('/users/shop')
-      setLoading(!loading)
-
+      router.push("/users/shop");
+      setLoading(!loading);
     }
-  }
-
-
-
+  };
 
   const currentPath = router.pathname;
 
-
   useEffect(() => {
-    axios.get(`${shopApi}list/cart/item/${username?.id}`)
-      .then(res => {
-        setCartCount(res.data.data)
-      })
+    axios.get(`${shopApi}list/cart/item/${username?.id}`).then((res) => {
+      setCartCount(res.data.data);
+    });
+  }, [cartCheck]);
 
-  }, [cartCheck])
+  const randomAnouncement =
+    announcement[Math.floor(Math.random() * announcement?.length)];
 
-  const randomAnouncement = announcement[Math.floor(Math.random() * announcement?.length)]
-
-console.log('announcement',announcement)
   return (
     <div className="fixed top-0 z-50 w-full ">
       {loading && <Loader isLoading={loading} />}
@@ -208,7 +194,9 @@ console.log('announcement',announcement)
           alt="bellefu"
           className="w-10 h-6 rounded-md object-cover border"
         />
-        <p className="text-white text-sm italic">{randomAnouncement?.announcement}</p>
+        <p className="text-white text-sm italic">
+          {randomAnouncement?.announcement}
+        </p>
       </div>
 
       <nav className="flex px-2 py-2 lg:px-12 bg-bellefuGreen items-center justify-between  ">
@@ -219,7 +207,10 @@ console.log('announcement',announcement)
             src="/bellefulogo.png"
             alt="bellefu-logo"
             className="md:rounded-md rounded object-contain w-24 md:w-32 cursor-pointer"
-            onClick={() => { router.push("/"); setLoading(!loading); }}
+            onClick={() => {
+              router.push("/");
+              setLoading(!loading);
+            }}
           />
           {/* $$country select and language select for mobile */}
           <Navbarsch />
@@ -236,10 +227,13 @@ console.log('announcement',announcement)
 
         {/* mobile right side */}
 
-        <button onClick={(e) => {
-          e.stopPropagation()
-          setIsOpen(!isOpen)
-        }} className="lg:hidden">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(!isOpen);
+          }}
+          className="lg:hidden"
+        >
           {!isOpen && <FiMenu className="w-10 h-10 text-white" />}
         </button>
 
@@ -259,25 +253,30 @@ console.log('announcement',announcement)
             <div className="text-white flex space-x-4 capitalize text-md font-semibold">
               <p
                 className="hover:text-gray-200 cursor-pointer"
-                onClick={() => { router.push("/shops"), setLoading(!loading) }}
-              // href="https://webinar.bellefu.com/"
+                onClick={() => {
+                  router.push("/shops"), setLoading(!loading);
+                }}
+                // href="https://webinar.bellefu.com/"
               >
                 Shops
               </p>
-              {username?.shopId === null || username?.shopId === undefined ? <p
-                className="hover:text-gray-200 cursor-pointer"
-                onClick={handleCreateShop}
-              // href="https://webinar.bellefu.com/"
-              >
-                Create Shop
-              </p> :
+              {username?.shopId === null || username?.shopId === undefined ? (
+                <p
+                  className="hover:text-gray-200 cursor-pointer"
+                  onClick={handleCreateShop}
+                  // href="https://webinar.bellefu.com/"
+                >
+                  Create Shop
+                </p>
+              ) : (
                 <p
                   className="hover:text-gray-200 cursor-pointer"
                   onClick={manageShop}
-                // href="https://webinar.bellefu.com/"
+                  // href="https://webinar.bellefu.com/"
                 >
                   Manage Shop
-                </p>}
+                </p>
+              )}
               <a
                 target="_blank"
                 className="hover:text-gray-200"
@@ -307,7 +306,10 @@ console.log('announcement',announcement)
               <div className="hidden md:inline-block">
                 <div className="flex items-center space-x-2 relative">
                   <div
-                    onClick={() => { router.push("/users/messages"); setLoading(!loading) }}
+                    onClick={() => {
+                      router.push("/users/messages");
+                      setLoading(!loading);
+                    }}
                     className="relative cursor-pointer "
                   >
                     <Image
@@ -326,7 +328,10 @@ console.log('announcement',announcement)
                     ) : null}
                   </div>
                   <p
-                    onClick={() => { router.push("/users"); setLoading(!loading) }}
+                    onClick={() => {
+                      router.push("/users");
+                      setLoading(!loading);
+                    }}
                     className="text-white hover:text-gray-200' font-semibold"
                   >
                     Hi <span>{username?.username}</span>
@@ -425,13 +430,19 @@ console.log('announcement',announcement)
               <div className="text-white flex space-x-5 capitalize text-md font-semibold">
                 <p
                   className="hover:text-gray-200"
-                  onClick={() => { router.push("/register"); setLoading(!loading) }}
+                  onClick={() => {
+                    router.push("/register");
+                    setLoading(!loading);
+                  }}
                 >
                   Register
                 </p>
                 <p
                   className="hover:text-gray-200"
-                  onClick={() => { router.push("/login"); setLoading(!loading) }}
+                  onClick={() => {
+                    router.push("/login");
+                    setLoading(!loading);
+                  }}
                 >
                   Login
                 </p>
@@ -455,8 +466,18 @@ console.log('announcement',announcement)
               ) : null}
             </div>
 
-            {currentPath === '/shops' || currentPath === '/shopproduct/product' || currentPath === '/shop/[slug]' || currentPath === '/shop/cart' || currentPath === '/shop/checkout' ?
-              <div className="relative cursor-pointer ml-10" onClick={() => { router.push('/shop/cart'); setLoading(!loading); }}>
+            {currentPath === "/shops" ||
+            currentPath === "/shopproduct/product" ||
+            currentPath === "/shop/[slug]" ||
+            currentPath === "/shop/cart" ||
+            currentPath === "/shop/checkout" ? (
+              <div
+                className="relative cursor-pointer ml-10"
+                onClick={() => {
+                  router.push("/shop/cart");
+                  setLoading(!loading);
+                }}
+              >
                 <MdShoppingCart
                   className={
                     cartCount.length !== 0
@@ -473,8 +494,8 @@ console.log('announcement',announcement)
                   </p>
                 ) : null}
               </div>
-
-              : <div
+            ) : (
+              <div
                 onClick={toPostAds}
                 className="flex hover:bg-orange-300 items-center bg-bellefuOrange px-2 py-2 rounded-md space-x-1 cursor-pointer"
               >
@@ -483,8 +504,7 @@ console.log('announcement',announcement)
                   Post ads
                 </p>
               </div>
-
-            }
+            )}
           </div>
         </div>
       </nav>
