@@ -6,20 +6,16 @@ import Head from "next/head";
 import ShopSideBar from "../../components/SingleProduct/ShopSideBar";
 import Loader, { shopApi } from "../../constant";
 
-
 const Shop = ({ shopProducts }) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const shopDetails = shopProducts.data[0];
-  const ifProduct = shopProducts.data.length
+  const ifProduct = shopProducts.data.length;
 
-  const totalPage = shopProducts.last_page
+  const totalPage = shopProducts.last_page;
 
-
-
-
-  const pageNumber = []
+  const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);
   }
@@ -27,11 +23,13 @@ const Shop = ({ shopProducts }) => {
   return (
     <>
       <Head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content={`goods or services for ${shopDetails?.shopName}`} />
+        <meta
+          name="description"
+          content={`goods or services for ${shopDetails?.shopName}`}
+        />
         <title>{shopDetails?.shopName}</title>
-
       </Head>
       <div className="flex max-w-[95%] lg:max-w-[90%] mx-auto mt-28">
         {ifProduct > 0 && <ShopSideBar userDetails={shopDetails} />}
@@ -39,7 +37,6 @@ const Shop = ({ shopProducts }) => {
           <ShopComponents products={shopProducts} />
           {ifProduct > 0 && <MobileShopSideBar userDetails={shopDetails} />}
         </div>
-
 
         {ifProduct !== 0 && totalPage > 1 && (
           <div className="flex justify-center md:mb-0 mb-8 md:mt-10 mt-7 items-center w-full ">
@@ -86,10 +83,6 @@ const Shop = ({ shopProducts }) => {
             )}
           </div>
         )}
-
-
-
-
       </div>
     </>
   );
@@ -101,9 +94,9 @@ export default Shop;
 export async function getServerSideProps(context) {
   const { slug } = context.query;
 
-  const requests = await fetch(
-    `${shopApi}view/single/${slug}`
-  ).then((res) => res.json());
+  const requests = await fetch(`${shopApi}view/single/${slug}`).then((res) =>
+    res.json()
+  );
 
   return {
     props: {
