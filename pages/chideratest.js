@@ -2,17 +2,27 @@ import axios from "axios";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 
 const chideratest = ({ data, index }) => {
-  //const [ip, setIp] = useState("");
+  const [ip, setIp] = useState("");
   const [ipchi, setIpchi] = useState("");
 
   const ip2 = data?.data.name;
 
   console.log("index", index);
 
+  useEffect(() => {
+    const getIP = async () => {
+      await axios.get("https://api64.ipify.org?format=json").then((res) => {
+        setIp(res.data.data.name);
+      });
+    };
+    getIP();
+  }, []);
+
   useLayoutEffect(() => {
     const getIP = async () => {
       await axios.get("https://api64.ipify.org?format=json").then((res) => {
         setIpchi(res.data.ip);
+
         if (res.status) {
           axios
             .post("https://bellefu.inmotionhub.xyz/api/web30/set/ip", {
@@ -27,8 +37,8 @@ const chideratest = ({ data, index }) => {
 
   return (
     <div className="h-screen mt-32">
-      <p>useEffect={ipchi}</p>
-      <p>server Chidera={ip2}</p>
+      <p>useEffect={ip}</p>
+      <p>server{ip2}</p>
     </div>
   );
 };
