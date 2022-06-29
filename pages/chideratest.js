@@ -11,9 +11,11 @@ const chideratest = ({ data, index }) => {
 
   useEffect(() => {
     const getIP = async () => {
-      await axios.get("https://api64.ipify.org?format=json").then((res) => {
-        setIp(res.data.data.name);
-      });
+      await axios
+        .get("https://bellefu.inmotionhub.xyz/api/general/country/byip")
+        .then((res) => {
+          setIp(res.data.data.name);
+        });
     };
     getIP();
   }, []);
