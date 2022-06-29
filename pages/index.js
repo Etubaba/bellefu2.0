@@ -14,6 +14,7 @@ import MobileHeaderSearch from "../components/MobileHeaderSearch";
 import { fetchData } from "../features/bellefuSlice";
 import Slider from "../components/mainPageComponents/slider/Slider";
 import { indexAPI } from "../constant";
+import axios from "axios";
 
 export default function Home({ data }) {
   const [loading, setLoading] = useState(false);
@@ -40,9 +41,15 @@ export default function Home({ data }) {
       <Head>
         <title>Bellefu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Bellefu is a agricultural products site and connection between farmers and buyers that offers a wide. We are into food products, agricultural machinery,farmers" />
+        <meta
+          name="description"
+          content="Bellefu is a agricultural products site and connection between farmers and buyers that offers a wide. We are into food products, agricultural machinery,farmers"
+        />
 
-        <link rel="icon" href="https://www.linkpicture.com/q/bellefuApplogo.jpg" />
+        <link
+          rel="icon"
+          href="https://www.linkpicture.com/q/bellefuApplogo.jpg"
+        />
       </Head>
       {/* Overall container */}
       <main className="bg-bellefuBackground ">
@@ -57,9 +64,11 @@ export default function Home({ data }) {
             location={data.defaultCountry}
           />
 
-          {search === '' && <div className="block  md:hidden lg:hidden mt-3">
-            <Slider slider={data.slider} />
-          </div>}
+          {search === "" && (
+            <div className="block  md:hidden lg:hidden mt-3">
+              <Slider slider={data.slider} />
+            </div>
+          )}
 
           {/* mobile header search */}
           {/* <div className="md:hidden">
@@ -101,9 +110,7 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(
-    `${indexAPI}`
-  );
+  const res = await fetch(`${indexAPI}`);
   const data = await res.json();
 
   return {
