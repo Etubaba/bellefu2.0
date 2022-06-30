@@ -17,6 +17,22 @@
 .goog-te-gadget {
   color: transparent !important;
 }
+.goog-te-gadget {
+  border-radius: 5px;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: inherit !important;
+  /* margin-bottom: 1.1em; */
+  /* margin-top: 1.1em; */
+  max-width: 100%;
+  /* padding: 15px 15px 11px; */
+  text-align: center;
+  /* width: 20em; */
+    /* background-color: #efefef; */
+
+}
+
+
 
 /* google translate banner-frame */
 
