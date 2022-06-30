@@ -32,6 +32,7 @@ export default function Home({ data }) {
       await axios.get(indexAPI)
       .then((res) => {
         setCurrData(res.data);
+        dispatch(fetchData(res.data))
         setLocationReady(true);
       })
       .catch(error => {
@@ -42,9 +43,9 @@ export default function Home({ data }) {
     getCurrData();
   }, []);
 
-  useEffect(() => {
-    dispatch(fetchData(data));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchData(data));
+  // }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
