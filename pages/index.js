@@ -32,8 +32,8 @@ export default function Home({ data }) {
       await axios.get(indexAPI)
       .then((res) => {
         setCurrData(res.data);
-        dispatch(fetchData(res.data))
         setLocationReady(true);
+        dispatch(fetchData(res.data))
       })
       .catch(error => {
         console.log(`Error fetching index data: ${error.message}`)
