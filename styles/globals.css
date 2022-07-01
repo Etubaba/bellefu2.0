@@ -22,13 +22,13 @@
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   font-family: inherit !important;
-  /* margin-bottom: 1.1em; */
-  /* margin-top: 1.1em; */
+  margin-bottom: 0.5px !important;
+  margin-top:0.5px !important;
   max-width: 100%;
-  /* padding: 15px 15px 11px; */
+  padding: 0px 0px 0px 0px !important;
   text-align: center;
-  /* width: 20em; */
-    /* background-color: #efefef; */
+  width: 200px !important;
+    background-color: transparent !important;
 
 }
 
