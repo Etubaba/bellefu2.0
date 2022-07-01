@@ -216,7 +216,7 @@ const NavBar = () => {
           <Navbarsch />
           <div
             id="google_translate_element"
-            className="ml-4"
+            className="ml-4 max-w-[100px] md:max-w-[180px] lg:max-w-[180px]"
             translate="no"
           ></div>
         </div>
