@@ -14,7 +14,6 @@ import MobileHeaderSearch from "../components/MobileHeaderSearch";
 import { fetchData } from "../features/bellefuSlice";
 import Slider from "../components/mainPageComponents/slider/Slider";
 import { indexAPI } from "../constant";
-import axios from "axios";
 
 export default function Home({ data }) {
   const [loading, setLoading] = useState(false);

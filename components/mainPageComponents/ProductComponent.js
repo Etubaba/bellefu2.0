@@ -48,7 +48,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const defaultPageCount = indexProduct?.products.last_page;
+  const defaultPageCount = indexProduct?.products?.last_page;
 
   setTimeout(() => {
     if (getCountry === null && search === "") setTotalPage(defaultPageCount);
@@ -66,8 +66,6 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
   }, []);
 
   // getting random ads
-  ;
-
   useEffect(() => {
     if (page > 1) {
       axios
@@ -90,11 +88,8 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       if (searchCountry) setSearching(true);
 
       axios
-        .get(
-          `${apiData}get/product/${getCountry}?page=${page}`
-        )
+        .get(`${apiData}get/product/${getCountry}?page=${page}`)
         .then((res) => {
-
           if (!res.data.data.data.length) initialRender.current = 1;
           else if (res.data.data.data.length) initialRender.current = 2;
 
@@ -146,7 +141,6 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
             setSearchResult(res.data.data.data);
             setTotalPage(res.data.data.last_page);
             setSuggestion(res.data.suggest.data);
-
           })
           //  setCountryData(res.data.data))
           .catch((err) => console.log(err));
@@ -169,10 +163,10 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
     getCountry !== null && search === ""
       ? countryData
       : search !== ""
-        ? searchResult
-        : page !== 1 && search === "" && getCountry === null
-          ? productIndex
-          : products;
+      ? searchResult
+      : page !== 1 && search === "" && getCountry === null
+      ? productIndex
+      : products;
 
   const skeleMapper = [
     <Skeleto />,
@@ -194,11 +188,10 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
     pageNumber.push(i);
   }
 
-  const randomAdverts = adverts[Math.floor(Math.random() * adverts.length)]
+  const randomAdverts = adverts[Math.floor(Math.random() * adverts.length)];
 
-  const randomImage1 = adverts[Math.floor(Math.random() * adverts.length)]
-  const randomImage2 = adverts[Math.floor(Math.random() * adverts.length)]
-
+  const randomImage1 = adverts[Math.floor(Math.random() * adverts.length)];
+  const randomImage2 = adverts[Math.floor(Math.random() * adverts.length)];
 
   const getIsLoggedIn = useSelector(login);
   const username = useSelector(profileDetails);
@@ -208,40 +201,36 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
   const toPostAds = () => {
     if (getIsLoggedIn && verify.phone && username.avatar !== "useravatar.jpg") {
       router.push("/postAds");
-      dispatch(handleSearch(''));
-
+      dispatch(handleSearch(""));
     } else if (!getIsLoggedIn) {
       toast.info("Login to post  Ads", {
         position: "top-right",
       });
       router.push("/login");
-      dispatch(handleSearch(''));
-
+      dispatch(handleSearch(""));
     } else if (!verify.phone) {
       toast.info("Verify your phone number to post Ads", {
         position: "top-right",
       });
       router.push("/users/verify-account");
-      dispatch(handleSearch(''));
-
+      dispatch(handleSearch(""));
     } else if (username.avatar === "useravatar.jpg") {
       toast.info("Update your profile details to post  Ads", {
         position: "top-right",
       });
       router.push("/users/profile");
-      dispatch(handleSearch(''));
-
+      dispatch(handleSearch(""));
     }
   };
-
-
-
-
 
   return (
     <div>
       {loading ? (
-        <MainProductHeader title='Trending Ads' grid={grid} changeView={setGrid} />
+        <MainProductHeader
+          title="Trending Ads"
+          grid={grid}
+          changeView={setGrid}
+        />
       ) : (
         <Skeleton
           className="rounded my-3"
@@ -275,26 +264,33 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
               <div className="flex flex-col md:flex-row md:space-x-10 items-center justify-center">
                 <p className="bg-bellefuOrange rounded-lg hover:bg-orange-500 mb-5 md:mb-0 w-full md:w-1/2">
                   <button
-                    onClick={() => { router.push("/custom"); dispatch(handleSearch('')) }}
-                    className="w-full p-4 text-2xl text-bellefuWhite">
+                    onClick={() => {
+                      router.push("/custom");
+                      dispatch(handleSearch(""));
+                    }}
+                    className="w-full p-4 text-2xl text-bellefuWhite"
+                  >
                     Make Custom Request
                   </button>
                 </p>
                 <p className="bg-bellefuGreen rounded-lg hover:bg-[#538b09] w-full md:w-1/2">
                   <button
                     onClick={toPostAds}
-                    className="w-full p-4 text-2xl text-bellefuWhite">
+                    className="w-full p-4 text-2xl text-bellefuWhite"
+                  >
                     Be The First To Post Product
                   </button>
                 </p>
               </div>
 
-              <div className='mt-7'>
-                <MainProductHeader title="Suggestions" grid={grid} changeView={setGrid} />
+              <div className="mt-7">
+                <MainProductHeader
+                  title="Suggestions"
+                  grid={grid}
+                  changeView={setGrid}
+                />
 
-                <div
-                  className='mt-3 grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 grid-flow-row-dense'
-                >
+                <div className="mt-3 grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 grid-flow-row-dense">
                   {suggestion?.map((product) => (
                     <div key={product?.productId}>
                       <ProductList
@@ -309,19 +305,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
                     </div>
                   ))}
                 </div>
-
-
-
               </div>
-
-
-
-
-
-
-
-
-
             </div>
           ) : (
             main
@@ -358,8 +342,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       <div className="my-5">
         <a href={randomAdverts?.action} target="_blank">
           <img
-            src={`${commercialUrl}${randomAdverts?.image
-              }`}
+            src={`${commercialUrl}${randomAdverts?.image}`}
             alt="ads"
             className="w-full h-80 object-cover rounded-md"
           />
@@ -405,7 +388,6 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
         <a href={randomImage1?.action} target="_blank" className="my-5">
           <img
             src={`${commercialUrl}${randomImage1?.image}`}
-
             alt="ads"
             className="w-full h-80 object-cover rounded-md"
           />
@@ -449,8 +431,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       {main.length > 16 && (
         <a href={randomImage2?.action} target="_blank" className=" my-5">
           <img
-            src={`${commercialUrl}${randomImage2?.image
-              }`}
+            src={`${commercialUrl}${randomImage2?.image}`}
             alt="ads"
             className="w-full h-80 object-cover rounded-md"
           />
