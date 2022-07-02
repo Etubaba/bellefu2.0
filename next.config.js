@@ -1,5 +1,5 @@
 module.exports = {
-  exportTrailingSlash: true,
+  trailingSlash: true,
 
   images: {
     domains: ["img.freepik.com", "i.pinimg.com", "bellefu.inmotionhub.xyz","cdn-icons.flaticon.com"],
