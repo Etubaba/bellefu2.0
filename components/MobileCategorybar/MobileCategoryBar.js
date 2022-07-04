@@ -34,7 +34,7 @@ const MobileCategoryBar = ({ categories }) => {
             {loading ? (
 
               <img
-                src={`${categoryUrl}agro-servicescvz.png`}
+                src={`CR.png`}
                 alt="icons"
                 className="w-14 h-14 object-fill"
               />

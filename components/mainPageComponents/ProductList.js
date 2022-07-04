@@ -139,19 +139,19 @@ const ProductList = ({
           </div>
           <p className="capitalize text-sm">
             {view
-              ? product.title.substring(0, 14) + ".."
+               ?product.title.length>14? product.title.substring(0, 14) + "..":product.title
               : product.title.substring(0, 20) + ".."}
           </p>
           <div className="flex items-center space-x-1">
             <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
             <div className="flex items-center space-x-1">
               <p className="text-bellefuBlack1 text-sm md:text-base capitalize">
-                {product.stateName},
+                {view&&product.stateName.length>5?product.stateName.substring(0, 8)+"..":product.stateName}
               </p>
               <p className="text-bellefuBlack1 text-sm md:text-base capitalize">
                 {!view
                   ? product.countryName
-                  : product.countryName.substring(0, 10) + ".."}
+                  : product.countryName.length>10? product.countryName.substring(0, 10) + "..":product.countryName}
               </p>
             </div>
           </div>
