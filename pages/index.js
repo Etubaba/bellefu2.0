@@ -52,7 +52,7 @@ export default function Home({ data }) {
       </Head>
       {/* Overall container */}
       <main className="bg-bellefuBackground ">
-        <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-24">
+        <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-28">
           {/* second nav bar */}
           <HeaderSearch
             dialet={data.defaultLanguage}
