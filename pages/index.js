@@ -29,16 +29,17 @@ export default function Home({ data }) {
 
   useEffect(() => {
     const getCurrData = async () => {
-      await axios.get(indexAPI)
-      .then((res) => {
-        setCurrData(res.data);
-        setLocationReady(true);
-        dispatch(fetchData(res.data))
-      })
-      .catch(error => {
-        console.log(`Error fetching index data: ${error.message}`)
-      })
-    }
+      await axios
+        .get(indexAPI)
+        .then((res) => {
+          setCurrData(res.data);
+          setLocationReady(true);
+          dispatch(fetchData(res.data));
+        })
+        .catch((error) => {
+          console.log(`Error fetching index data: ${error.message}`);
+        });
+    };
 
     getCurrData();
   }, []);
@@ -71,20 +72,32 @@ export default function Home({ data }) {
       </Head>
       {/* Overall container */}
       <main className="bg-bellefuBackground ">
-        <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-24">
+        <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-28">
           {/* second nav bar */}
           <HeaderSearch
-            dialet={isLocationReady?currData.defaultLanguage:data.defaultLanguage}
-            state={isLocationReady?currData.countryStates:data.countryStates}
-            defaultCountry={isLocationReady?currData.defaultCountryName:data.defaultCountryName}
-            languages={isLocationReady?currData.languages:data.languages}
-            countries={isLocationReady?currData.countries:data.countries}
-            location={isLocationReady?currData.defaultCountry:data.defaultCountry}
+            dialet={
+              isLocationReady ? currData.defaultLanguage : data.defaultLanguage
+            }
+            state={
+              isLocationReady ? currData.countryStates : data.countryStates
+            }
+            defaultCountry={
+              isLocationReady
+                ? currData.defaultCountryName
+                : data.defaultCountryName
+            }
+            languages={isLocationReady ? currData.languages : data.languages}
+            countries={isLocationReady ? currData.countries : data.countries}
+            location={
+              isLocationReady ? currData.defaultCountry : data.defaultCountry
+            }
           />
 
           {search === "" && (
             <div className="block  md:hidden lg:hidden mt-3">
-              <Slider slider={isLocationReady?currData.slider:data.slider} />
+              <Slider
+                slider={isLocationReady ? currData.slider : data.slider}
+              />
             </div>
           )}
 
@@ -97,7 +110,11 @@ export default function Home({ data }) {
           <div className="flex flex-col lg:flex-row">
             {/* category side bar */}
             <div className=" hidden lg:inline w-[20%] h-auto rounded-md mr-3">
-              <CategorySideBar categories={isLocationReady? currData.categories:data.categories} />
+              <CategorySideBar
+                categories={
+                  isLocationReady ? currData.categories : data.categories
+                }
+              />
             </div>
             {search === "" ? (
               <div className=" h-auto lg:hidden my-4 rounded-sm">
@@ -106,18 +123,36 @@ export default function Home({ data }) {
                     Search by categories
                   </h3>
 
-                  <MobileCategoryBar categories={isLocationReady?currData.categories:data.categories} />
+                  <MobileCategoryBar
+                    categories={
+                      isLocationReady ? currData.categories : data.categories
+                    }
+                  />
                 </div>
               </div>
             ) : null}
             {/* list of products & slider */}
             <div className="flex-1">
               <Body
-                location={isLocationReady?currData.defaultCountry:data.defaultCountry}
-                currency={isLocationReady?currData.defaultCurrency:data.defaultCurrency}
-                currencyCode={isLocationReady?currData.defaultCurrencyCode:data.defaultCurrencyCode}
-                productsData={isLocationReady?currData.products.data:data.products.data}
-                slider={isLocationReady?currData.slider:data.slider}
+                location={
+                  isLocationReady
+                    ? currData.defaultCountry
+                    : data.defaultCountry
+                }
+                currency={
+                  isLocationReady
+                    ? currData.defaultCurrency
+                    : data.defaultCurrency
+                }
+                currencyCode={
+                  isLocationReady
+                    ? currData.defaultCurrencyCode
+                    : data.defaultCurrencyCode
+                }
+                productsData={
+                  isLocationReady ? currData.products.data : data.products.data
+                }
+                slider={isLocationReady ? currData.slider : data.slider}
               />
             </div>
           </div>

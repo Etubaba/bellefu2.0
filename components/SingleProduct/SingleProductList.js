@@ -107,7 +107,9 @@ const SingleProductList = ({ similarProductDetail }) => {
         className="rounded-md w-full h-44 object-cover cursor-pointer"
       />
       <p className="capitalize text-medium">
-        {similarProductDetail.title.substring(0, 20)}
+        {similarProductDetail.title.length > 16
+          ? similarProductDetail.title.substring(0, 16) + "..."
+          : similarProductDetail.title}
       </p>
       <div className="flex items-center space-x-2">
         <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
