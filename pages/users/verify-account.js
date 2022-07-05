@@ -97,7 +97,7 @@ function Verifyaccount() {
   const kycsubmitted = useSelector((state) => state.bellefu?.kycApply);
 
   const phoneAlt = useSelector((state) => state.bellefu?.phoneVerified);
-
+  console.log("veri", phoneAlt);
   const handleVerification = (e) => {
     if (
       firstNo === "" ||
@@ -327,7 +327,7 @@ function Verifyaccount() {
               <div className="flex md:justify-between justify-around space-x-20 text-[8px]  lg:space-x-32 md:text-xs mb-10">
                 <p
                   className={
-                    !isverified?.phone || !phoneAlt ? "text-[#A6A6A6]" : null
+                    !isverified?.phone && !phoneAlt ? "text-[#A6A6A6]" : null
                   }
                 >
                   phone verified

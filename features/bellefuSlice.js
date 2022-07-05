@@ -14,7 +14,9 @@ const initialState = {
     typeof window !== "undefined" ? localStorage.getItem("orderpay") : false,
   video: [],
   phoneVerified:
-    typeof window !== "undefined" ? localStorage.getItem("phone") : false,
+    typeof window !== "undefined" && localStorage.getItem("phone") !== null
+      ? localStorage.getItem("phone")
+      : false,
   favLoad: 0,
   msgScroll: 0,
   messageRead: 0,
