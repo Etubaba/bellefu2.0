@@ -10,13 +10,14 @@ export default function Slider({ slider }) {
   const [newSlider] = slider;
 
   return (
-    <div className="">
+    <div className="w-[99%]">
       <Carousel
         showArrows={true}
-        showIndicators={false}
+        showIndicators={true}
         showThumbs={false}
         autoPlay={true}
         infiniteLoop={true}
+        
       >
         {newSlider.value?.map((slideimage, index) => (
           <div className="relative" key={index}>

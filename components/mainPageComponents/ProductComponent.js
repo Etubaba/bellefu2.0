@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import classNames from "classnames";
-import Loader, { apiData, commercialUrl, indexApi } from "../../constant";
+import Loader, { apiData, commercialUrl, indexAPI } from "../../constant";
 import {
   countryProductSearchEmpty,
   country,
@@ -70,7 +70,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
     if (page > 1) {
       axios
         .get(
-          `https://bellefu.inmotionhub.xyz/api/web30/get/web/index?page=${page}`
+          `${indexAPI}?page=${page}`
         )
         .then((res) => {
           setProductIndex(res.data?.products?.data);
