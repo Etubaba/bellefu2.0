@@ -81,7 +81,6 @@ const Index = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
                           <p>First Name</p>
-
                         </label>
                         <input
                           value={user?.first_name}
@@ -93,7 +92,6 @@ const Index = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
                           <p>Last Name</p>
-
                         </label>
                         <input
                           value={user?.last_name}
@@ -105,7 +103,6 @@ const Index = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
                           <p>Email</p>
-
                         </label>
                         <input
                           value={user?.email}
@@ -117,7 +114,6 @@ const Index = () => {
                       <div className="col-span-6 sm:col-span-3">
                         <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
                           <p>Password</p>
-
                         </label>
                         <input
                           value="********"
@@ -126,9 +122,7 @@ const Index = () => {
                           className="  bg-gray-100 p-[10px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
                         />
                       </div>
-
                     </div>
-
                   </div>
                 </div>
               ) : (
@@ -235,7 +229,7 @@ const Index = () => {
                       <span className="pt-1 pr-2">
                         <FaWallet />
                       </span>
-                      <span>{user?.wallet_balance}</span>
+                      <span> ₿{user?.wallet_balance}</span>
                     </p>
                     <p className="text-center pb-8">
                       <button className="bg-bellefuOrange text-bellefuWhite py-2 px-4 rounded-md">

@@ -82,7 +82,6 @@ const SingleProductList = ({ similarProductDetail }) => {
           productId: similarProductDetail.productId,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.status) {
             setFav2(!fav2);
             toast.success(
@@ -96,6 +95,8 @@ const SingleProductList = ({ similarProductDetail }) => {
         });
     }
   };
+
+  console.log("similarProductDetail", similarProductDetail);
 
   return (
     <div className="bg-bellefuWhite p-3 rounded-b-md">
