@@ -34,7 +34,7 @@ import axios from "axios";
 import { apiData, productImageUrl, videoUrl } from "../../constant";
 import { toast } from "react-toastify";
 
-const SingleProductDescription = ({ productDetails,verified }) => {
+const SingleProductDescription = ({ productDetails, verified }) => {
   const [open, setOpen] = useState(true);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -184,11 +184,9 @@ const SingleProductDescription = ({ productDetails,verified }) => {
 
   const [clean, setClean] = useState(favArr);
 
-  // console.log('product details checker', productDetails)
+  console.log("product details checker", productDetails);
 
   const router = useRouter();
-
- 
 
   const handleCall = () => {
     if (isLoggedIn) {
@@ -212,10 +210,7 @@ const SingleProductDescription = ({ productDetails,verified }) => {
           if (res.data.status) {
             setFavStatus(!favStatus);
             toast.success(
-              `${productDetails[0]?.title.substring(
-                0,
-                20
-              )} added to favourite`
+              `${productDetails[0]?.title.substring(0, 20)} added to favourite`
             );
             actionFav();
           }
@@ -277,8 +272,9 @@ const SingleProductDescription = ({ productDetails,verified }) => {
 
   const title = `${productDetails[0]?.title}`;
   // const shareUrl = `https://bellefu30web.herokuapp.com/shared?image=${productDetails[0]?.images[0]}&name=${productDetails[0]?.title}&description=${description}&type=image&id=${productDetails[0]?.productId}`;
-  const image = `${window.location.href}?mage=${productDetails[0]?.images[0]
-    }&title=${title}&description=${description?.trim()}&type=image`;
+  const image = `${window.location.href}?mage=${
+    productDetails[0]?.images[0]
+  }&title=${title}&description=${description?.trim()}&type=image`;
 
   const video = "https://bellefu.inmotionhub.xyz/get/video/";
 
@@ -305,9 +301,6 @@ const SingleProductDescription = ({ productDetails,verified }) => {
     p: 2,
   };
 
-
-
-
   return (
     <>
       <Head>
@@ -315,7 +308,10 @@ const SingleProductDescription = ({ productDetails,verified }) => {
         <meta name="description" content={description} />
         <meta name="og:title" content={productDetails[0]?.title} />
         <meta name="og:description" content={description} />
-        <meta name="og:image" content={`${productImageUrl}${productDetails[0]?.images[0]}`} />
+        <meta
+          name="og:image"
+          content={`${productImageUrl}${productDetails[0]?.images[0]}`}
+        />
       </Head>
       <div className="bg-bellefuWhite rounded-t-md">
         {/* title section */}
@@ -324,8 +320,8 @@ const SingleProductDescription = ({ productDetails,verified }) => {
             {productDetails[0]?.title}
           </p>
           {favStatus ||
-            (clean?.includes(productDetails[0]?.productId) &&
-              favArr?.includes(productDetails[0]?.productId)) ? (
+          (clean?.includes(productDetails[0]?.productId) &&
+            favArr?.includes(productDetails[0]?.productId)) ? (
             <BsSuitHeartFill
               onClick={removeFav}
               className="lg:w-6 lg:h-6 text-bellefuOrange cursor-pointer"
@@ -391,7 +387,10 @@ const SingleProductDescription = ({ productDetails,verified }) => {
 
         <div className="py-3 px-3 lg:hidden">
           <div ref={ref} />
-          <SingleProductMobileSidebar verified={verified} mobileDetails={productDetails} />
+          <SingleProductMobileSidebar
+            verified={verified}
+            mobileDetails={productDetails}
+          />
         </div>
 
         {/* end of product owner details */}
@@ -454,7 +453,7 @@ const SingleProductDescription = ({ productDetails,verified }) => {
                   onClose={() => setModalOpen(false)}
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
-                // sx={{ opacity: 0.5 }}
+                  // sx={{ opacity: 0.5 }}
                 >
                   <Box sx={style}>
                     {/* <div> <MdOutlineCancel onClick={() => setOpen(false)} className='relative text-3xl text-gray-300 justify-end top-0 left-[100%] ' /></div> */}

@@ -112,7 +112,6 @@ const CategoryProductList = ({ product }) => {
     }
   };
 
-  // console.log(product)
   return (
     <div className="bg-bellefuWhite p-3 rounded-b-md cursor-pointer">
       <img
