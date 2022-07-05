@@ -44,9 +44,14 @@ const NavBar = () => {
   const verify = useSelector((state) => state.bellefu?.verificationStatus);
   // const userDetails = useSelector(state => state.bellefu?.userDetails.id)
   const cartCheck = useSelector((state) => state.bellefu?.favLoad);
+  const phoneAlt = useSelector((state) => state.bellefu?.phoneVerified);
 
   const toPostAds = () => {
-    if (getIsLoggedIn && verify.phone && username.avatar !== "useravatar.jpg") {
+    if (
+      getIsLoggedIn &&
+      (verify.phone || phoneAlt) &&
+      username.avatar !== "useravatar.jpg"
+    ) {
       router.push("/postAds");
       setLoading(!loading);
     } else if (!getIsLoggedIn) {
@@ -54,7 +59,7 @@ const NavBar = () => {
         position: "top-right",
       });
       router.push("/login");
-    } else if (!verify.phone) {
+    } else if (!verify.phone || !phoneAlt) {
       toast.info("Verify your phone number to post Ads", {
         position: "top-right",
       });
@@ -185,6 +190,8 @@ const NavBar = () => {
   const randomAnouncement =
     announcement[Math.floor(Math.random() * announcement?.length)];
 
+  console.log("user", username);
+
   return (
     <div className="fixed top-0 z-50 w-full ">
       {loading && <Loader isLoading={loading} />}
@@ -312,7 +319,7 @@ const NavBar = () => {
                     }}
                     className="relative cursor-pointer "
                   >
-                    <Image
+                    <img
                       // src={username?.avatar ? `https://bellefu.inmotionhub.xyz/get/user/images/${username?.avatar}` : "https://img.freepik.com/free-photo/organic-food-farm_342744-1362.jpg"}
                       src={`${UserAvataUrl}${username?.avatar}`}
                       width={30}
