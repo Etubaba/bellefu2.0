@@ -11,6 +11,7 @@ import {
   verified,
   idpending,
   kycpending,
+  phoneveri,
 } from "../../features/bellefuSlice";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -22,7 +23,6 @@ function Verifyaccount() {
   //conditional rendering
 
   const [showCount, setShowCount] = useState(false);
-
 
   const [verify, setVerify] = useState(false);
   const [phone, setPhone] = useState(false);
@@ -96,6 +96,8 @@ function Verifyaccount() {
   const idsubmitted = useSelector((state) => state.bellefu?.idApply);
   const kycsubmitted = useSelector((state) => state.bellefu?.kycApply);
 
+  const phoneAlt = useSelector((state) => state.bellefu?.phoneVerified);
+
   const handleVerification = (e) => {
     if (
       firstNo === "" ||
@@ -109,7 +111,7 @@ function Verifyaccount() {
       });
     } else {
       const OTP = firstNo + secondNo + thirdNo + fourthNo + fifthNo + sixthNo;
-      console.log(OTP);
+
       axios
         .post(`${apiData}verify/phone/code`, {
           token: Number(OTP),
@@ -120,6 +122,9 @@ function Verifyaccount() {
               position: "top-center",
             });
             setVerify(!verify);
+            setShowCount(false);
+            setSixthNo("");
+            dispatch(phoneveri(true));
           } else {
             toast.error("Verification code is incorrect", {
               position: "top-center",
@@ -134,6 +139,8 @@ function Verifyaccount() {
 
   if (sixthNo !== "" && showCount) {
     handleVerification();
+    setSixthNo("");
+    setShowCount(false);
   }
 
   const handleOTPRequest = (e) => {
@@ -279,10 +286,11 @@ function Verifyaccount() {
     }
   };
 
-
   return (
     <div className="md:ml-6 rounded-lg mt-5 bg-bellefuWhite h-auto w-auto pb-2">
-      <div className="md:text-xl text-sm md:ml-3  p-2">Account Verification</div>
+      <div className="md:text-xl text-sm md:ml-3  p-2">
+        Account Verification
+      </div>
       <hr />
 
       {!verify ? (
@@ -291,30 +299,76 @@ function Verifyaccount() {
             <div className="flex flex-col justify-center mt-14 mb-14 items-center">
               <MdVerified className="md:text-8xl text-6xl mb-7 text-gray-600" />
 
-              <div className='flex mb-4'><MdVerified className={isverified?.phone ? "text-black/70 text-xl" : 'text-[#A6A6A6] text-xl'} /><hr className='lg:w-40 w-20 mt-2 m-1' /><MdVerified className={isverified?.id ? 'text-bellefuOrange text-xl' : 'text-[#A6A6A6] text-xl'} /><hr className='lg:w-40 w-20 mt-2 m-1' /><MdVerified className={isverified?.kyc ? 'text-bellefuGreen text-xl' : 'text-[#A6A6A6] text-xl'} /></div>
-              <div className='flex md:justify-between justify-around space-x-20 text-[8px]  lg:space-x-32 md:text-xs mb-10'>
-                <p className={!isverified?.phone ? 'text-[#A6A6A6]' : null}>phone verified</p>
-                <p className={!isverified?.id ? 'text-[#A6A6A6]' : null}>ID verified</p>
-                <p className={!isverified?.kyc ? 'text-[#A6A6A6]' : null}>KYC verified</p>
-
+              <div className="flex mb-4">
+                <MdVerified
+                  className={
+                    isverified?.phone || phoneAlt
+                      ? "text-black/70 text-xl"
+                      : "text-[#A6A6A6] text-xl"
+                  }
+                />
+                <hr className="lg:w-40 w-20 mt-2 m-1" />
+                <MdVerified
+                  className={
+                    isverified?.id
+                      ? "text-bellefuOrange text-xl"
+                      : "text-[#A6A6A6] text-xl"
+                  }
+                />
+                <hr className="lg:w-40 w-20 mt-2 m-1" />
+                <MdVerified
+                  className={
+                    isverified?.kyc
+                      ? "text-bellefuGreen text-xl"
+                      : "text-[#A6A6A6] text-xl"
+                  }
+                />
+              </div>
+              <div className="flex md:justify-between justify-around space-x-20 text-[8px]  lg:space-x-32 md:text-xs mb-10">
+                <p
+                  className={
+                    !isverified?.phone || !phoneAlt ? "text-[#A6A6A6]" : null
+                  }
+                >
+                  phone verified
+                </p>
+                <p className={!isverified?.id ? "text-[#A6A6A6]" : null}>
+                  ID verified
+                </p>
+                <p className={!isverified?.kyc ? "text-[#A6A6A6]" : null}>
+                  KYC verified
+                </p>
               </div>
 
-              {isverified?.kyc ? <p className='md:text-sm text-xs text-center text-gray-600 mb-12'> Congrat!! <br />
-                you have completed your verification process </p> :
+              {isverified?.kyc ? (
+                <p className="md:text-sm text-xs text-center text-gray-600 mb-12">
+                  {" "}
+                  Congrat!! <br />
+                  you have completed your verification process{" "}
+                </p>
+              ) : (
                 <p className="md:text-sm text-xs  text-center text-gray-600 mb-12">
                   Proceed with your verification
                   <br />
                   Kindly click on the botton below to complete verification
                   process
                 </p>
-              }
+              )}
               <button
                 disabled={isverified?.kyc ? true : false}
                 onClick={() => setVerify(true)}
-                className={isverified?.kyc ? 'bg-[#E0E0E0] rounded-md py-2 md:py-4 px-16 md:px-28 space-x-3' : "flex hover:bg-orange-400 rounded-md text-white px-5 py-2 md:py-4 md:px-28 space-x-3 bg-bellefuOrange"}
+                className={
+                  isverified?.kyc
+                    ? "bg-[#E0E0E0] rounded-md py-2 md:py-4 px-16 md:px-28 space-x-3"
+                    : "flex hover:bg-orange-400 rounded-md text-white px-5 py-2 md:py-4 md:px-28 space-x-3 bg-bellefuOrange"
+                }
               >
                 <MdVerified className="md:text-xl mt-1 text-md" />{" "}
-                <span className={isverified?.kyc ? 'text-[#A6A6A6]' : null} >{isverified?.kyc ? ' You have completed verification ' : " Complete Verification"}</span>
+                <span className={isverified?.kyc ? "text-[#A6A6A6]" : null}>
+                  {isverified?.kyc
+                    ? " You have completed verification "
+                    : " Complete Verification"}
+                </span>
               </button>
             </div>
           </div>
@@ -350,7 +404,6 @@ function Verifyaccount() {
                     <strong>{userId?.phone} </strong>
                   </p>
                   <div className="px-2 w-full md:w-1/2 mx-auto mt-5">
-
                     <div className="flex bg-white border rounded-md space-x-2 items-center justify-center md:px-7 md:py-4 p-2">
                       <input
                         value={firstNo}
@@ -431,7 +484,13 @@ function Verifyaccount() {
                           showCount ? "text-xl  text-[#A6A6A6]" : "text-xl "
                         }
                       />
-                      <span className={showCount ? "text-[#A6A6A6] md:text-lg text-sm" : 'md:text-lg text-sm'}>
+                      <span
+                        className={
+                          showCount
+                            ? "text-[#A6A6A6] md:text-lg text-sm"
+                            : "md:text-lg text-sm"
+                        }
+                      >
                         Request call verification
                       </span>
                     </button>
@@ -449,7 +508,13 @@ function Verifyaccount() {
                           showCount ? "text-xl text-[#A6A6A6]" : "text-xl"
                         }
                       />
-                      <span className={showCount ? "text-[#A6A6A6] md:text-lg text-sm" : 'md:text-lg text-sm'}>
+                      <span
+                        className={
+                          showCount
+                            ? "text-[#A6A6A6] md:text-lg text-sm"
+                            : "md:text-lg text-sm"
+                        }
+                      >
                         Request OTP verification
                       </span>
                     </button>
@@ -645,7 +710,7 @@ function Verifyaccount() {
                 {/* first upload */}
 
                 <div className="flex  flex-col md:flex-row text-[13px] md:text-lg mx-5 justify-between my-7 md:mx-10">
-                  <div >Company/Business Certificate</div>
+                  <div>Company/Business Certificate</div>
                   {biz !== undefined && <p>{biz}</p>}
                 </div>
                 <Dropzone
@@ -840,7 +905,10 @@ function Verifyaccount() {
                 <MdVerified className="text-8xl  mb-5 text-bellefuGreen" />
                 <p className="mb-7 text-center">
                   <strong> Congrats !!!</strong>
-                  <br /> {isverified?.kyc ? 'Your KYC verification had been completed' : 'Your KYC verification is under review'}
+                  <br />{" "}
+                  {isverified?.kyc
+                    ? "Your KYC verification had been completed"
+                    : "Your KYC verification is under review"}
                 </p>
 
                 <div className="flex space-x-5">

@@ -1,19 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  idApply: typeof window !== "undefined" ? localStorage.getItem("idapply") : false,
-  kycApply: typeof window !== "undefined" ? localStorage.getItem("kycapply") : false,
+  idApply:
+    typeof window !== "undefined" ? localStorage.getItem("idapply") : false,
+  kycApply:
+    typeof window !== "undefined" ? localStorage.getItem("kycapply") : false,
   subcatselected: undefined,
   favArr: [],
-  shopProduct: typeof window !== "undefined" ? localStorage.getItem("shop") : '',
+  shopProduct:
+    typeof window !== "undefined" ? localStorage.getItem("shop") : "",
   hasPaid: typeof window !== "undefined" ? localStorage.getItem("coin") : false,
-  orderPay: typeof window !== "undefined" ? localStorage.getItem("orderpay") : false,
+  orderPay:
+    typeof window !== "undefined" ? localStorage.getItem("orderpay") : false,
   video: [],
+  phoneVerified:
+    typeof window !== "undefined" ? localStorage.getItem("phone") : false,
   favLoad: 0,
   msgScroll: 0,
   messageRead: 0,
   // messageRead: typeof window !== "undefined" ? localStorage.getItem("msg") : 0,
-  verificationStatus: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("verify")) : null,
+  verificationStatus:
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("verify"))
+      : null,
   userDetails:
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("details"))
@@ -61,9 +70,15 @@ const initialState = {
   userUpdate: {
     states: "",
     lga: "",
-    statesname: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("userState")) : null,
+    statesname:
+      typeof window !== "undefined"
+        ? JSON.parse(localStorage.getItem("userState"))
+        : null,
 
-    lganame: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("userLga")) : null,
+    lganame:
+      typeof window !== "undefined"
+        ? JSON.parse(localStorage.getItem("userLga"))
+        : null,
   },
   countryProductSearchEmpty: true,
   searchCountry: "",
@@ -89,15 +104,15 @@ export const bellefuSlice = createSlice({
     },
     payment: (state, action) => {
       state.hasPaid = action.payload;
-      localStorage.setItem('coin', state.hasPaid);
+      localStorage.setItem("coin", state.hasPaid);
     },
     orderPayment: (state, action) => {
       state.orderPay = action.payload;
-      localStorage.setItem('orderpay', state.orderPay);
+      localStorage.setItem("orderpay", state.orderPay);
     },
     idpending: (state, action) => {
       state.idApply = action.payload;
-      localStorage.setItem('idapply', state.idApply)
+      localStorage.setItem("idapply", state.idApply);
     },
     msgRead: (state) => {
       state.messageRead += 1;
@@ -109,19 +124,21 @@ export const bellefuSlice = createSlice({
     },
     shop: (state, action) => {
       state.shopProduct = action.payload;
-      localStorage.setItem('shop', state.shopProduct)
+      localStorage.setItem("shop", state.shopProduct);
     },
     kycpending: (state, action) => {
       state.kycApply = action.payload;
-      localStorage.setItem('kycapply', state.kycApply)
+      localStorage.setItem("kycapply", state.kycApply);
+    },
+    phoneveri: (state, action) => {
+      state.phoneVerified = action.payload;
+      localStorage.setItem("phone", state.phoneVerified);
     },
     userFav: (state, action) => {
       state.favArr = action.payload;
-
     },
     handleVideo: (state, action) => {
       state.video = action.payload;
-
     },
     favUpdated: (state) => {
       state.favLoad += 1;
@@ -155,11 +172,10 @@ export const bellefuSlice = createSlice({
     },
     // ##################################################
 
-
     handleIndexApi: (state, action) => {
       state.indexApi = action.payload;
     },
-    // userUpdate things 
+    // userUpdate things
     handleStates: (state, action) => {
       state.userUpdate.states = action.payload;
     },
@@ -268,16 +284,24 @@ export const bellefuSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  isLoggedIn, shop,
-  isDisabled, orderPayment,
+  isLoggedIn,
+  shop,
+  isDisabled,
+  orderPayment,
   chooseCountry,
   handleIndexApi,
-  handleSearch, payment,
-  updateIdpath, msgScroll,
-  fetchData, userFav,
-  Subcat, msgRead,
-  selectCat, favUpdated,
-  chooseState, handleVideo,
+  handleSearch,
+  payment,
+  updateIdpath,
+  msgScroll,
+  fetchData,
+  userFav,
+  Subcat,
+  msgRead,
+  selectCat,
+  favUpdated,
+  chooseState,
+  handleVideo,
   setProfileDetails,
   handleUseridUpdate,
   handleImagesUpdate,
@@ -296,16 +320,20 @@ export const {
   handlePlansUpdate,
   handleSymbolUpdate,
   handleUserDetails,
-  handleStates, idpending,
-  handleLga, ifVerified,
-  handleLganame, kycpending,
+  handleStates,
+  idpending,
+  handleLga,
+  ifVerified,
+  handleLganame,
+  kycpending,
   handleStatesname,
   handleVideoUpdate,
   countryProductSearchEmpty,
   searchCountry,
+  phoneveri,
   newProductForShop,
   handleAdsPlanPriceUpdate,
-  handleAdsPostingCheckerUpdate
+  handleAdsPostingCheckerUpdate,
 } = bellefuSlice.actions;
 
 export const login = (state) => state.bellefu.login;
@@ -318,7 +346,8 @@ export const userDId = (state) => state.bellefu.userDetails;
 export const verified = (state) => state.bellefu.verificationStatus;
 export const country = (state) => state.bellefu.searchCountry;
 export const postadsData = (state) => state.bellefu.postAddata;
-export const isProductForShop = (state) => state.bellefu?.creatingNewProductForShop;
+export const isProductForShop = (state) =>
+  state.bellefu?.creatingNewProductForShop;
 // export const prouductSearch = (state) => state.bellefu.countryProductSearch;
 // export const selectLogin = (state) => {
 //   state.bellefu.login;
