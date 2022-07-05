@@ -93,7 +93,7 @@ function Index({ data1, data2 }) {
                 <div className=" overflow-hidden sm:rounded-md">
                   <div className="px-4 py-5 sm:p-6">
                     <div className="grid grid-cols-6 gap-6">
-                      <div className="col-span-6 sm:col-span-3">
+                      <div className="col-span-6 sm:col-span-3  bg-white">
                         <label
                           for="first-name"
                           className="block text-sm font-medium text-gray-700"
@@ -106,7 +106,7 @@ function Index({ data1, data2 }) {
                         />
                       </div>
 
-                      <div className="col-span-6 sm:col-span-3">
+                      <div className="col-span-6 sm:col-span-3 ">
                         <label
                           for="last-name"
                           className="block  text-sm font-medium text-gray-700"
@@ -118,7 +118,7 @@ function Index({ data1, data2 }) {
                           checker={checker}
                         />
                       </div>
-                      <div className="col-span-6 sm:col-span-3">
+                      <div className="col-span-6 sm:col-span-3 ">
                         <label
                           for="email"
                           className="block text-sm font-medium text-gray-700"
@@ -130,7 +130,7 @@ function Index({ data1, data2 }) {
                           catchState={handleStateCatch}
                         />
                       </div>
-                      <div className="col-span-6 sm:col-span-3">
+                      <div className="col-span-6 sm:col-span-3 ">
                         <label
                           for="email"
                           className="block text-sm font-medium text-gray-700"
@@ -144,7 +144,7 @@ function Index({ data1, data2 }) {
                           checker2={checker2}
                         />
                       </div>
-                      <div className="col-span-6 sm:col-span-3">
+                      <div className="col-span-6 sm:col-span-3 ">
                         <label
                           for="email"
                           className="block text-sm font-medium text-gray-700"
