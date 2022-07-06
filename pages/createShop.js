@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Modal } from "@mui/material";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
-
 import { useSelector, useDispatch } from "react-redux";
 import { FaCamera } from "react-icons/fa";
 
@@ -15,11 +14,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import GovId from "../components/GovId";
 // import Skeleton from "@mui/material/Skeleton";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import { shopApi } from "../constant";
-import Payment from '../components/paymentComponent/Payment'
+import Payment from "../components/paymentComponent/Payment";
 import { payment } from "../features/bellefuSlice";
-
 
 export default function CreateShop() {
   const [checkpass, setCheckPass] = useState(false);
@@ -36,8 +34,7 @@ export default function CreateShop() {
   const [files, setFiles] = useState(null);
   const [files2, setFiles2] = useState(null);
   const [govid, setGovid] = useState([]);
-  const [paymentModal, setPaymentModal] = useState(false)
-
+  const [paymentModal, setPaymentModal] = useState(false);
 
   const router = useRouter();
 
@@ -48,13 +45,9 @@ export default function CreateShop() {
   const hasPaid = useSelector((state) => state.bellefu?.hasPaid);
   const idchecker = useSelector((state) => state.bellefu.verificationStatus);
 
-
   const handleGovid = (event) => {
     setGovid(event);
   };
-
-
-
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
@@ -70,25 +63,24 @@ export default function CreateShop() {
   });
 
   const handleShopNameCheck = () => {
-    axios.post(`${shopApi}name/checker`, {
-      shopName: shopname
-    }).then((res) => {
-      if (res.data.status === true) {
-        setCheckPass(true)
-        toast.error("Shop Name Alreay exist", {
-          position: "top-center",
-        })
-      } else {
-        setCheckPass(false)
-
-      }
-
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
-
-
+    axios
+      .post(`${shopApi}name/checker`, {
+        shopName: shopname,
+      })
+      .then((res) => {
+        if (res.data.status === true) {
+          setCheckPass(true);
+          toast.error("Shop Name Alreay exist", {
+            position: "top-center",
+          });
+        } else {
+          setCheckPass(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // if (hasPaid) setPaymentModal(false)
 
@@ -119,28 +111,28 @@ export default function CreateShop() {
 
       if (
         shopname === null ||
-          bankname === null ||
-          accountname === null ||
-          accountnumber === null ||
-          accounttype === null ||
-          nextofkin === null ||
-          description === null ||
-          address === null ||
-          files2 === null
+        bankname === null ||
+        accountname === null ||
+        accountnumber === null ||
+        accounttype === null ||
+        nextofkin === null ||
+        description === null ||
+        address === null ||
+        files2 === null
           ? toast.error("Shop Logo is required", {
-            position: "top-center",
-          })
-          : null || terms === false
-            ? toast.error("Accept Terms and Condition", {
               position: "top-center",
             })
-            : null || idchecker === false
-              ? govid.length === 0
-                ? toast.error("Govt. Issued ID id required", {
-                  position: "top-center",
-                })
-                : null
-              : null
+          : null || terms === false
+          ? toast.error("Accept Terms and Condition", {
+              position: "top-center",
+            })
+          : null || idchecker === false
+          ? govid.length === 0
+            ? toast.error("Govt. Issued ID id required", {
+                position: "top-center",
+              })
+            : null
+          : null
       ) {
         toast.error("All fields are required", {
           position: "top-center",
@@ -157,8 +149,8 @@ export default function CreateShop() {
           .then((res) => {
             console.log(res.status);
             if (res.data.status) {
-              dispatch(payment(false))
-              localStorage.removeItem('coin')
+              dispatch(payment(false));
+              localStorage.removeItem("coin");
               setModalOpen(true);
               setTerms(false);
               setShopName("");
@@ -176,18 +168,18 @@ export default function CreateShop() {
             } else {
               toast.error("Something happend. Try again", {
                 position: "top-center",
-              })
+              });
             }
-          }).catch((err) => {
+          })
+          .catch((err) => {
             toast.error(`${err}`, {
               position: "top-center",
-            })
-          })
-
+            });
+          });
       }
     } else {
-      toast.error("Complete payment to create shop")
-      setPaymentModal(true)
+      toast.error("Complete payment to create shop");
+      setPaymentModal(true);
     }
   };
 
@@ -198,11 +190,11 @@ export default function CreateShop() {
         onClose={() => setModalOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+        // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
       >
         <div
           className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
-        // sx={edit}
+          // sx={edit}
         >
           <div className="flex justify-center items-center">
             {/* <WarningAmberIcon sx={{ fontSize: 50 }} /> */}
@@ -215,8 +207,11 @@ export default function CreateShop() {
             Congratulations... Your shop creation was successful
           </p>
           <div onClick={() => router.push(`/shop/upload-product`)}>
-            <button onClick={() => router.push(`/shop/upload-product`)} className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm">
-              Add  product
+            <button
+              onClick={() => router.push(`/shop/upload-product`)}
+              className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
+            >
+              Add product
             </button>
           </div>
         </div>
@@ -228,19 +223,20 @@ export default function CreateShop() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className='flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   w-[70%] md:w-[70%] lg:w-[70%]'>
+        <div className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   w-[70%] md:w-[70%] lg:w-[70%]">
           <Payment modal={setPaymentModal} />
         </div>
-
       </Modal>
 
       <div className="flex justify-center items-center mt-[10%] md:mt-[5%] lg:mt-0">
         <div className="w-[90%] lg:w-[60%] mt-[10%]">
           <div className="bg-[#f8f8f8]   rounded-md border border-[#bbb9bb]  mb-5">
             <div className="p-5 flex  items-center justify-between">
-              <p
-                className="text-lg text-gray-700 font-semibold tracking-wider">
+              <p className="text-lg text-gray-700 font-semibold tracking-wider">
                 Create Shop
+              </p>
+              <p className="text-lg text-gray-700 font-semibold tracking-wider">
+                For $25
               </p>
             </div>
             <hr style={{ backgroundColor: "#343434" }} />
@@ -291,6 +287,41 @@ export default function CreateShop() {
                             onChange={(e) => setShopName(e.target.value)}
                             type="text"
                             className="  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-3">
+                          <label className="block  text-sm font-medium text-gray-700">
+                            Store description
+                          </label>
+                          <textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className=" h-12  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+                          />
+                        </div>
+                        <div className="col-span-6 sm:col-span-3">
+                          <label className="block  text-sm font-medium text-gray-700">
+                            Next of Kin
+                          </label>
+                          <input
+                            value={nextofkin}
+                            type="text"
+                            onChange={(e) => setNextOfKin(e.target.value)}
+                            autoComplete
+                            className="  h-12  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+                          />
+                        </div>
+
+                        <div className="col-span-6 sm:col-span-3">
+                          <label className="block  text-sm font-medium text-gray-700">
+                            Address
+                          </label>
+                          <input
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            type="text"
+                            autoComplete
+                            className="  h-12  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
                           />
                         </div>
 
@@ -345,41 +376,6 @@ export default function CreateShop() {
                             className="  h-12  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
                           />
                         </div>
-
-                        <div className="col-span-6 sm:col-span-3">
-                          <label className="block  text-sm font-medium text-gray-700">
-                            Next of Kin
-                          </label>
-                          <input
-                            value={nextofkin}
-                            type="text"
-                            onChange={(e) => setNextOfKin(e.target.value)}
-                            autoComplete
-                            className="  h-12  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label className="block  text-sm font-medium text-gray-700">
-                            Store description
-                          </label>
-                          <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className=" h-12  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                          <label className="block  text-sm font-medium text-gray-700">
-                            Address
-                          </label>
-                          <input
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            type="text"
-                            autoComplete
-                            className="  h-12  bg-[white] p-[12px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
-                          />
-                        </div>
                       </div>
                       {!idchecker?.id && (
                         <div className="col-span-3 sm:col-span-3 w-full">
@@ -391,7 +387,10 @@ export default function CreateShop() {
                         </div>
                       )}
                       <div className="col-span-6 sm:col-span-3">
-                        <label className="block  text-sm font-medium text-gray-700">
+                        <label
+                          onClick={() => router.push("/policy")}
+                          className="block hover:text-orange-300 underline text-sm font-medium mb-2 text-bellefuOrange"
+                        >
                           Terms & Conditions
                         </label>
                         <input
@@ -402,19 +401,26 @@ export default function CreateShop() {
                         />
                       </div>
                     </div>
-                    <div onClick={(e) => { e.preventDefault(); setPaymentModal(true) }} className='flex justify-end items-end  '>
+                    <div
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPaymentModal(true);
+                      }}
+                      className="flex justify-end items-end  "
+                    >
                       <button
-                        onClick={(e) => { e.preventDefault(); setPaymentModal(true) }}
-                        className='bg-bellefuGreen rounded-lg text-white px-12 md:px-20 md:py-3 py-2 '>Complete Payment</button>
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setPaymentModal(true);
+                        }}
+                        className="bg-bellefuGreen rounded-lg text-white px-12 md:px-20 md:py-3 py-2 "
+                      >
+                        Complete Payment
+                      </button>
                     </div>
-
-
-
-
 
                     <button
                       onClick={handleCreate}
-
                       class="flex justify-center items-centerw-[19vw]  w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-bellefuOrange hover:bg-[#ffc253] focus:outline-none focus:ring-2 focus:ring-offset-2 mt-5"
                     >
                       Submit
