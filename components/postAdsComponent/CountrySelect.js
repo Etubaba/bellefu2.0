@@ -180,15 +180,7 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
   };
 
   return (
-    // <CustomSelect>
-    //   {countryStuffs.countries?.map((counts, index) => (
-    //     <span key={index} onClick={() => handleThings(counts)}>
-    //       <StyledOption key={index} value={counts.name}>
-    //         {counts.name}
-    //       </StyledOption>
-    //     </span>
-    //   ))}
-    // </CustomSelect>
+   
 
     <div>
     <div className="w-full">

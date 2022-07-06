@@ -23,19 +23,7 @@ export default function UnstyledSelectSimple2({ subCategory, checker }) {
   };
 
   return (
-    // <CustomSelect disabled={checker === "" ? true : false} >
-    //   {subCategory?.map((counts, index) => (
-    //     <span onClick={() => handleThings(counts)}>
-    //       <StyledOption
-    //         key={index}
-    //         value={counts.subCatName}
-    //       >
-    //         {counts.subCatName}
-    //       </StyledOption>
-    //     </span>
-    //   ))}
-
-    // </CustomSelect>
+   
 
     <div>
       <div className="w-full">

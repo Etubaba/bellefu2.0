@@ -21,18 +21,7 @@ export default function UnstyledSelectSimple5({ lga, checker3 }) {
   };
 
   return (
-    // <CustomSelect disabled={checker3 === "" ? true : false}>
-    //   {lga?.map((counts, index) => (
-    //     <span onClick={() => handleThings(counts)}>
-    //       <StyledOption
-    //         key={index}
-    //         value={counts.name}
-    //       >
-    //         {counts.name}
-    //       </StyledOption>
-    //     </span>
-    //   ))}
-    // </CustomSelect>
+    
 
     <div>
       <div className="w-full">

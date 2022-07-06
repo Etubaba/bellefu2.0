@@ -33,15 +33,7 @@ export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
   };
 
   return (
-    // <CustomSelect disabled={checker2 === "" ? true : false}>
-    //   {states?.map((counts, index) => (
-    //     <span onClick={() => handleThings(counts)}>
-    //       <StyledOption key={index} value={counts.name}>
-    //         {counts.name}
-    //       </StyledOption>
-    //     </span>
-    //   ))}
-    // </CustomSelect>
+   
 
     <div>
       <div className="w-full">

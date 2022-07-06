@@ -157,28 +157,7 @@ export default function UnstyledSelectSimple1({ category, subcatCatcher }) {
   };
 
   return (
-    // <>
-    //   <CustomSelect >
-    //     <span>
-    //       {" "}
-    //       <input
-    //         type="text"
-    //         placeholder="Search "
-    //         className="w-full border mx-4 h-10 px-4 py-2 rounded-md text-sm text-gray-600 focus:border-bellefuOrange focus:outline-none focus:ring-1 focus:ring-black focus:ring-opacity-5"
-    //         // onChange={(e) => setFindCountry(e.target.value)}
-    //         // value={findCountry}
-    //       />
-    //     </span>
-    // {optionSelect.categories?.map((counts, index) => (
-    //   <span key={index} onClick={() => handleThings(counts)}>
-    //     <StyledOption key={index} value={counts.name}>
-    //       {counts.name}
-    //     </StyledOption>
-    //   </span>
-    // ))}
-    //   </CustomSelect>
-    // </>
-
+  
     // ############################
 
     <div>
