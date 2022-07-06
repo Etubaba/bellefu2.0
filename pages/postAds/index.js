@@ -164,7 +164,7 @@ function Index({ data1, data2 }) {
                           name="location"
                           id="location"
                           onChange={handleLocation}
-                          className=" bg-[white] p-[8px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+                          className="  p-[7px] mt-4 bg-gray-200 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm  rounded-md"
                         />
                       </div>
                     </div>
