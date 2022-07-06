@@ -23,7 +23,7 @@ function Footer() {
     "https://bellefu.us7.list-manage.com/subscribe/post?u=500989ddbb1252dfed8f35378&amp;id=bad07acb72";
 
   return (
-    <div className="bg-[#191A19] hidden lg:inline-block px-12 w-full h-auto z-50 relative mt-12 bottom-0 pb-6 pt-12">
+    <div className="bg-[#191A19] hidden lg:inline-block px-12 w-full h-auto z-40 relative mt-12 bottom-0 pb-6 pt-12">
       <div className="flex justify-evenly space-x-10 mb-12">
         <div className="flex flex-col space-y-3 w-80">
           <img

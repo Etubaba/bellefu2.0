@@ -84,6 +84,7 @@ const StyledListbox = styled("ul")(
   color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
   overflow: auto;
   outline: 0px;
+  z-index:1000px
   `
 );
 
@@ -125,7 +126,7 @@ const StyledOption = styled(OptionUnstyled)(
 );
 
 const StyledPopper = styled(PopperUnstyled)`
-  z-index: 1;
+  z-index: 50;
 `;
 
 const CustomSelect = React.forwardRef(function CustomSelect(props, ref) {
@@ -151,9 +152,9 @@ export default function UnstyledSelectSimple1({ category, subcatCatcher }) {
   }
 
   return (
-    <CustomSelect>
+    <CustomSelect >
       {optionSelect.categories?.map((counts, index) => (
-        <span key={index} onClick={() => handleThings(counts)}>
+        <span key={index} onClick={() => handleThings(counts)} >
           <StyledOption
             key={index}
             value={counts.name}

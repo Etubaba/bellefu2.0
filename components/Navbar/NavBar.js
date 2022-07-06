@@ -193,7 +193,7 @@ const NavBar = () => {
   console.log("user", username);
 
   return (
-    <div className="fixed top-0 z-50 w-full ">
+    <div className="fixed top-0 z-[1000] w-full ">
       {loading && <Loader isLoading={loading} />}
       <div className=" bg-[#2C3422] h-8 flex items-center justify-center space-x-3">
         <img
