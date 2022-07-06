@@ -13,11 +13,10 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { ImFacebook } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import classNames from "classnames";
+import { toast } from "react-toastify";
 
 export const getStaticProps = async () => {
-  const res = await fetch(
-    `${indexAPI}`
-  );
+  const res = await fetch(`${indexAPI}`);
   const data = await res.json();
 
   const response = await fetch(`${apiData}get/countries`);
@@ -58,6 +57,7 @@ const Register = ({ data, countries, countries1 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [selectCountry, setSelectCountry] = useState(false);
   const [flag, setFlag] = useState(null);
+  const [showHelp, setShowHelp] = useState(false);
 
   const onChange = (input) => (evt) => {
     evt.stopPropagation();
@@ -85,7 +85,11 @@ const Register = ({ data, countries, countries1 }) => {
   const handleRegister = () => {
     let formValues = formFields;
     // let emptyFieldExists = false;
-
+    if (formFields.password.length < 6) {
+      toast.error("please password must be at least 6 characters long", {
+        position: "top-center",
+      });
+    }
     // emptyFieldExists = validateInput(formValues);
 
     // if (emptyFieldExists) {
@@ -225,6 +229,12 @@ const Register = ({ data, countries, countries1 }) => {
       setCountryPhoneCode(`+${country?.phone_code}`);
     }
   }, []);
+
+  const checkLength = () => {
+    if (formFields.password.length < 6) {
+      setShowHelp(true);
+    }
+  };
 
   return (
     <>
@@ -508,15 +518,21 @@ const Register = ({ data, countries, countries1 }) => {
                   }
                 />
               )}
-              <p>
+              <div>
                 <input
                   type={showPassword ? "text" : "password"}
                   htmlFor="password"
                   className="w-full rounded-lg py-2 px-3 outline outline-[#F1F1F1] focus:outline-[#FFA500]"
                   value={formFields.password}
                   onChange={onChange("password")}
+                  onBlur={checkLength}
                 />
-              </p>
+                {showHelp && (
+                  <p className="text-red-500 text-sm font-medium">
+                    Password must be atleast 6 characters
+                  </p>
+                )}
+              </div>
             </div>
           </div>
           {!isLoading ? (

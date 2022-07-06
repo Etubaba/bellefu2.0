@@ -303,7 +303,7 @@ function Verifyaccount() {
                 <MdVerified
                   className={
                     isverified?.phone || phoneAlt
-                      ? "text-black/70 text-xl"
+                      ? "text-[#FECD29] text-xl"
                       : "text-[#A6A6A6] text-xl"
                   }
                 />
