@@ -9,8 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import { profileDetails } from "../../features/bellefuSlice";
-import { useSelector } from "react-redux";
+import { payment, profileDetails } from "../../features/bellefuSlice";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BsShopWindow } from "react-icons/bs";
 import { Modal } from "@mui/material";
@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import { IconButton } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import { imageBaseUrl, shopApi } from "../../constant";
+import Payment from "../../components/paymentComponent/Payment";
 
 function shop() {
   const user = useSelector(profileDetails);
@@ -26,12 +27,14 @@ function shop() {
   const [valueupdate, setValueUpdate] = useState({});
   const [shopDetails, setShopDetails] = useState([]);
   const [products, setProducts] = useState([]);
+  const [subType, setSubType] = useState(0);
   const [productsname, setProductsName] = useState(valueupdate?.title);
   const [productsprice, setProductsPrice] = useState(valueupdate?.promoPrice);
   const [productspromoprice, setProductsPromoPrice] = useState(
     valueupdate?.promoPrice
   );
   const [modalopen, setModalOpen] = useState(false);
+  const [sub, setSub] = useState(false);
 
   const [checked, setChecked] = useState(null);
 
@@ -39,6 +42,7 @@ function shop() {
     setChecked(event.target.checked);
   };
 
+  const dispatch = useDispatch();
   useEffect(() => {
     axios
       .get(`${shopApi}view/single/${user?.shopId}`)
@@ -97,7 +101,28 @@ function shop() {
       });
   };
 
-  console.log("shopd", shopDetails);
+  const hasPaid = useSelector((state) => state.bellefu?.hasPaid);
+
+  if (hasPaid && subType !== 0) {
+    setTimeout(() => {
+      axios
+        .post(`${shopApi}renew/subscription`, {
+          shopId: shopDetails[0]?.shopId,
+          subscriptionType: subType === 25 ? "monthly" : "yearly",
+        })
+        .then((res) => {
+          if (res.data.status) {
+            toast.success(
+              "Your shop subscription has been successfully renewed."
+            );
+            dispatch(payment(false));
+            setSubType(0);
+            localStorage.removeItem("coin");
+          }
+        });
+    }, 2000);
+  }
+
   return (
     <>
       <Modal
@@ -174,6 +199,17 @@ function shop() {
           </div>
         </div>
       </Modal>
+
+      <Modal
+        open={sub}
+        onClose={() => setSub(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div className="flex mt-12 justify-center items-center">
+          <Payment sub={setSubType} modal={setSub} />
+        </div>
+      </Modal>
       <div className="rounded-lg md:mt-5 mt-2 bg-bellefuWhite   h-auto w-full md:w-auto">
         <div className="flex justify-between px-3  lg:px-10 md:py-6 py-2 border-b">
           <h1 className="font-semibold text-sm">My Shop Details</h1>
@@ -181,7 +217,7 @@ function shop() {
             <div>
               {shopDetails[0]?.expired ? (
                 <button
-                  onClick={() => router.push("/shop/upload-product")}
+                  onClick={() => setSub(true)}
                   className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
                 >
                   Renew Shop subscription
@@ -237,13 +273,20 @@ function shop() {
                         </p>
                       )}
 
-                      <p className="my-5 text-2xl font-semibold">
+                      <p className="my-3 text-2xl font-semibold">
                         {shopDetails[0]?.shopName}
                       </p>
                       {/* <BsShopWindow className="text-7xl lg:text-9xl mb-5 text-gray-600" /> */}
-                      <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
-                        You do not have any products in your shop
-                      </p>
+                      {!shopDetails[0]?.expired && (
+                        <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
+                          You do not have any products in your shop
+                        </p>
+                      )}
+                      {shopDetails[0]?.expired && (
+                        <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
+                          Renew your subscription for shop
+                        </p>
+                      )}
                       <div>
                         {" "}
                         {shopDetails[0]?.expired ? (
