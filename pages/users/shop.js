@@ -18,13 +18,13 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { IconButton } from "@mui/material";
 import Switch from "@mui/material/Switch";
-import { shopApi } from "../../constant";
+import { imageBaseUrl, shopApi } from "../../constant";
 
 function shop() {
   const user = useSelector(profileDetails);
   const router = useRouter();
   const [valueupdate, setValueUpdate] = useState({});
-
+  const [shopDetails, setShopDetails] = useState([]);
   const [products, setProducts] = useState([]);
   const [productsname, setProductsName] = useState(valueupdate?.title);
   const [productsprice, setProductsPrice] = useState(valueupdate?.promoPrice);
@@ -41,11 +41,12 @@ function shop() {
 
   useEffect(() => {
     axios
-      .get(
-        `${shopApi}view/single/${user?.shopId}`
-      )
+      .get(`${shopApi}view/single/${user?.shopId}`)
       .then((res) => {
         setProducts(res.data.data);
+        if (res.data.shop !== undefined) {
+          setShopDetails(res.data?.shop);
+        }
       })
       .then((err) => {
         console.log(err);
@@ -79,9 +80,7 @@ function shop() {
           });
 
           axios
-            .get(
-              `${shopApi}view/single/${user?.shopId}`
-            )
+            .get(`${shopApi}view/single/${user?.shopId}`)
             .then((res) => {
               setProducts(res.data.data);
             })
@@ -98,6 +97,7 @@ function shop() {
       });
   };
 
+  console.log("shopd", shopDetails);
   return (
     <>
       <Modal
@@ -105,11 +105,11 @@ function shop() {
         onClose={() => setModalOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+        // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
       >
         <div
           className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
-        // sx={edit}
+          // sx={edit}
         >
           <div className="grid grid-cols-6 gap-3  my-5">
             <div className="col-span-6 sm:col-span-3">
@@ -177,11 +177,25 @@ function shop() {
       <div className="rounded-lg md:mt-5 mt-2 bg-bellefuWhite   h-auto w-full md:w-auto">
         <div className="flex justify-between px-3  lg:px-10 md:py-6 py-2 border-b">
           <h1 className="font-semibold text-sm">My Shop Details</h1>
-          {user?.shopId === null ? null : (<div onClick={() => router.push("/shop/upload-product")}>
-            <button onClick={() => router.push("/shop/upload-product")} className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm">
-              Add new product
-            </button>
-          </div>)}
+          {user?.shopId === null ? null : (
+            <div>
+              {shopDetails[0]?.expired ? (
+                <button
+                  onClick={() => router.push("/shop/upload-product")}
+                  className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
+                >
+                  Renew Shop subscription
+                </button>
+              ) : (
+                <button
+                  onClick={() => router.push("/shop/upload-product")}
+                  className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
+                >
+                  Add new product
+                </button>
+              )}
+            </div>
+          )}
         </div>
         {user?.shopId === null ? (
           <div className="h-full px-2 lg:px-0 ">
@@ -193,7 +207,10 @@ function shop() {
                 </p>
                 <div onClick={() => router.push("/createShop")}>
                   {" "}
-                  <button onClick={() => router.push("/createShop")} className="py-1 lg:py-3 hover:bg-orange-400 mt-16 px-8 lg:px-12 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg">
+                  <button
+                    onClick={() => router.push("/createShop")}
+                    className="py-1 lg:py-3 hover:bg-orange-400 mt-16 px-8 lg:px-12 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg"
+                  >
                     Create shop
                   </button>
                 </div>
@@ -205,20 +222,45 @@ function shop() {
             <div className="px-2 md:px-5 lg:px-10 py-6 ">
               {products?.length === 0 ? (
                 <div className="h-full px-2 lg:px-0 ">
-                  <div className="border mx-auto mt-2 lg:my-5 rounded-xl w-full lg:w-7/12 h-11/12 ">
+                  <div className="border mx-auto mt-2 lg:my-5 rounded-xl w-full lg:w-[64%] h-11/12 ">
                     <div className="flex flex-col justify-center mt-24 mb-24 items-center">
-                      <BsShopWindow className="text-7xl lg:text-9xl mb-5 text-gray-600" />
+                      <img
+                        src={`${`${imageBaseUrl}get/store/image/`}${
+                          shopDetails[0]?.logo
+                        }`}
+                        alt=""
+                        className="object-cover  rounded-md w-[70%] h-64"
+                      />
+                      {shopDetails[0]?.expired && (
+                        <p className="absolute top-[14rem] lg:top-[15.1rem] uppercase text-xs bg-bellefuGreen px-3 py-1 rounded-tl-md rounded-br-md text-bellefuWhite font-medium">
+                          expired
+                        </p>
+                      )}
+
+                      <p className="my-5 text-2xl font-semibold">
+                        {shopDetails[0]?.shopName}
+                      </p>
+                      {/* <BsShopWindow className="text-7xl lg:text-9xl mb-5 text-gray-600" /> */}
                       <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
                         You do not have any products in your shop
                       </p>
-                      <div onClick={() => router.push("/shop/upload-product")}>
+                      <div>
                         {" "}
-                        <button
-                          onClick={() => router.push("/shop/upload-product")}
-                          className="py-1 lg:py-3 hover:bg-orange-400 mt-16 px-8 lg:px-12 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg"
-                        >
-                          Add products
-                        </button>
+                        {shopDetails[0]?.expired ? (
+                          <button
+                            // onClick={() => router.push("/shop/upload-product")}
+                            className="py-1 md:py-2  mt-16 px-7 lg:px-6 rounded-full bg-bellefuGreen text-white text-sm lg:text-lg"
+                          >
+                            Renew Subscription
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => router.push("/shop/upload-product")}
+                            className="py-1 lg:py-2 hover:bg-orange-400 mt-16 px-7 lg:px-6 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg"
+                          >
+                            Add products
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

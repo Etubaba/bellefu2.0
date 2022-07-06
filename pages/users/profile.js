@@ -53,7 +53,6 @@ const profile = ({ data1 }) => {
     },
   });
 
-
   const router = useRouter();
   const disable = useSelector((state) => state.bellefu.formDisabler);
   const dispatch = useDispatch();
@@ -142,8 +141,8 @@ const profile = ({ data1 }) => {
       .catch((err) =>
         err
           ? toast.error("Something happend. Try again", {
-            position: "top-center",
-          })
+              position: "top-center",
+            })
           : null
       );
   };
@@ -436,11 +435,11 @@ const profile = ({ data1 }) => {
                   onClose={() => setModalOpen(false)}
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
-                // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+                  // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
                 >
                   <div
                     className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
-                  // sx={edit}
+                    // sx={edit}
                   >
                     <div className="flex justify-center items-center">
                       {/* <WarningAmberIcon sx={{ fontSize: 50 }} /> */}
@@ -465,10 +464,10 @@ const profile = ({ data1 }) => {
                       </button>
                       <button
                         className=" bg-bellefuGreen rounded-md py-2 px-5"
-                        onClick={() => router.push('/createShop')}
+                        onClick={() => router.push("/createShop")}
                       >
                         <p className="text-xs text-white md:text-[15px]">
-                          create Shop
+                          Create Shop
                         </p>
                       </button>
                       <button
@@ -514,9 +513,7 @@ profile.Layout = Layout;
 export default profile;
 
 export async function getServerSideProps() {
-  const res1 = await fetch(
-    `${webApi}get/postadd`
-  );
+  const res1 = await fetch(`${webApi}get/postadd`);
 
   const data1 = await res1.json();
 

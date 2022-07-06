@@ -33,12 +33,6 @@ const SingleProductSlider = ({ sliderDetails }) => {
           />
         ))}
       </Carousel>
-
-      {plan === "free" ? (
-        <p className="absolute top-2 lg:top-5 uppercase text-xs bg-bellefuGreen px-3 py-1 rounded-tl-md rounded-br-md text-bellefuWhite font-medium">
-          promoted
-        </p>
-      ) : null}
     </div>
   );
 };

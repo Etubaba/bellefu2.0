@@ -303,7 +303,7 @@ function Verifyaccount() {
                 <MdVerified
                   className={
                     isverified?.phone || phoneAlt
-                      ? "text-black/70 text-xl"
+                      ? "text-[#FECD29] text-xl"
                       : "text-[#A6A6A6] text-xl"
                   }
                 />
@@ -607,7 +607,15 @@ function Verifyaccount() {
 
             {preview !== undefined && idopen && !idsubmitted && (
               <div className="md:h-80 h-auto  ">
-                <div className="md:flex block items-center space-y-5 md:space-y-0 my-10 justify-center">
+                <div className="md:px-16 hidden text-semibold text-xl mb-3 mt-12 px-5 text-center justify-around items-center md:flex">
+                  <p>Front Of ID</p>
+                  <p>Back Of ID</p>
+                </div>
+                <div className="md:flex block items-center space-y-5 md:space-y-0 mb-10 justify-center">
+                  <p className="text-center md:hidden mt-3 font-semibold">
+                    {" "}
+                    Front Of ID
+                  </p>
                   <div className="md:h-40  md:mx-0 md:w-[40%] px-2 md:px-0 w-full h-auto  md:mr-3 justify-center items-center  border-dashed border">
                     <img
                       alt="invincible"
@@ -615,6 +623,10 @@ function Verifyaccount() {
                       className="md:h-[98%] md:w-[99%] w-full h-98% object-contain rounded"
                     />
                   </div>
+                  <p className="text-center md:hidden mt-3 font-semibold">
+                    {" "}
+                    Back Of ID
+                  </p>
                   <div className="md:h-40 md:w-[40%] px-2 md:px-0 h-auto w-full items-center justify-center border-dashed border">
                     {preview2 === undefined ? (
                       <Dropzone
