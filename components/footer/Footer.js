@@ -62,12 +62,20 @@ function Footer() {
             {openComm && (
               <ul className="ml-2 -mt-2 space-y-1">
                 <li>
-                  <a target='_blank' href="https://www.radio.bellefu.com " className="link ">
+                  <a
+                    target="_blank"
+                    href="https://www.radio.bellefu.com "
+                    className="link "
+                  >
                     Online Radio
                   </a>
                 </li>
                 <li>
-                  <a target='_blank' href="https://www.blog.bellefu.com" className="link">
+                  <a
+                    target="_blank"
+                    href="https://www.blog.bellefu.com"
+                    className="link"
+                  >
                     Blog
                   </a>
                 </li>
@@ -89,12 +97,17 @@ function Footer() {
             {openAcademy && (
               <ul className="ml-2 -mt-2 space-y-1">
                 <li>
-                  <a target='_blank' href="https://www.webinar.bellefu.com" className="link">
+                  <a
+                    target="_blank"
+                    href="https://www.webinar.bellefu.com"
+                    className="link"
+                  >
                     Webinar
                   </a>{" "}
                 </li>
                 <li>
-                  <a target='_blank'
+                  <a
+                    target="_blank"
                     href="https://chat.whatsapp.com/IJW6VM4aVnG6AOASxx9VIV"
                     className="link"
                   >
@@ -128,7 +141,8 @@ function Footer() {
               Contact
             </li>
             <li>
-              <a target='_blank'
+              <a
+                target="_blank"
                 href="https://www.youtube.com/channel/UCOmmJSiICuspcEjyj4nFx0Q"
                 className="link"
               >
@@ -145,11 +159,27 @@ function Footer() {
 
           <ul className="list-none  font-light space-y-2 text-[#D4D7D1] text-sm">
             <li>
-              <a target='_blank' className="link" href="https://linktr.ee/bellefu">
+              <a
+                target="_blank"
+                className="link"
+                href="https://linktr.ee/bellefu"
+              >
                 Linktree
               </a>
             </li>
-            <li onClick={() => router.push("/policy")} className="link">
+            <li>
+              <a
+                target="_blank"
+                className="link"
+                href="https://about.bellefu.com/"
+              >
+                About us
+              </a>
+            </li>
+            <li
+              onClick={() => router.push("/policy")}
+              className="link cursor-pointer"
+            >
               Legal
             </li>
           </ul>
@@ -200,33 +230,45 @@ function Footer() {
 
       <div className="flex justify-between mt-10 mx-5 items-center space-x-3 ">
         <div className="space-x-4 flex justify-evenly">
-          <a target='_blank' href="https://web.facebook.com/Bellefu.official">
+          <a target="_blank" href="https://web.facebook.com/Bellefu.official">
             <BsFacebook className=" hover:text-gray-500   text-[#d4d7d1] link text-2xl" />
           </a>
 
-          <a target='_blank' href="https://twitter.com/Bellefuofficial">
+          <a target="_blank" href="https://twitter.com/Bellefuofficial">
             <AiFillTwitterCircle className="text-[#d4d7d1] hover:text-gray-500  text-3xl" />
           </a>
-          <a target='_blank' href=" https://www.instagram.com/bellefu_official/">
+          <a
+            target="_blank"
+            href=" https://www.instagram.com/bellefu_official/"
+          >
             <AiOutlineInstagram className="text-[#d4d7d1] hover:text-gray-500  text-3xl" />
           </a>
-          <a target='_blank' href="https://www.linkedin.com/company/67955966/">
+          <a target="_blank" href="https://www.linkedin.com/company/67955966/">
             <FaLinkedin className="text-[#d4d7d1] hover:text-gray-500  mt-1 text-2xl" />
           </a>
-          <a target='_blank' href="https://www.youtube.com/channel/UCOmmJSiICuspcEjyj4nFx0Q">
+          <a
+            target="_blank"
+            href="https://www.youtube.com/channel/UCOmmJSiICuspcEjyj4nFx0Q"
+          >
             <BsYoutube className=" hover:text-gray-500  mt-[3px] text-[#d4d7d1] link text-3xl" />
           </a>
         </div>
 
         <div className=" flex">
-          <a target='_blank' href="https://play.google.com/store/apps/details?id=com.bellefu_farmers_market.bellefu">
+          <a
+            target="_blank"
+            href="https://play.google.com/store/apps/details?id=com.bellefu_farmers_market.bellefu"
+          >
             <img
               alt="error"
               src="https://www.linkpicture.com/q/play-removebg-preview-1.png"
               className="w-40 h-10 mr-6"
             />
           </a>
-          <a target='_blank' href="https://apps.apple.com/us/app/bellefu/id1556135856">
+          <a
+            target="_blank"
+            href="https://apps.apple.com/us/app/bellefu/id1556135856"
+          >
             <img
               alt="error"
               src="https://www.linkpicture.com/q/ios-removebg-preview.png"

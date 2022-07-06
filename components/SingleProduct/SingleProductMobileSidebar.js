@@ -20,7 +20,7 @@ import axios from "axios";
 
 import { apiData, UserAvataUrl } from "../../constant";
 
-const SingleProductMobileSidebar = ({ mobileDetails,verified }) => {
+const SingleProductMobileSidebar = ({ mobileDetails, verified }) => {
   const isLoggedIn = useSelector(login);
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -163,7 +163,6 @@ const SingleProductMobileSidebar = ({ mobileDetails,verified }) => {
     }
   };
 
-
   return (
     <div className="bg-bellefuWhite">
       <div className="flex flex-col space-y-3">
@@ -202,14 +201,13 @@ const SingleProductMobileSidebar = ({ mobileDetails,verified }) => {
               <GoVerified
                 className={
                   verified?.phone && !verified?.id && !verified?.kyc
-                    ? "text-black/70 w-3 h-3"
+                    ? "text-[#FECD29] w-3 h-3"
                     : !verified?.kyc && verified?.id && verified?.phone
-                      ? "w-3 h-3 text-bellefuOrange"
-                      : verified?.id && verified?.phone && verified?.kyc
-                        ? "w-3 h-3 text-bellefuGreen"
-                        : "w-3 h-3 text-[#A6A6A6]"
+                    ? "w-3 h-3 text-bellefuOrange"
+                    : verified?.id && verified?.phone && verified?.kyc
+                    ? "w-3 h-3 text-bellefuGreen"
+                    : "w-3 h-3 text-[#A6A6A6]"
                 }
-
               />
             </div>
             <div className="flex items-center mt-1 space-x-2">
@@ -316,13 +314,13 @@ const SingleProductMobileSidebar = ({ mobileDetails,verified }) => {
               </div>
             )}
             {/* my shop */}
-            <div
+            {/* <div
               onClick={() => router.push(`/shop/${mobileDetails[0]?.userId}`)}
               className="flex items-center mt-3 border w-full py-2 space-x-3 rounded-md bg-gradient-to-r from-bellefuGreen to-bellefuOrange justify-center cursor-pointer"
             >
               <RiShoppingCart2Fill className="w-4 h-4 text-white" />
               <p className="text-white font-medium text-sm">Shop</p>
-            </div>
+            </div> */}
           </div>
         </div>
 

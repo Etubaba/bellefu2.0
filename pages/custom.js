@@ -47,7 +47,7 @@ export default function Custom() {
       e.preventDefault();
       const formdata = new FormData();
 
-      formdata.append('fullname', fname);
+      formdata.append("fullname", fname);
       formdata.append("email", emaile);
       formdata.append("number", phone);
       formdata.append("comment", comments);
@@ -97,9 +97,9 @@ export default function Custom() {
   return (
     <div className="justify-center align-middle flex">
       {loading ? (
-        <div className=" shadow bg-bellefuWhite lg:w-[50%] m-5 rounded-md mt-24  p-5">
+        <div className=" shadow bg-bellefuWhite lg:w-[50%] m-5 rounded-md mt-32  p-5">
           <div className="justify-center align-middle text-center">
-            <h2 className="text-2xl font-bold">CUSTOM REQUEST</h2>
+            <h2 className="text-2xl font-bold">SPECIAL REQUEST</h2>
             <p>
               Do you have a custom request? Please use the form below to let us
               know about it.

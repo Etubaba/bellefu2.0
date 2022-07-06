@@ -109,7 +109,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
   // handle message open
   const handleMessage = () => {
     if (isLoggedIn) {
-      setOpen4(!open);
+      setOpen4(!open4);
     } else {
       setModalOpen(true);
     }
