@@ -322,9 +322,7 @@ const NavBar = () => {
                     <img
                       // src={username?.avatar ? `https://bellefu.inmotionhub.xyz/get/user/images/${username?.avatar}` : "https://img.freepik.com/free-photo/organic-food-farm_342744-1362.jpg"}
                       src={`${UserAvataUrl}${username?.avatar}`}
-                      width={30}
-                      height={30}
-                      className="rounded-full object-cover"
+                      className="rounded-full w-[2rem] h-[2rem] object-cover"
                     />
                     {unseen !== 0 ? (
                       <p className="bg-bellefuOrange -top-2 left-5 h-5 w-5 absolute flex items-center justify-center rounded-full">
