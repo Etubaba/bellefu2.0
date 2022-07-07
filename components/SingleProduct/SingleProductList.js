@@ -97,7 +97,7 @@ const SingleProductList = ({ similarProductDetail }) => {
   };
 
   return (
-    <div className="bg-bellefuWhite p-3 rounded-b-md">
+    <div className="bg-bellefuWhite shadow-md mb-2 p-3 rounded-b-md">
       <img
         onClick={() =>
           router.push(`/product/${similarProductDetail.productId}`)
@@ -136,7 +136,7 @@ const SingleProductList = ({ similarProductDetail }) => {
           </div>
         )}
       </div>
-      <div className="flex items-center mt-2 space-x-3">
+      {/* <div className="flex items-center mt-2 space-x-3">
         <button
           onClick={() => {
             if (isLoggedIn) {
@@ -167,7 +167,7 @@ const SingleProductList = ({ similarProductDetail }) => {
         >
           <MdCall className="text-white " />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

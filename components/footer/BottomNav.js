@@ -73,13 +73,13 @@ const BottomNav = () => {
   };
 
   return (
-    <div className="lg:hidden fixed z-50 bottom-0  bg-bellefuGreen w-full h-16 px-7 p-3 justify-center items-center flex  ">
+    <div className="lg:hidden fixed z-[1000] bottom-0  bg-bellefuGreen w-full h-16 px-7 p-3 justify-center items-center flex  ">
       <div className="flex space-x-12 md:space-x-24 ">
         <AiFillHome className="text-2xl text-white" onClick={() => router.push("/")} />
         <FaHeart className="text-white text-2xl" onClick={handlefav} />
       </div>
       {loading && <Loader isLoading={loading} />}
-      <div className="relative flex -mt-4 justify-center items-center h-screen w-screen">
+      <div className="relative flex -mt-4 justify-center items-center w-screen">
         <div
           className="h-12 w-24 bg-bellefuBackground 
                                    rounded-bl-full rounded-br-full "

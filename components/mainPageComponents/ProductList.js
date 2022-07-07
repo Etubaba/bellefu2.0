@@ -127,7 +127,7 @@ const ProductList = ({
 
 
   return (
-    <div className="bg-bellefuWhite p-2 rounded-b-md">
+    <div className="bg-bellefuWhite shadow-md mb-2 p-2 rounded-b-md">
       {loading && <Loader isLoading={loading} />}
       {product?.inStock ? (
         <>
@@ -326,7 +326,7 @@ const ProductList = ({
             </Box>
           </Modal>
 
-          <div className="flex items-center mt-2 space-x-3">
+          {/* <div className="flex items-center mt-2 space-x-3">
             <button
               onClick={handleMessage}
               className="bg-bellefuOrange rounded-md w-full flex items-center justify-center py-4"
@@ -339,7 +339,7 @@ const ProductList = ({
             >
               <MdCall className="text-white " />
             </button>
-          </div>
+          </div> */}
         </>
       ) : (
         <>

@@ -113,7 +113,7 @@ const CategoryProductList = ({ product }) => {
   };
 
   return (
-    <div className="bg-bellefuWhite p-3 rounded-b-md cursor-pointer">
+    <div className="bg-bellefuWhite shadow-md mb-2 p-3 rounded-b-md cursor-pointer">
       <img
         onClick={() => router.push(`/product/${product?.productId}`)}
         src={`${productImageUrl}${product?.images[0]}`}
@@ -148,7 +148,7 @@ const CategoryProductList = ({ product }) => {
           </div>
         )}
       </div>
-      <div className="flex items-center space-x-3 mt-2">
+      {/* <div className="flex items-center space-x-3 mt-2">
         <button
           className="bg-bellefuOrange w-full  rounded-md py-3 flex items-center justify-center"
           onClick={handleMessage}
@@ -161,7 +161,7 @@ const CategoryProductList = ({ product }) => {
         >
           <MdCall className="text-white w-5 h-5" />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

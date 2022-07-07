@@ -84,7 +84,7 @@ const FavouriteProduct = ({ product }) => {
   }
 
   return (
-    <div className="bg-bellefuWhite mb-5 p-3 rounded-b-md">
+    <div className="bg-bellefuWhite shadow-md  mb-5 p-3 rounded-b-md">
       <img
         onClick={() => router.push(`/product/${product.productId}`)}
         src={`${productImageUrl}${product.images[0]}`}
@@ -149,7 +149,7 @@ const FavouriteProduct = ({ product }) => {
 
 
       </div>
-      <div className="flex items-center space-x-3 mt-2">
+      {/* <div className="flex items-center space-x-3 mt-2">
         <button
           onClick={handleMessage}
           className="bg-bellefuOrange rounded-md w-full flex items-center justify-center py-4">
@@ -160,7 +160,7 @@ const FavouriteProduct = ({ product }) => {
           className="bg-bellefuGreen w-full flex items-center justify-center py-4 rounded-md">
           <MdCall className="text-white" />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
