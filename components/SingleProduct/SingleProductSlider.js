@@ -15,7 +15,7 @@ const SingleProductSlider = ({ sliderDetails }) => {
   const images = sliderDetails[0]?.images;
 
   return (
-    <div className="p-2 lg:p-5 bg-bellefuWhite rounded-t-md relative">
+    <div className="p-2 lg:p-5 bg-bellefuWhite rounded-t-md  relative">
       <Carousel
         showArrows={true}
         showThumbs={false}
@@ -29,7 +29,7 @@ const SingleProductSlider = ({ sliderDetails }) => {
             loading="lazy"
             src={`${productImageUrl}${image}`}
             key={index}
-            className="rounded-md h-48 md:60 lg:h-80 w-full object-cover sm:object-fill "
+            className="rounded-md h-48 md:60 lg:h-80 w-full object-contain sm:object-fill "
           />
         ))}
       </Carousel>
