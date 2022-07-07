@@ -91,12 +91,12 @@ const MobileShopSideBar = ({ userDetails }) => {
     <div className="bg-bellefuWhite rounded-md flex flex-col pb-5 w-full lg:hidden mt-4">
       {/* user brief info */}
       <div className="mt-5 flex flex-col items-center justify-center">
-        <Image
+        <img
           src={`${PRODUCT_IMAGE_URL}${userDetails?.logo}`}
-          width={150}
-          height={150}
+          // width={150}
+          // height={150}
           alt=""
-          className="rounded-full object-cover"
+          className="rounded-full w-20 h-20 object-cover"
         />
         <div className="flex items-center space-x-2 mt-2">
           <p className="text-bellefuTitleBlack font-semibold">
