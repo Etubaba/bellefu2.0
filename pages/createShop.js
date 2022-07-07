@@ -35,6 +35,7 @@ export default function CreateShop() {
   const [files2, setFiles2] = useState(null);
   const [govid, setGovid] = useState([]);
   const [paymentModal, setPaymentModal] = useState(false);
+  const [subType, setSubType] = useState(0);
 
   const router = useRouter();
 
@@ -95,6 +96,7 @@ export default function CreateShop() {
       formData.append("countryCode", userThings?.country_code);
       formData.append("stateCode", userThings?.state);
       formData.append("address", address);
+      formData.append("subType", subType === 25 ? "monthly" : "yearly");
       formData.append("accountNumber", accountnumber);
       formData.append("accountType", accounttype);
       formData.append("accountName", accountname);
@@ -224,7 +226,7 @@ export default function CreateShop() {
         aria-describedby="modal-modal-description"
       >
         <div className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   w-[70%] md:w-[70%] lg:w-[70%]">
-          <Payment modal={setPaymentModal} />
+          <Payment sub={setSubType} modal={setPaymentModal} />
         </div>
       </Modal>
 
