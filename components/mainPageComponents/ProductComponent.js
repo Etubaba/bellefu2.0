@@ -31,7 +31,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [suggestion, setSuggestion] = useState([]);
   const [fav, setFav] = useState([]);
-  const [grid, setGrid] = useState(false);
+  const [grid, setGrid] = useState(true);
   const [page, setPage] = useState(1);
   const [productIndex, setProductIndex] = useState([]);
   const [totalPage, setTotalPage] = useState(1);

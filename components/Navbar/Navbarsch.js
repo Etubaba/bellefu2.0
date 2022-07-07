@@ -70,7 +70,8 @@ const HeaderSearch = () => {
                   setSelectlang(false);
                   setOpen(false);
                   setSelectCountry(!selectCountry);
-                }}>
+                }}
+              >
                 <img
                   alt="error"
                   className="w-16 h-7"
@@ -89,7 +90,9 @@ const HeaderSearch = () => {
                   setSelectCountry(!selectCountry);
                 }}
                 className={
-                  selectCountry ? "text-bellefuOrange text-2xl" : "text-gray-600 text-2xl"
+                  selectCountry
+                    ? "text-bellefuOrange text-2xl"
+                    : "text-gray-600 text-2xl"
                 }
               />
             </div>
