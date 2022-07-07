@@ -24,7 +24,7 @@ function Mobilefooter() {
   return (
     <div className="bg-[#191A19] lg:hidden mt-3 md:mt-7 md:px-7 px-2 w-full h-auto relative bottom-0 pb-24 ">
       <div className="flex flex-col md:flex-row space-y-2 md:space-x-2 mt-3">
-        <div className='hidden md:inline-block'>
+        <div className="hidden md:inline-block">
           <div className="-mt-1  md:-mt-0 md:w-2/5 flex items-center justify-center md:justify-start">
             <img
               alt="logo"
@@ -131,6 +131,12 @@ function Mobilefooter() {
                 )}
               </span>
             </li>
+            <li className="link text-gray-300">
+              <a tabIndex="_blank" href="https://about.bellefu.com/">
+                About
+              </a>
+            </li>
+
             {openInfo && (
               <ul className="list-none  font-light space-y-2 text-[#D4D7D1] text-sm ml-2">
                 <li>

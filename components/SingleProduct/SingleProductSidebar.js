@@ -31,6 +31,9 @@ const SingleProductSidebar = ({ userDetails, verified }) => {
 
   const receiverId = userDetails[0]?.userId;
   const senderId = useSelector((state) => state.bellefu?.profileDetails?.id);
+  const userPhone = useSelector(
+    (state) => state.bellefu?.profileDetails?.phone
+  );
 
   const isLoggedIn = useSelector(login);
   const handleMessage = () => {
@@ -260,6 +263,45 @@ const SingleProductSidebar = ({ userDetails, verified }) => {
                 className="ml-12 w-7 h-7 text-gray-400 pr-1 cursor-pointer"
                 onClick={() => setOpen(!open)}
               />
+            </div>
+            <div className="overflow-x-scroll w-full  text-sm flex space-x-5">
+              <pre
+                onClick={() => setMessage("Hello")}
+                className="border  border-bellefuOrange px-6 py-2 rounded-lg hover:bg-gray-300 text-center"
+              >
+                Hello
+              </pre>
+              <pre
+                onClick={() => setMessage("Is this available")}
+                className="border   border-bellefuOrange px-6 py-2 rounded-lg hover:bg-gray-300 text-center"
+              >
+                Is this available
+              </pre>
+              <pre
+                onClick={() => setMessage("Nice Product")}
+                className="border  border-bellefuOrange px-6 py-2 rounded-lg hover:bg-gray-300 text-center"
+              >
+                Nice Product
+              </pre>
+              <pre
+                onClick={() => setMessage(`contact me ${userPhone}`)}
+                className="border  border-bellefuOrange px-6 py-2 rounded-lg hover:bg-gray-300 text-center"
+              >
+                contact me
+              </pre>
+              <pre
+                onClick={() => setMessage("I want to order")}
+                className="border  border-bellefuOrange px-6 py-2 rounded-lg hover:bg-gray-300 text-center"
+              >
+                I want to order
+              </pre>
+              <pre
+                onClick={() => setMessage("What is the actual price")}
+                className="border  border-bellefuOrange px-6 py-2 rounded-lg hover:bg-gray-300 text-center"
+              >
+                {" "}
+                Actual price
+              </pre>
             </div>
 
             <textarea

@@ -49,6 +49,9 @@ const SingleProductDescription = ({ productDetails, verified }) => {
 
   const receiverId = productDetails[0]?.productOwnerId;
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
+  const userPhone = useSelector(
+    (state) => state.bellefu?.profileDetails?.phone
+  );
   const isLoggedIn = useSelector(login);
   const dispatch = useDispatch();
   const scroll = useSelector((state) => state.bellefu?.msgScroll);
@@ -498,8 +501,8 @@ const SingleProductDescription = ({ productDetails, verified }) => {
               </div>
               {/* message box */}
               {open4 && (
-                <div className="border bg-bellefuBackground divide-y w-1/2 border-orange-200 rounded-md">
-                  <div className="flex items-center py-1">
+                <div className="border bg-bellefuBackground divide-y w-[30rem] border-orange-200 rounded-md">
+                  <div className="flex justify-between py-1">
                     <div className="flex items-center w-full space-x-3 rounded-md justify-end">
                       <RiMessage2Fill className="w-4 h-4 text-gray-500" />{" "}
                       <p className="text-gray-400 font-normal text-sm cursor-pointer">
@@ -510,6 +513,45 @@ const SingleProductDescription = ({ productDetails, verified }) => {
                       className="ml-12 w-7 h-7 text-gray-400 pr-1 cursor-pointer"
                       onClick={() => setOpen4(!open4)}
                     />
+                  </div>
+                  <div className="overflow-x-scroll w-full  text-sm flex space-x-5">
+                    <pre
+                      onClick={() => setMessage("Hello")}
+                      className="border  border-bellefuOrange px-6 py-2 cursor-pointer rounded-lg hover:bg-gray-300 text-center"
+                    >
+                      Hello
+                    </pre>
+                    <pre
+                      onClick={() => setMessage("Is this available")}
+                      className="border   border-bellefuOrange px-6 py-2 cursor-pointer rounded-lg hover:bg-gray-300 text-center"
+                    >
+                      Is this available
+                    </pre>
+                    <pre
+                      onClick={() => setMessage("Nice Product")}
+                      className="border  border-bellefuOrange px-6 py-2 cursor-pointer rounded-lg hover:bg-gray-300 text-center"
+                    >
+                      Nice Product
+                    </pre>
+                    <pre
+                      onClick={() => setMessage(`contact me ${userPhone}`)}
+                      className="border  border-bellefuOrange px-6 py-2 cursor-pointer rounded-lg hover:bg-gray-300 text-center"
+                    >
+                      contact me
+                    </pre>
+                    <pre
+                      onClick={() => setMessage("I want to order")}
+                      className="border  border-bellefuOrange px-6 py-2 cursor-pointer rounded-lg hover:bg-gray-300 text-center"
+                    >
+                      I want to order
+                    </pre>
+                    <pre
+                      onClick={() => setMessage("What is the actual price")}
+                      className="border  border-bellefuOrange px-6 py-2 cursor-pointer rounded-lg hover:bg-gray-300 text-center"
+                    >
+                      {" "}
+                      Actual price
+                    </pre>
                   </div>
 
                   <textarea
