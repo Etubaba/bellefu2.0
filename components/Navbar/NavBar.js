@@ -432,7 +432,7 @@ const NavBar = () => {
             {/* end of user profile */}
             {/* login register place */}
             {!getIsLoggedIn && (
-              <div className="text-white flex space-x-5 capitalize text-md font-semibold">
+              <div className="text-white flex space-x-5 capitalize text-md cursor-pointer font-semibold">
                 <p
                   className="hover:text-gray-200"
                   onClick={() => {
@@ -443,7 +443,7 @@ const NavBar = () => {
                   Register
                 </p>
                 <p
-                  className="hover:text-gray-200"
+                  className="hover:text-gray-200 cursor-pointer"
                   onClick={() => {
                     router.push("/login");
                     setLoading(!loading);

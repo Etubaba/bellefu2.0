@@ -68,14 +68,10 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
   // getting random ads
   useEffect(() => {
     if (page > 1) {
-      axios
-        .get(
-          `${indexAPI}?page=${page}`
-        )
-        .then((res) => {
-          setProductIndex(res.data?.products?.data);
-          setTotalPage(res.data?.products?.last_page);
-        });
+      axios.get(`${indexAPI}?page=${page}`).then((res) => {
+        setProductIndex(res.data?.products?.data);
+        setTotalPage(res.data?.products?.last_page);
+      });
     }
   }, [page]);
 
@@ -339,7 +335,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       </div>
       {/* the ads start here */}
 
-      <div className="my-5">
+      <div className="my-7">
         <a href={randomAdverts?.action} target="_blank">
           <img
             src={`${commercialUrl}${randomAdverts?.image}`}
@@ -385,7 +381,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       {/* the ads start here */}
 
       {main.length > 8 && (
-        <a href={randomImage1?.action} target="_blank" className="my-5">
+        <a href={randomImage1?.action} target="_blank" className="my-7">
           <img
             src={`${commercialUrl}${randomImage1?.image}`}
             alt="ads"
@@ -395,7 +391,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       )}
 
       <div
-        className={classNames("bg-bellefuBackground mt-1 rounded-md", {
+        className={classNames("bg-bellefuBackground mt-3 rounded-md", {
           "grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 grid-flow-row-dense":
             main?.length,
           "grid-cols-2 sm:grid-cols-2": grid,
@@ -439,7 +435,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       )}
 
       <div
-        className={classNames("bg-bellefuBackground mt-1 rounded-md", {
+        className={classNames("bg-bellefuBackground mt-3 rounded-md", {
           "grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 grid-flow-row-dense":
             main?.length,
           "grid-cols-2 sm:grid-cols-2": grid,
