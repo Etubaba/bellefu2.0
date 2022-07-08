@@ -190,8 +190,6 @@ const NavBar = () => {
   const randomAnouncement =
     announcement[Math.floor(Math.random() * announcement?.length)];
 
-  console.log("user", username);
-
   return (
     <div className="fixed top-0 z-[1000] w-full ">
       {loading && <Loader isLoading={loading} />}
