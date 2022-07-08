@@ -269,7 +269,7 @@ const Register = ({ data, countries, countries1 }) => {
                   id="first-name"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  First Name
+                  First Name <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <p>
@@ -289,7 +289,7 @@ const Register = ({ data, countries, countries1 }) => {
                   id="first-name"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  Last Name
+                  Last Name <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <p>
@@ -311,7 +311,7 @@ const Register = ({ data, countries, countries1 }) => {
                   id="phone"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700 z-0"
                 >
-                  Phone Number
+                  Phone Number <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <div
@@ -409,7 +409,7 @@ const Register = ({ data, countries, countries1 }) => {
                   id="gender"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  Gender
+                  Gender <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <p>
@@ -438,7 +438,7 @@ const Register = ({ data, countries, countries1 }) => {
                   id="country"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  Country
+                  Country <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <p>
@@ -469,7 +469,7 @@ const Register = ({ data, countries, countries1 }) => {
                   id="user-name"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  User Name
+                  User Name <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <p>
@@ -496,7 +496,7 @@ const Register = ({ data, countries, countries1 }) => {
                   id="password"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  Password
+                  Password <strong className="text-red-500">*</strong>
                 </label>
               </p>
               {showPassword ? (

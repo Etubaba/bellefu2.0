@@ -48,7 +48,7 @@ const MobileCategoryBar = ({ categories }) => {
               />
             )}
             {loading ? <h5 className="text-bellefuBlack1 text-xs text-center font-medium">
-              custom request
+              Special request
             </h5> : <Skeleton
               className="rounded-md mt-2"
 

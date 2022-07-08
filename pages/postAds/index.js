@@ -98,7 +98,7 @@ function Index({ data1, data2 }) {
                           for="first-name"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Category
+                          Category <strong className="text-red-500">*</strong>
                         </label>
                         <UnstyledSelectSimple1
                           category={data2}
@@ -111,7 +111,7 @@ function Index({ data1, data2 }) {
                           for="last-name"
                           className="block  text-sm font-medium text-gray-700"
                         >
-                          Sub-Category
+                          Sub-Category <strong className="text-red-500">*</strong>
                         </label>
                         <UnstyledSelectSimple2
                           subCategory={subcat}
@@ -123,7 +123,7 @@ function Index({ data1, data2 }) {
                           for="email"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Country
+                          Country <strong className="text-red-500">*</strong>
                         </label>
                         <UnstyledSelectSimple3
                           countryStuffs={data1}
@@ -135,7 +135,7 @@ function Index({ data1, data2 }) {
                           for="email"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          State
+                          State <strong className="text-red-500">*</strong>
                         </label>
                         <UnstyledSelectSimple4
                           countryStuffs={data1}
@@ -149,7 +149,7 @@ function Index({ data1, data2 }) {
                           for="email"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Lga/City
+                          Lga/City <strong className="text-red-500">*</strong>
                         </label>
                         <UnstyledSelectSimple5 lga={lga} checker3={checker3} />
                       </div>
@@ -157,7 +157,7 @@ function Index({ data1, data2 }) {
                         <label
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Location
+                          Location <strong className="text-red-500">*</strong>
                         </label>
                         <input
                           type="text"

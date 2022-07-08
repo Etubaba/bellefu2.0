@@ -85,7 +85,7 @@ export default function Details() {
                       for="first-name"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Product title
+                      Product title <strong className="text-red-500">*</strong>
                     </label>
                     <input
                       onChange={handleTitle}
@@ -100,7 +100,7 @@ export default function Details() {
                       for="last-name"
                       className="flex text-sm font-medium text-gray-700"
                     >
-                      Product Price
+                      Product Price <strong className="text-red-500">*</strong>
                       
                     </label>
                     <div className=" relative bottom-[3px] pl-[7px]">
@@ -125,7 +125,7 @@ export default function Details() {
                       for="email"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      tags
+                      tags <strong className="text-red-500">*</strong>
                     </label>
                     <label className="block text-sm font-medium text-gray-700">
                       Maximum : {inputtxtarr.length}/5
