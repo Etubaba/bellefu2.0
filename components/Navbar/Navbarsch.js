@@ -74,7 +74,7 @@ const HeaderSearch = () => {
               >
                 <img
                   alt="error"
-                  className="w-16 h-7"
+                  className="w-10 h-7"
                   src={
                     flag === null
                       ? `https://flagcdn.com/32x24/${location?.toLowerCase()}.png`

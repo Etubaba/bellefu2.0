@@ -351,7 +351,7 @@ const profile = ({ data1 }) => {
                           for="state"
                           className="block  text-sm font-medium text-gray-700"
                         >
-                          States/Province:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                          States/Province <strong className="text-red-500">*</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                           {userCountrythings.statesname}
                         </label>
                         <UnstyledSelectSimple3
@@ -366,7 +366,7 @@ const profile = ({ data1 }) => {
                           for="email"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          LGA/City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                          LGA/City <strong className="text-red-500">*</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                           {userCountrythings.lganame}
                         </label>
                         <UnstyledSelectSimple5
@@ -380,7 +380,7 @@ const profile = ({ data1 }) => {
                           for="last-name"
                           className="block  text-sm font-medium text-gray-700"
                         >
-                          Gender
+                          Gender <strong className="text-red-500">*</strong>
                         </label>
                         <input
                           value={userThings?.gender === "F" ? "Female" : "Male"}
@@ -396,7 +396,7 @@ const profile = ({ data1 }) => {
                           for="last-name"
                           className="block  text-sm font-medium text-gray-700"
                         >
-                          Address
+                          Address <strong className="text-red-500">*</strong>
                         </label>
                         <input
                           defaultValue={userThings?.address}
@@ -417,7 +417,7 @@ const profile = ({ data1 }) => {
                     htmlFor="about"
                     className=" text-sm flex justify-between font-medium text-gray-700"
                   >
-                    About Me
+                    About Me <strong className="text-red-500">*</strong>
                     <p>{bioholder.length}/1500</p>
                   </label>
                   <div className="mt-1 ">

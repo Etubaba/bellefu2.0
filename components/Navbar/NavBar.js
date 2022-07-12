@@ -190,6 +190,8 @@ const NavBar = () => {
   const randomAnouncement =
     announcement[Math.floor(Math.random() * announcement?.length)];
 
+  // console.log("user", username);
+
   return (
     <div className="fixed top-0 z-[1000] w-full ">
       {loading && <Loader isLoading={loading} />}
@@ -221,7 +223,7 @@ const NavBar = () => {
           <Navbarsch />
           <div
             id="google_translate_element"
-            className="ml-4 max-w-[100px] md:max-w-[180px] lg:max-w-[180px]"
+            className="ml-4 max-w-[110px] md:max-w-[180px] lg:max-w-[180px]"
             translate="no"
           ></div>
         </div>
