@@ -30,6 +30,7 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const cartPath = useSelector((state) => state.bellefu?.fromCart);
   // const handleChange = (e) => {
   //   setSelectedAddress(e.target.checked);
 
@@ -76,7 +77,10 @@ const Checkout = () => {
     cartList.length > 0 ? cartList?.map((item) => item.cartId) : [];
 
   const handleOrder = () => {
-    if (cartList.length > 0 && hasPaid?.status === "successful") {
+    if (
+      cartList.length > 0
+      //&& hasPaid?.status === "successful"
+    ) {
       const formData = new FormData();
       formData.append("card", true);
       formData.append("userId", userId?.id);
@@ -87,10 +91,10 @@ const Checkout = () => {
       formData.append("stateCode", state);
       formData.append("countryCode", country);
       formData.append("phone", phone);
-      formData.append("transactionId", hasPaid?.transaction_id);
-      formData.append("tx_ref", hasPaid?.tx_ref);
+      //   formData.append("transactionId", hasPaid?.transaction_id);
+      //   formData.append("tx_ref", hasPaid?.tx_ref);
       formData.append("quantity", 1);
-      formData.append("gateway", gateway);
+      //   formData.append("gateway", gateway);
       formData.append("cartId", JSON.stringify(cartId));
       axios({
         method: "post",
@@ -209,161 +213,166 @@ const Checkout = () => {
               </section>
               <hr />
               <section className="px-3 py-2 mt-6">
-                <div className=" justify-center items-center flex flex-col space-y-5 md:space-y-0 md:flex-row">
-                  <div className="md:mr-auto">
-                    <button
-                      onClick={() => {
-                        handleFlutterPayment({
-                          callback: (response) => {
-                            setHasPaid(response);
-                            console.log(response);
-                            closePaymentModal();
-                            if (response.status === "successful") {
-                              dispatch(orderPayment(true));
-                              toast.success("Payment completed Successful");
-                            }
-                            // this will close the modal programmatically
-                          },
-                          onClose: () => {},
-                        });
-                        setGateway("flutterwave");
-                      }}
-                      className="flex items-center outline outline-bellefuOrange rounded-lg px-3 py-2"
-                    >
-                      <img src="/card.png" className="w-40" alt="visa card" />
-                      {/* <span className="pl-4 md:text-base text-sm">Pay with Card</span> */}
-                    </button>
+                {cartPath === "" && (
+                  <div className=" justify-center items-center flex flex-col space-y-5 md:space-y-0 md:flex-row">
+                    <div className="md:mr-auto">
+                      <button
+                        onClick={() => {
+                          handleFlutterPayment({
+                            callback: (response) => {
+                              setHasPaid(response);
+                              console.log(response);
+                              closePaymentModal();
+                              if (response.status === "successful") {
+                                dispatch(orderPayment(true));
+                                toast.success("Payment completed Successful");
+                              }
+                              // this will close the modal programmatically
+                            },
+                            onClose: () => {},
+                          });
+                          setGateway("flutterwave");
+                        }}
+                        className="flex items-center outline outline-bellefuOrange rounded-lg px-3 py-2"
+                      >
+                        <img src="/card.png" className="w-40" alt="visa card" />
+                        {/* <span className="pl-4 md:text-base text-sm">Pay with Card</span> */}
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => setGateway("paypal")}
+                        className="flex items-center outline outline-gray-200 rounded-lg px-3 "
+                      >
+                        <img
+                          src="/Paypal.png"
+                          className="w-40"
+                          alt="paypl card"
+                        />
+                        {/* <span className="pl-4 md:text-base text-sm">Pay with Paypal</span> */}
+                      </button>
+                    </div>
                   </div>
+                )}
+                {cartPath !== "" && (
                   <div>
-                    <button
-                      onClick={() => setGateway("paypal")}
-                      className="flex items-center outline outline-gray-200 rounded-lg px-3 "
-                    >
-                      <img
-                        src="/Paypal.png"
-                        className="w-40"
-                        alt="paypl card"
-                      />
-                      {/* <span className="pl-4 md:text-base text-sm">Pay with Paypal</span> */}
-                    </button>
+                    <div className="mb-4 mt-12">
+                      <p className="mb-2">
+                        <label
+                          htmlFor="card-no"
+                          className="font-semibold md:text-base text-sm"
+                        >
+                          Address
+                        </label>
+                      </p>
+                      <p>
+                        <input
+                          onChange={(e) => setAddress(e.target.value)}
+                          value={address}
+                          type="text"
+                          id="card-no"
+                          className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
+                        />
+                      </p>
+                    </div>
+                    <div className="mb-4">
+                      <p className="mb-2">
+                        <label
+                          htmlFor="card-no"
+                          className="font-semibold md:text-base text-sm"
+                        >
+                          City
+                        </label>
+                      </p>
+                      <p>
+                        <input
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          type="text"
+                          id="card-no"
+                          className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
+                        />
+                      </p>
+                    </div>
+                    <div className="mb-4">
+                      <p className="mb-2">
+                        <label
+                          htmlFor="card-no"
+                          className="font-semibold md:text-base text-sm"
+                        >
+                          State
+                        </label>
+                      </p>
+                      <p>
+                        <input
+                          value={state}
+                          onChange={(e) => setState(e.target.value)}
+                          type="text"
+                          id="card-no"
+                          className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
+                        />
+                      </p>
+                    </div>
+                    <div className="mb-4">
+                      <p className="mb-2">
+                        <label
+                          htmlFor="card-no"
+                          className="font-semibold md:text-base text-sm"
+                        >
+                          Zip Code
+                        </label>
+                      </p>
+                      <p>
+                        <input
+                          value={zip}
+                          onChange={(e) => setZip(e.target.value)}
+                          type="text"
+                          id="card-no"
+                          className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
+                        />
+                      </p>
+                    </div>
+                    <div className="mb-4">
+                      <p className="mb-2">
+                        <label
+                          htmlFor="card-no"
+                          className="font-semibold md:text-base text-sm"
+                        >
+                          Country
+                        </label>
+                      </p>
+                      <p>
+                        <input
+                          value={country}
+                          onChange={(e) => setCountry(e.target.value)}
+                          type="text"
+                          id="card-no"
+                          className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
+                        />
+                      </p>
+                    </div>
+                    <div className="mb-4">
+                      <p className="mb-2">
+                        <label
+                          htmlFor="card-no"
+                          className="font-semibold md:text-base text-sm"
+                        >
+                          Phone Number
+                        </label>
+                      </p>
+                      <p>
+                        <input
+                          placeholder="e.g +2348168776544"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          type="text"
+                          id="card-no"
+                          className="w-full  rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
+                        />
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="mb-4 mt-12">
-                  <p className="mb-2">
-                    <label
-                      htmlFor="card-no"
-                      className="font-semibold md:text-base text-sm"
-                    >
-                      Address
-                    </label>
-                  </p>
-                  <p>
-                    <input
-                      onChange={(e) => setAddress(e.target.value)}
-                      value={address}
-                      type="text"
-                      id="card-no"
-                      className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
-                    />
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p className="mb-2">
-                    <label
-                      htmlFor="card-no"
-                      className="font-semibold md:text-base text-sm"
-                    >
-                      City
-                    </label>
-                  </p>
-                  <p>
-                    <input
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      type="text"
-                      id="card-no"
-                      className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
-                    />
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p className="mb-2">
-                    <label
-                      htmlFor="card-no"
-                      className="font-semibold md:text-base text-sm"
-                    >
-                      State
-                    </label>
-                  </p>
-                  <p>
-                    <input
-                      value={state}
-                      onChange={(e) => setState(e.target.value)}
-                      type="text"
-                      id="card-no"
-                      className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
-                    />
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p className="mb-2">
-                    <label
-                      htmlFor="card-no"
-                      className="font-semibold md:text-base text-sm"
-                    >
-                      Zip Code
-                    </label>
-                  </p>
-                  <p>
-                    <input
-                      value={zip}
-                      onChange={(e) => setZip(e.target.value)}
-                      type="text"
-                      id="card-no"
-                      className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
-                    />
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p className="mb-2">
-                    <label
-                      htmlFor="card-no"
-                      className="font-semibold md:text-base text-sm"
-                    >
-                      Country
-                    </label>
-                  </p>
-                  <p>
-                    <input
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      type="text"
-                      id="card-no"
-                      className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
-                    />
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p className="mb-2">
-                    <label
-                      htmlFor="card-no"
-                      className="font-semibold md:text-base text-sm"
-                    >
-                      Phone Number
-                    </label>
-                  </p>
-                  <p>
-                    <input
-                      placeholder="e.g +2348168776544"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      type="text"
-                      id="card-no"
-                      className="w-full  rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
-                    />
-                  </p>
-                </div>
-
+                )}
                 <Modal
                   open={modalopen}
                   onClose={() => setModalOpen(false)}
@@ -377,25 +386,32 @@ const Checkout = () => {
                   >
                     <div className="flex justify-center items-center">
                       {/* <WarningAmberIcon sx={{ fontSize: 50 }} /> */}
-                      <IoMdCheckmarkCircleOutline className="md:text-6xl text-bellefuGreen text-6xl mt-4 md:mb-3" />
+                      <IoMdCheckmarkCircleOutline className="md:text-8xl text-bellefuGreen text-6xl mt-4 md:mb-3" />
                     </div>
-                    {/* <hr className="mb-4" /> */}
+
+                    <h1 className=" font-semibold leading-10 my-4 text-center text-3xl">
+                      Congratulation!!!
+                    </h1>
 
                     <p className="p-1 mx-3 mb-2 md:mb-6 text-center ">
                       {" "}
-                      Congratulations!!! Your order has been placed
-                      successfully.
+                      Your order has been placed successfully. Please, check
+                      your email for order confirmation before proceeding to
+                      payment.
                     </p>
                   </div>
                 </Modal>
-                <div className="mt-14 flex items-end justify-end">
-                  <button
-                    onClick={handleOrder}
-                    className="md:px-28 text-white rounded-xl bg-bellefuOrange hover:bg-orange-500 md:py-2 px-16 py-4"
-                  >
-                    checkout
-                  </button>
-                </div>
+                {cartPath !== "" && (
+                  <div className="mt-14 flex items-end justify-end">
+                    <button
+                      onClick={handleOrder}
+                      className="md:px-28 text-white rounded-xl bg-bellefuOrange hover:bg-orange-500 md:py-2 px-16 py-4"
+                    >
+                      Place Order
+                      {/* { cartPath === '/shop/cart/'? 'Place Order':'Make payment'} */}
+                    </button>
+                  </div>
+                )}
               </section>
             </div>
           </div>

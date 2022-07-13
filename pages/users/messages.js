@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Layout from "../../components/Layout";
 import { FaEye } from "react-icons/fa";
-import { Modal, Fade, Box, Backdrop } from '@mui/material'
+import { Modal, Fade, Box, Backdrop } from "@mui/material";
 import { IoMdCall } from "react-icons/io";
 import { BsCheck2All } from "react-icons/bs";
 import { MdDeleteForever, MdSend, MdClose } from "react-icons/md";
@@ -13,9 +13,12 @@ import { apiData, imageBaseUrl, UserAvataUrl } from "../../constant";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Dropzone from "react-dropzone";
+import Head from "next/head";
 import moment from "moment";
 import { msgRead } from "../../features/bellefuSlice";
 import Skeleton from "@mui/material/Skeleton";
+import Script from "next/script";
+import Pusher from "pusher-js";
 
 const messages = ({ data1 }) => {
   const [read, setRead] = useState(false);
@@ -32,7 +35,10 @@ const messages = ({ data1 }) => {
   const [unread, setUnread] = useState(0);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [attachments, setAttachments] = useState(null);
+  const [refetch, setRefetch] = useState(0);
+  const [msgCheck, setMsgCheck] = useState(null);
 
   const theRef = useRef();
 
@@ -80,8 +86,6 @@ const messages = ({ data1 }) => {
     getMessages();
   }, []);
 
-
-
   // get chat between two people
 
   useEffect(() => {
@@ -89,11 +93,13 @@ const messages = ({ data1 }) => {
       // senderId/receiverId
       await axios
         .get(`${apiData}single/contact/${senderId}/${receiverId}`)
-        .then((res) => setChat(res.data.data));
+        .then((res) => {
+          setChat(res.data.data);
+        });
     };
 
     getChat();
-  }, [message, receiverId, sent]);
+  }, [refetch, receiverId, sent]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -103,10 +109,10 @@ const messages = ({ data1 }) => {
   }, []);
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
   };
 
   useEffect(() => {
@@ -131,9 +137,46 @@ const messages = ({ data1 }) => {
     );
   }
 
+  //pusher config
+
+  // Enable pusher logging - don't include this in production
+
+  const channelName = `graceful${senderId}${receiverId}`;
+
+  const listen = () => {
+    var pusher = new Pusher("8dd9d376f6e55dac9432", {
+      cluster: "eu",
+    });
+    var channel = pusher.subscribe(`${channelName}`);
+    channel.bind("my-event", function (data) {
+      // alert(JSON.stringify(data));
+      console.log("push", data.data);
+      setMsgCheck((prev) => (prev !== data ? data : null));
+    });
+  };
+
   return (
     // the message header
-    <div className="w-full    md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 ">
+    <div
+      onLoad={listen}
+      className="w-full    md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 "
+    >
+      {/* <Head>
+        <Script src="https://js.pusher.com/7.1/pusher.min.js">{`
+  Pusher.logToConsole = true;
+
+  var pusher = new Pusher("8dd9d376f6e55dac9432", {
+    cluster: "eu",
+  });
+
+  var channel = pusher.subscribe("graceful");
+  channel.bind("my-event", function (data) {
+    alert(JSON.stringify(data));
+    console.log('this na msg',JSON.stringify(data));
+  });
+        `}</Script>
+      </Head> */}
+
       {loading ? (
         <div className="flex items-center  text-center p-3">
           <div className="text-xl ">Messages</div>
@@ -174,6 +217,7 @@ const messages = ({ data1 }) => {
                 setLname(item.last_name);
                 setDp(item.avatar);
                 setRead(!read);
+                //listen();
                 if (item.unread > 0) {
                   axios
                     .post(`${apiData}update/seen/status`, {
@@ -260,7 +304,10 @@ const messages = ({ data1 }) => {
                   <div className="rounded-lg flex border px-3 mr-3 p-1">
                     <IoMdCall className="text-xl mr-2" /> Call
                   </div>
-                  <div className="rounded-lg flex border space-x-2 px-4 p-1 mr-10">
+                  <div
+                    onClick={() => setModalOpen(true)}
+                    className="rounded-lg flex border space-x-2 px-4 p-1 mr-10"
+                  >
                     <FcVideoCall className="text-2xl mr-2" /> Video{" "}
                     <span>call</span>
                   </div>
@@ -284,9 +331,7 @@ const messages = ({ data1 }) => {
                         : "flex justify-end"
                     }
                   >
-
-
-                    {item.attachment === null ?
+                    {item.attachment === null ? (
                       <div
                         className={
                           item.from_id !== senderId
@@ -299,27 +344,26 @@ const messages = ({ data1 }) => {
                             {item.body}
                           </span>
                         </div>
-                      </div> :
-
+                      </div>
+                    ) : (
                       <div
                         onClick={() => {
                           setAttachments(item.attachment);
-                          setModal(true)
+                          setModal(true);
                         }}
                         className={
                           item.from_id !== senderId
                             ? "after:content-[''] after:absolute after:right-[100%] after:top-[0] after:border-l-gray-100  relative max-w-xl mb-4 px-2 py-1 md:px-4 md:py-2 text-gray-700 hover:bg-gray-200 bg-gray-100 rounded shadow"
                             : "relative max-w-xl mb-4 px-1 py-1 md:px-4 md:py-2 text-gray-100 hover:bg-[#4CAF50] bg-bellefuGreen rounded shadow"
-                        }>
+                        }
+                      >
                         <img
                           src={`${imageBaseUrl}get/chat/image/${item.attachment}`}
-                          alt='error'
-                          className=' md:w-52 md:h-64 w-48 h-52 object-fill rounded-md'
+                          alt="error"
+                          className=" md:w-52 md:h-64 w-48 h-52 object-fill rounded-md"
                         />
-
                       </div>
-
-                    }
+                    )}
                   </li>
                   <span
                     className={
@@ -377,18 +421,19 @@ const messages = ({ data1 }) => {
                 }}
               >
                 {({ getRootProps, getInputProps }) => (
-                  <botton
+                  <button
                     // onClick={handleFile}
                     {...getRootProps()}
                   >
                     <input {...getInputProps()} />
                     <AiOutlinePaperClip className="w-6 h-6 text-3xl text-gray-500 hover:text-gray-300" />
-                  </botton>
+                  </button>
                 )}
               </Dropzone>
               <input
                 type="text"
                 placeholder="Message"
+                onBlur={() => setRefetch((prev) => prev + 1)}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
@@ -435,18 +480,12 @@ const messages = ({ data1 }) => {
           <Box sx={style}>
             <img
               src={`${imageBaseUrl}get/chat/image/${attachments}`}
-              alt='error'
-              className=' md:w-full md:h-[60vh] w-full h-[40vh] object-fill rounded-md'
+              alt="error"
+              className=" md:w-full md:h-[60vh] w-full h-[40vh] object-fill rounded-md"
             />
           </Box>
         </Fade>
       </Modal>
-
-
-
-
-
-
     </div>
   );
 };

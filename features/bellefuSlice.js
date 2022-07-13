@@ -20,6 +20,7 @@ const initialState = {
   favLoad: 0,
   msgScroll: 0,
   messageRead: 0,
+  fromCart: "",
   // messageRead: typeof window !== "undefined" ? localStorage.getItem("msg") : 0,
   verificationStatus:
     typeof window !== "undefined"
@@ -141,6 +142,9 @@ export const bellefuSlice = createSlice({
     },
     handleVideo: (state, action) => {
       state.video = action.payload;
+    },
+    prevPath: (state, action) => {
+      state.fromCart = action.payload;
     },
     favUpdated: (state) => {
       state.favLoad += 1;
@@ -325,6 +329,7 @@ export const {
   handleStates,
   idpending,
   handleLga,
+  prevPath,
   ifVerified,
   handleLganame,
   kycpending,
