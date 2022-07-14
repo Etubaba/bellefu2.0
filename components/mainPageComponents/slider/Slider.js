@@ -13,7 +13,7 @@ export default function Slider({ slider }) {
     <div className="w-[99%]">
       <Carousel
         showArrows={true}
-        showIndicators={true}
+        showStatus={false}
         showThumbs={false}
         autoPlay={true}
         infiniteLoop={true}
