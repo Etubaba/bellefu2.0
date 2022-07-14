@@ -14,6 +14,7 @@ export default function Slider({ slider }) {
       <Carousel
         showArrows={true}
         showStatus={false}
+        showIndicators={false}
         showThumbs={false}
         autoPlay={true}
         infiniteLoop={true}
