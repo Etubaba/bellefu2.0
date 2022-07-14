@@ -38,7 +38,7 @@ const messages = ({ data1 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [attachments, setAttachments] = useState(null);
   const [refetch, setRefetch] = useState(0);
-  const [msgCheck, setMsgCheck] = useState(null);
+  const [msgCheck, setMsgCheck] = useState(0);
 
   const theRef = useRef();
 
@@ -99,7 +99,7 @@ const messages = ({ data1 }) => {
     };
 
     getChat();
-  }, [refetch, receiverId, sent]);
+  }, [msgCheck, refetch, receiverId, sent]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -143,24 +143,11 @@ const messages = ({ data1 }) => {
 
   const channelName = `graceful${senderId}${receiverId}`;
 
-  const listen = () => {
-    var pusher = new Pusher("8dd9d376f6e55dac9432", {
-      cluster: "eu",
-    });
-    var channel = pusher.subscribe(`${channelName}`);
-    channel.bind("my-event", function (data) {
-      // alert(JSON.stringify(data));
-      console.log("push", data.data);
-      setMsgCheck((prev) => (prev !== data ? data : null));
-    });
-  };
+  const listen = () => {};
 
   return (
     // the message header
-    <div
-      onLoad={listen}
-      className="w-full    md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 "
-    >
+    <div className="w-full md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 ">
       {/* <Head>
         <Script src="https://js.pusher.com/7.1/pusher.min.js">{`
   Pusher.logToConsole = true;
@@ -217,7 +204,17 @@ const messages = ({ data1 }) => {
                 setLname(item.last_name);
                 setDp(item.avatar);
                 setRead(!read);
-                //listen();
+                const pusher = new Pusher("cef6262983ec85583b4b", {
+                  cluster: "eu",
+                });
+                // var channel = pusher.subscribe(`${channelName}`);
+                var channel = pusher.subscribe(`${item.channelName}`);
+                channel.bind("my-event", function (data) {
+                  // alert(JSON.stringify(data));
+                  console.log("push", data);
+                  setMsgCheck((prev) => (prev !== data ? data : 0));
+                });
+
                 if (item.unread > 0) {
                   axios
                     .post(`${apiData}update/seen/status`, {

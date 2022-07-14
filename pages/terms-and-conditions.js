@@ -3,7 +3,7 @@ import RegisterHeader from "../components/usercomponent/RegisterHeader";
 
 const TermsandConditions = () => {
   return (
-    <>
+    <div className="mt-32">
       <Head>
         <title>Policy and Privacy</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -19,14 +19,14 @@ const TermsandConditions = () => {
         }}
         customWidth={true}
       />
-      <div className="mx-28">
-        <h1 className="capitalize text-bellefuOrange underline font-bold text-2xl text-center">
+      <div className="md:mx-28">
+        <h1 className="capitalize text-bellefuOrange underline font-bold text-xl md:text-2xl text-center">
           Bellefu Terms and Conditions
         </h1>
-        <ol className="text-xl font-bold">
+        <ol className="md:text-xl text-lg font-semibold md:font-bold">
           <li>
             <h3 className="mb-3">Acceptance of the terms</h3>
-            <ol className="text-[16px] font-normal">
+            <ol className="md:text-[16px] text-[10px] font-normal">
               <li className="mb-3">
                 These Terms and Conditions (the “Terms”) constitute a binding
                 and enforceable legal contract between Bellefu Agro Consult
@@ -654,7 +654,7 @@ const TermsandConditions = () => {
           </li>
         </ol>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -67,7 +67,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="absolute bg-black w-72 space-y-3 px-2 pt-2 pb-5 top-0 -left-1 h-[100vh] font-semibold text-white lg:hidden shadow-md animate-slide-in"
+      className="absolute bg-[#222222] w-72 space-y-3 px-2 pt-2 pb-5 top-0 -left-1 h-[100vh] font-semibold text-white lg:hidden shadow-md animate-slide-in"
     >
       <div
         className="-mb-2 flex items-center justify-end"
@@ -90,9 +90,9 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             <img
               // src={username?.avatar ? `https://bellefu.inmotionhub.xyz/get/user/images/${username?.avatar}` : "https://img.freepik.com/free-photo/organic-food-farm_342744-1362.jpg"}
               src={`${UserAvataUrl}${username?.avatar}`}
-              width={100}
-              height={100}
-              className="rounded-full object-cover"
+              // width={100}
+              // height={100}
+              className="rounded-full w-24 h-24 object-cover"
             />
             {unseen !== 0 ? (
               <p className="bg-orange-400 -mt-20 ml-14 h-8 w-8 absolute flex items-center justify-center rounded-full">

@@ -32,26 +32,22 @@ const ProductList = ({
   const [productId, setProductId] = useState([]);
   const [open, setOpen] = useState(false);
   const [clean, setClean] = useState(fav);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
   const getIsLoggedIn = useSelector(login);
 
-
-
-
-
   if (loading) {
     setTimeout(() => {
-      setLoading(false)
+      setLoading(false);
     }, 2000);
   }
 
   const handleMessage = () => {
     if (getIsLoggedIn) {
       router.push(`/product/${product.productId}`);
-      setLoading(true)
+      setLoading(true);
       dispatch(msgScroll(1));
     } else {
       // router.push("/login");
@@ -60,17 +56,15 @@ const ProductList = ({
     }
   };
 
-
-
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
 
   // console.log(productId)
 
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 550,
     height: 250,
     bgcolor: "background.paper",
@@ -79,59 +73,54 @@ const ProductList = ({
     p: 2,
   };
 
-
-
   const actionFav = () => {
-    axios.post(`${apiData}monitor/user/action`, {
-      userId: userId,
-      action: 'favorite',
-    })
+    axios
+      .post(`${apiData}monitor/user/action`, {
+        userId: userId,
+        action: "favorite",
+      })
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
   const actionCall = () => {
-    axios.post(`${apiData}monitor/user/action`, {
-      userId: userId,
-      action: 'call',
-    })
+    axios
+      .post(`${apiData}monitor/user/action`, {
+        userId: userId,
+        action: "call",
+      })
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-
-
-
-
+  };
 
   const handleCall = () => {
     if (getIsLoggedIn) {
       window.open(`tel:${product.phone}`);
       actionCall();
-
     } else {
       setOpen(true);
       toast.info("please login to contact seller", { position: "top-center" });
     }
   };
 
-
-
-
-
-
   return (
     <div className="bg-bellefuWhite shadow-md mb-2 p-2 rounded-b-md">
       {loading && <Loader isLoading={loading} />}
       {product?.inStock ? (
         <>
-          <div onClick={() => { router.push(`/product/${product.productId}`); setLoading(true) }}>
+          <div
+            onClick={() => {
+              router.push(`/product/${product.productId}`);
+              setLoading(true);
+            }}
+          >
             <img
               src={`${productImageUrl}${product?.images[0]}`}
               className="rounded-md w-full h-44 hover:opacity-50 object-cover cursor-pointer"
@@ -139,19 +128,27 @@ const ProductList = ({
           </div>
           <p className="capitalize text-sm">
             {view
-               ?product.title.length>14? product.title.substring(0, 14) + "..":product.title
+              ? product.title.length > 14
+                ? product.title.substring(0, 14) + ".."
+                : product.title
               : product.title.substring(0, 20) + ".."}
           </p>
           <div className="flex items-center space-x-1">
             <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
             <div className="flex items-center space-x-1">
-              <p className="text-bellefuBlack1 text-sm md:text-base capitalize">
-                {view&&product.stateName.length>5?product.stateName.substring(0, 8)+"..":product.stateName}
-              </p>
+              {product.stateName && (
+                <p className="text-bellefuBlack1 text-sm md:text-base capitalize">
+                  {view && product.stateName.length > 5
+                    ? product.stateName.substring(0, 8) + ".."
+                    : product.stateName}
+                </p>
+              )}
               <p className="text-bellefuBlack1 text-sm md:text-base capitalize">
                 {!view
                   ? product.countryName
-                  : product.countryName.length>10? product.countryName.substring(0, 10) + "..":product.countryName}
+                  : product.countryName.length > 10
+                  ? product.countryName.substring(0, 10) + ".."
+                  : product.countryName}
               </p>
             </div>
           </div>
@@ -173,21 +170,23 @@ const ProductList = ({
               )}
 
               {!converter ? (
-                (product.price).toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'usd'
-                }).slice(1)
+                product.price
+                  .toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "usd",
+                  })
+                  .slice(1)
               ) : newPrice === null ? (
                 <div className="p-[2px]" translate="no">
                   <CircularProgress size="1rem" color="success" />
                 </div>
               ) : (
-
-                (newPrice).toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'usd'
-                }).slice(1)
-
+                newPrice
+                  .toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "usd",
+                  })
+                  .slice(1)
               )}
               {product.currency_code ? (
                 <span
@@ -264,7 +263,7 @@ const ProductList = ({
                               20
                             )} added to favourite`
                           );
-                          actionFav()
+                          actionFav();
                         }
                       });
                   } else {
@@ -281,7 +280,7 @@ const ProductList = ({
             onClose={() => setOpen(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-          // sx={{ opacity: 0.5 }}
+            // sx={{ opacity: 0.5 }}
           >
             <Box sx={style}>
               {/* <div className="flex flex-col items-center justify-center mx-auto mt-10 translate-y-1/2 translate-x-1/2  rounded-lg shadow-md p-10 h-[300px]   w-[410px] md:w-[500px] lg:w-[44%] md:h-auto bg-bellefuWhite "> */}
@@ -418,14 +417,14 @@ const ProductList = ({
               )}
             </div>
 
-            <div className="flex items-center mt-2 space-x-3">
+            {/* <div className="flex items-center mt-2 space-x-3">
               <button className="bg-bellefuOrange rounded-md w-full flex items-center justify-center py-4">
                 <MdOutlineMessage className="!text-white" />
               </button>
               <button className="bg-bellefuGreen  rounded-md w-full flex items-center justify-center py-4">
                 <MdCall className="text-white " />
               </button>
-            </div>
+            </div> */}
           </div>
         </>
       )}

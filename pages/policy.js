@@ -3,7 +3,7 @@ import RegisterHeader from "../components/usercomponent/RegisterHeader";
 
 const Policy = () => {
   return (
-    <>
+    <div className="mt-32">
       <Head>
         <title>Policy and Privacy</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -28,7 +28,7 @@ const Policy = () => {
         }}
         customWidth={true}
       />
-      <div className="text-center mx-28">
+      <div className="text-center md:mx-28">
         <h1 className="capitalize text-bellefuOrange underline font-bold text-2xl">
           Bellefu Privacy and policy
         </h1>
@@ -207,7 +207,7 @@ const Policy = () => {
           </li>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 
