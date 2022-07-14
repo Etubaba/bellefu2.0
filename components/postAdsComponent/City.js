@@ -62,7 +62,7 @@ export default function UnstyledSelectSimple5({ lga, checker3 }) {
               placeholder="Search"
               className=" border mx-4 h-10 px-4 py-2 rounded-md text-sm text-gray-600 focus:border-bellefuOrange focus:outline-none focus:ring-1 focus:ring-black focus:ring-opacity-5"
             />
-            <ul className="rounded  py-4">
+            <ul className="rounded overflow-y-scroll max-h-[500px]  py-4">
               {lga
                 .filter((count) => {
                   if (searchdata === "") {
