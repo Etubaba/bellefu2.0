@@ -66,7 +66,7 @@ const Index = () => {
                       className="pb-0 pt-2 md:pb-6 md:pt-6 pl-0 md:pl-10"
                     >
                       <img
-                        className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                        className="inline-block h-32 w-32 rounded-full ring-2 ring-white"
                         src={
                           user?.avatar
                             ? `${UserAvataUrl}${user?.avatar}`
