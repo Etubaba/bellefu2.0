@@ -42,6 +42,7 @@ export default function Images(props) {
 
 
   const videoFile = useSelector(state => state.bellefu?.video);
+  const imageFile = useSelector(state => state.bellefu?.images);
   const user = useSelector(profileDetails);
   const isNewProductForShop = useSelector(isProductForShop);
 
@@ -102,6 +103,7 @@ export default function Images(props) {
     setFiles(newArr);
     setFiles2(newArr2);
   };
+  
 
   const thumbs = files.map((file, index) => (
     <div style={thumb} key={index}>

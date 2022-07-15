@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { handleCitycodeUpdate } from "../../features/bellefuSlice";
-import { useDispatch } from "react-redux";
+import { handleCitycodeUpdate,handleCityname } from "../../features/bellefuSlice";
+import { useDispatch,useSelector } from "react-redux";
 import {
   MdOutlineKeyboardArrowDown,
   MdKeyboardArrowRight,
@@ -9,6 +9,8 @@ import {
 import { useState } from "react";
 
 export default function UnstyledSelectSimple5({ lga, checker3 }) {
+
+  const cityname = useSelector((state) => state.bellefu?.postAddata);
   const [open1, setOpen1] = useState(false);
   const [inputdata, setInputData] = useState(null);
   const [searchdata, setSearchData] = useState("");
@@ -16,6 +18,7 @@ export default function UnstyledSelectSimple5({ lga, checker3 }) {
   const dispatch = useDispatch();
   const handleThings = (counts) => {
     dispatch(handleCitycodeUpdate(counts.code));
+    dispatch(handleCityname(counts.name));
 
     // catchState(newStateArr,counts.name);
   };
@@ -33,7 +36,7 @@ export default function UnstyledSelectSimple5({ lga, checker3 }) {
         >
           <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
             <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
-              {inputdata ? inputdata : "city/lga"}
+            {cityname?.cityname===""? "Select City":cityname?.cityname}
             </h5>
           </div>
           {!open1 ? (

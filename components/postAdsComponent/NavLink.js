@@ -18,7 +18,8 @@ const NavLink = ({ to, icon, children, ...props }) => {
     };
 
     return (
-        <Link href={to} passHref={true}>
+        <div className="z-30">
+            {/* <Link  href={to} passHref={true}> */}
             <p {...props} style={activeStyle}>
                 { !children && 
                     <Fragment>
@@ -31,7 +32,9 @@ const NavLink = ({ to, icon, children, ...props }) => {
                 
                 { children && children}
             </p>
-        </Link>
+        {/* </Link> */}
+        </div>
+        
     );
 };
 

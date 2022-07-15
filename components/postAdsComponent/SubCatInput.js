@@ -1,6 +1,9 @@
 import * as React from "react";
 
-import { handleSubcatUpdate } from "../../features/bellefuSlice";
+import {
+  handleSubcatUpdate,
+  handleSubcategoryname,
+} from "../../features/bellefuSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import {
@@ -8,9 +11,10 @@ import {
   MdKeyboardArrowRight,
 } from "react-icons/md";
 
-
-
 export default function UnstyledSelectSimple2({ subCategory, checker }) {
+
+  const subcatsname = useSelector((state) => state.bellefu?.postAddata);
+
   const [open1, setOpen1] = useState(false);
   const [inputdata, setInputData] = useState(null);
   const [searchdata, setSearchData] = useState("");
@@ -19,12 +23,11 @@ export default function UnstyledSelectSimple2({ subCategory, checker }) {
 
   const handleThings = (counts) => {
     dispatch(handleSubcatUpdate(counts.subCatId));
+    dispatch(handleSubcategoryname(counts.subCatName));
     //  setSubcat(counts) ;
   };
 
   return (
-   
-
     <div>
       <div className="w-full">
         <div
@@ -35,7 +38,7 @@ export default function UnstyledSelectSimple2({ subCategory, checker }) {
         >
           <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
             <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
-              {inputdata ? inputdata : "Select sub-category"}
+            {subcatsname?.subcategoryname===""? "Select Subcategory":subcatsname?.subcategoryname}
             </h5>
           </div>
           {!open1 ? (
