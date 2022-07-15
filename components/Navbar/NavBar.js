@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Modal } from "@mui/material";
+import { Modal, Alert } from "@mui/material";
 import BellefuLogo from "../../public/bellefulogo.png";
 import { IoMdNotifications, IoMdAddCircleOutline } from "react-icons/io";
 
@@ -232,19 +232,23 @@ const NavBar = () => {
         </p>
       </div>
 
+      {modalOpen && (
+        <div className="w-auto top-32 flex absolute justify-end items-end ">
+          <Alert variant="outlined" severity="success">
+            <p>
+              {notifyMsg.charAt(0).toLocaleUpperCase() + notifyMsg.slice(1)}.
+            </p>
+          </Alert>
+        </div>
+      )}
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
       >
-        <div
-          className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[40%] lg:w-[25%]"
-          // sx={edit}
-        >
+        <div className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[40%] lg:w-[25%]">
           <div className="flex justify-center items-center">
-            {/* <WarningAmberIcon sx={{ fontSize: 50 }} /> */}
             <RiAlertLine className="md:text-3xl  text-xl mt-4 md:mb-3" />
           </div>
           <p className="p-1 mx-3 text-lg mb-2 md:mb-6 text-center ">
