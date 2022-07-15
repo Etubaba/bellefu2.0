@@ -369,12 +369,6 @@ const SingleProductMobileSidebar = ({ mobileDetails, verified }) => {
         {/* section 2 */}
         <div className="w-full ">
           <div className="space-y-3">
-            {/* view profile */}
-            <div className="flex items-center border w-full py-2 space-x-3 rounded-md bg-bellefuWhite justify-center">
-              {" "}
-              <BsFillPersonFill className="w-5 h-5 text-gray-500" />
-              <p className="text-gray-400 font-medium">View Profile</p>
-            </div>
             {/* view reviews */}
             <div
               onClick={reviewOpen}
