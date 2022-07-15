@@ -95,6 +95,7 @@ const SingleProductSidebar = ({ userDetails, verified }) => {
           });
           actionMessage();
           setMessage("");
+          router.push("/users/messages");
         }
       });
     }

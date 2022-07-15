@@ -47,7 +47,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
   const [report, setReport] = useState("");
   const [watch, setWatch] = useState(false);
 
-  const receiverId = productDetails[0]?.productOwnerId;
+  const receiverId = productDetails[0]?.userId;
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const userPhone = useSelector(
     (state) => state.bellefu?.profileDetails?.phone
@@ -125,7 +125,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
     } else {
       const formData = new FormData();
       formData.append("messageTo", receiverId);
-      formData.append("messageFrom", senderId);
+      formData.append("messageFrom", userId);
       formData.append("image", "");
       formData.append("message", message);
       axios({
@@ -140,6 +140,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
           toast.success("Your message has been sent successfully.", {
             position: "top-right",
           });
+          router.push("/users/messages");
           actionMessage();
         }
       });

@@ -138,6 +138,7 @@ const SingleProductMobileSidebar = ({ mobileDetails, verified }) => {
           });
           actionMessage();
           setMessage("");
+          router.push("/users/messages");
         }
       });
     }
