@@ -12,7 +12,7 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { AiFillHeart } from "react-icons/ai";
 import { RiAlertLine, RiLogoutBoxFill } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
-import { handlePusher, login } from "../../features/bellefuSlice";
+import { handlePusher, ifVerified, login } from "../../features/bellefuSlice";
 import { profileDetails } from "../../features/bellefuSlice";
 import { isLoggedIn } from "../../features/bellefuSlice";
 import { useRouter } from "next/router";
@@ -218,6 +218,12 @@ const NavBar = () => {
     }
   }, []);
 
+  if (modalOpen) {
+    setTimeout(() => {
+      setModalOpen(false);
+    }, 7000);
+  }
+
   return (
     <div className="fixed top-0 z-[1000] w-full ">
       {loading && <Loader isLoading={loading} />}
@@ -233,15 +239,21 @@ const NavBar = () => {
       </div>
 
       {modalOpen && (
-        <div className="w-auto top-32 flex absolute justify-end items-end ">
-          <Alert variant="outlined" severity="success">
+        <div
+          onClick={() => {
+            router.push("/users/messages");
+            setModalOpen(false);
+          }}
+          className="w-auto top-32 animate-slide-in flex absolute justify-end items-end"
+        >
+          <Alert variant="filled" severity="success">
             <p>
               {notifyMsg.charAt(0).toLocaleUpperCase() + notifyMsg.slice(1)}.
             </p>
           </Alert>
         </div>
       )}
-      <Modal
+      {/* <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         aria-labelledby="modal-modal-title"
@@ -277,7 +289,7 @@ const NavBar = () => {
             </button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
       <nav className="flex px-2 py-2 lg:px-12 bg-bellefuGreen items-center justify-between  ">
         {/* left side */}
         <div className="flex items-center">
