@@ -86,6 +86,7 @@ const ProductList = ({
         console.log(err);
       });
   };
+
   const actionCall = () => {
     axios
       .post(`${apiData}monitor/user/action`, {
@@ -268,6 +269,7 @@ const ProductList = ({
                       });
                   } else {
                     toast.error("Login to add favorite product");
+                    router.push("/login");
                     setOpen(true);
                   }
                 }}

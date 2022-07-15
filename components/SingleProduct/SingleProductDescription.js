@@ -47,7 +47,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
   const [report, setReport] = useState("");
   const [watch, setWatch] = useState(false);
 
-  const receiverId = productDetails[0]?.productOwnerId;
+  const receiverId = productDetails[0]?.userId;
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const userPhone = useSelector(
     (state) => state.bellefu?.profileDetails?.phone
@@ -125,7 +125,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
     } else {
       const formData = new FormData();
       formData.append("messageTo", receiverId);
-      formData.append("messageFrom", senderId);
+      formData.append("messageFrom", userId);
       formData.append("image", "");
       formData.append("message", message);
       axios({
@@ -140,6 +140,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
           toast.success("Your message has been sent successfully.", {
             position: "top-right",
           });
+          router.push("/users/messages");
           actionMessage();
         }
       });
@@ -186,8 +187,6 @@ const SingleProductDescription = ({ productDetails, verified }) => {
   }
 
   const [clean, setClean] = useState(favArr);
-
-  console.log("product details checker", productDetails);
 
   const router = useRouter();
 
@@ -411,24 +410,21 @@ const SingleProductDescription = ({ productDetails, verified }) => {
               <p className="text-2xl text-bellefuBlack1">Contact The Seller</p>
 
               <div className="flex items-center mt-2 w-full space-x-10 justify-center">
-                {userId !== receiverId && (
-                  <div
-                    onClick={handleMessage}
-                    className="bg-bellefuOrange px-8 py-3 rounded-md flex items-center space-x-2 cursor-pointer"
-                  >
-                    <RiMessage2Fill className="text-white" />
-                    <p className="text-white">Message</p>
-                  </div>
-                )}
-                {userId !== receiverId && (
-                  <div
-                    onClick={handleCall}
-                    className="bg-bellefuGreen px-12 py-3 rounded-md flex items-center cursor-pointer space-x-2"
-                  >
-                    <MdCall className="text-white" />
-                    <p className="text-white">Call</p>
-                  </div>
-                )}
+                <div
+                  onClick={handleMessage}
+                  className="bg-bellefuOrange px-8 py-3 rounded-md flex items-center space-x-2 cursor-pointer"
+                >
+                  <RiMessage2Fill className="text-white" />
+                  <p className="text-white">Message</p>
+                </div>
+
+                <div
+                  onClick={handleCall}
+                  className="bg-bellefuGreen px-12 py-3 rounded-md flex items-center cursor-pointer space-x-2"
+                >
+                  <MdCall className="text-white" />
+                  <p className="text-white">Call</p>
+                </div>
 
                 {/* Watching video modal  */}
 

@@ -36,6 +36,8 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
   const [productIndex, setProductIndex] = useState([]);
   const [totalPage, setTotalPage] = useState(1);
   const [adverts, setAdverts] = useState([]);
+  const [subcatData, setSubcatData] = useState([]);
+  const [stateData, setStateData] = useState([]);
 
   const getCountry = useSelector((state) => state.bellefu.countrySelected);
   const getState = useSelector((state) => state.bellefu.stateSelected);
@@ -316,7 +318,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
                 }
               })
               .map((product) => (
-                <div key={product?.productId}>
+                <div key={product?.productId} className="relative">
                   <ProductList
                     key={product?.productId}
                     view={grid}
@@ -326,6 +328,9 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
                     favdata={fav}
                     currencyCode={currencyCode}
                   />
+                  <div className="absolute top-2 left-2 px-2 text-xs font-thin bg-bellefuGreen rounded text-bellefuWhite">
+                    <span>PROMOTED</span>
+                  </div>
                 </div>
               ))
           )
@@ -380,7 +385,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       </div>
       {/* the ads start here */}
 
-      {main.length > 8 && (
+      {main.length > 8 && getState === null && (
         <a href={randomImage1?.action} target="_blank" className="my-7">
           <img
             src={`${commercialUrl}${randomImage1?.image}`}
@@ -424,7 +429,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
           ))}
       </div>
 
-      {main.length > 16 && (
+      {main.length > 16 && getState === null && (
         <a href={randomImage2?.action} target="_blank" className=" my-5">
           <img
             src={`${commercialUrl}${randomImage2?.image}`}

@@ -3,6 +3,9 @@ import { AiOutlineCaretRight, AiOutlineCaretDown } from "react-icons/ai";
 import { useRouter } from "next/router";
 import Skeleton from "@mui/material/Skeleton";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { login } from "../features/bellefuSlice";
+import { toast } from "react-toastify";
 
 const CategorySideBar = ({ categories, indexData }) => {
   const [loading, setLoading] = useState(false);
@@ -14,6 +17,7 @@ const CategorySideBar = ({ categories, indexData }) => {
     return () => clearTimeout(timer);
   }, []);
   const router = useRouter();
+  const isLoggedIn = useSelector(login);
 
   return (
     <div className="bg-bellefuWhite rounded-md pb-10">
@@ -28,7 +32,14 @@ const CategorySideBar = ({ categories, indexData }) => {
         ))}
         <div className="">
           <div
-            onClick={() => router.push("/custom")}
+            onClick={() => {
+              if (isLoggedIn) {
+                router.push("/custom");
+              } else {
+                toast.error("login to make a special request");
+                router.push("/login");
+              }
+            }}
             className="flex items-center justify-between mb-7 hover:bg-bellefuBackground p-1 rounded-md"
           >
             {loading ? (

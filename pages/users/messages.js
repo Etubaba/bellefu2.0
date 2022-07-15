@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Layout from "../../components/Layout";
 import { FaEye } from "react-icons/fa";
 import { Modal, Fade, Box, Backdrop } from "@mui/material";
-import { IoMdCall } from "react-icons/io";
+import { IoMdCall, IoWarningOutline } from "react-icons/io";
 import { BsCheck2All } from "react-icons/bs";
 import { MdDeleteForever, MdSend, MdClose } from "react-icons/md";
 import { FcVideoCall, FcSms } from "react-icons/fc";
@@ -13,15 +13,16 @@ import { apiData, imageBaseUrl, UserAvataUrl } from "../../constant";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Dropzone from "react-dropzone";
-import Head from "next/head";
+
 import moment from "moment";
 import { msgRead } from "../../features/bellefuSlice";
 import Skeleton from "@mui/material/Skeleton";
-import Script from "next/script";
+
 import Pusher from "pusher-js";
 
 const messages = ({ data1 }) => {
   const [read, setRead] = useState(false);
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(undefined);
   const [preview, setPreview] = useState();
@@ -43,6 +44,7 @@ const messages = ({ data1 }) => {
   const theRef = useRef();
 
   const senderId = useSelector((state) => state.bellefu?.profileDetails?.id);
+  const pusher = useSelector((state) => state.bellefu?.pusher);
 
   const checkRead = useDispatch();
 
@@ -50,29 +52,29 @@ const messages = ({ data1 }) => {
   // handle message sent
 
   const handleMessage = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setSent(!sent);
-    if (message || file === undefined) {
+    if ((message !== "" || file !== undefined) && read) {
+      const formData = new FormData();
+      formData.append("messageTo", receiverId);
+      formData.append("messageFrom", senderId);
+      formData.append("image", file !== undefined ? file : "");
+      formData.append("message", message);
+      axios({
+        method: "POST",
+        url: `${apiData}send/messages`,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then((res) => {
+        console.log(res);
+        if (res.data.status) {
+          setMessage("");
+          setFile(undefined);
+        }
+      });
     }
-
-    const formData = new FormData();
-    formData.append("messageTo", receiverId);
-    formData.append("messageFrom", senderId);
-    formData.append("image", file !== undefined ? file : "");
-    formData.append("message", message);
-    axios({
-      method: "POST",
-      url: `${apiData}send/messages`,
-      data: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }).then((res) => {
-      if (res.data.status) {
-        setMessage("");
-        setFile(undefined);
-      }
-    });
   };
 
   // get contact list
@@ -137,33 +139,14 @@ const messages = ({ data1 }) => {
     );
   }
 
-  //pusher config
-
-  // Enable pusher logging - don't include this in production
-
-  const channelName = `graceful${senderId}${receiverId}`;
-
-  const listen = () => {};
+  //const channelName = `graceful${senderId}${receiverId}`;
 
   return (
     // the message header
-    <div className="w-full md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 ">
-      {/* <Head>
-        <Script src="https://js.pusher.com/7.1/pusher.min.js">{`
-  Pusher.logToConsole = true;
-
-  var pusher = new Pusher("8dd9d376f6e55dac9432", {
-    cluster: "eu",
-  });
-
-  var channel = pusher.subscribe("graceful");
-  channel.bind("my-event", function (data) {
-    alert(JSON.stringify(data));
-    console.log('this na msg',JSON.stringify(data));
-  });
-        `}</Script>
-      </Head> */}
-
+    <div
+      onKeyPress={(e) => e.key == "Enter" && handleMessage()}
+      className="w-full md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 "
+    >
       {loading ? (
         <div className="flex items-center  text-center p-3">
           <div className="text-xl ">Messages</div>
@@ -204,9 +187,10 @@ const messages = ({ data1 }) => {
                 setLname(item.last_name);
                 setDp(item.avatar);
                 setRead(!read);
-                const pusher = new Pusher("cef6262983ec85583b4b", {
-                  cluster: "eu",
-                });
+                setPhone(item.phone);
+                // const pusher = new Pusher("cef6262983ec85583b4b", {
+                //   cluster: "eu",
+                // });
                 // var channel = pusher.subscribe(`${channelName}`);
                 var channel = pusher.subscribe(`${item.channelName}`);
                 channel.bind("my-event", function (data) {
@@ -288,7 +272,7 @@ const messages = ({ data1 }) => {
                   </span>
                 </div>
                 <div className=" md:hidden flex items-center space-x-5 ">
-                  <div>
+                  <div onClick={() => window.open(`tel:${phone}`)}>
                     <IoMdCall className="text-xl text-bellefuGreen " />{" "}
                   </div>
                   <div onClick={() => setRead(false)}>
@@ -298,7 +282,10 @@ const messages = ({ data1 }) => {
               </div>
               <div className="md:inline-block hidden">
                 <div className="flex  items-center justify-around m-5 ">
-                  <div className="rounded-lg flex border px-3 mr-3 p-1">
+                  <div
+                    onClick={() => window.open(`tel:${phone}`)}
+                    className="rounded-lg flex border px-3 mr-3 p-1"
+                  >
                     <IoMdCall className="text-xl mr-2" /> Call
                   </div>
                   <div
@@ -316,6 +303,49 @@ const messages = ({ data1 }) => {
             </div>
             <hr />
           </div>
+          <Modal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+          >
+            <div
+              className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
+              // sx={edit}
+            >
+              <div className="flex justify-center items-center">
+                {/* <WarningAmberIcon sx={{ fontSize: 50 }} /> */}
+                <FcVideoCall className="md:text-8xl  text-6xl mt-4 md:mb-3" />
+              </div>
+              <p className="p-1 mx-3 mb-2 md:mb-6 text-center ">
+                {" "}
+                Download our mobile application to be able to use this service.
+              </p>
+              <div className=" flex mb-7">
+                <a
+                  target="_blank"
+                  href="https://play.google.com/store/apps/details?id=com.bellefu_farmers_market.bellefu"
+                >
+                  <img
+                    alt="error"
+                    src="https://www.linkpicture.com/q/play-removebg-preview-1.png"
+                    className="w-40 h-10 mr-6"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href="https://apps.apple.com/us/app/bellefu/id1556135856"
+                >
+                  <img
+                    alt="error"
+                    src="https://www.linkpicture.com/q/ios-removebg-preview.png"
+                    className="w-40 h-10"
+                  />
+                </a>
+              </div>
+            </div>
+          </Modal>
 
           <div className="md:h-80 h-72 p-5 overflow-y-scroll    bg-[#F9FDF5] ">
             <ul className="space-y-2">
