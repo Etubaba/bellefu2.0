@@ -316,7 +316,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
                 }
               })
               .map((product) => (
-                <div key={product?.productId}>
+                <div key={product?.productId} className="relative">
                   <ProductList
                     key={product?.productId}
                     view={grid}
@@ -326,6 +326,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
                     favdata={fav}
                     currencyCode={currencyCode}
                   />
+                  <div className="absolute top-2 left-2 px-2 text-xs font-thin bg-bellefuGreen rounded text-bellefuWhite"><span>PROMOTED</span></div>
                 </div>
               ))
           )
