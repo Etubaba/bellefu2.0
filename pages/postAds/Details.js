@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/postAdsComponent/Layout";
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { handleTitleUpdate,handleDescriptionUpdate,handleTagUpdate ,handlePriceUpdate} from "../../features/bellefuSlice";
+import {
+  handleTitleUpdate,
+  handleDescriptionUpdate,
+  handleTagUpdate,
+  handlePriceUpdate,
+} from "../../features/bellefuSlice";
 
 // const PriceSymbol=()=>{
 //   // const getCountry = useSelector((state) => state.bellefu.countrySelected);
@@ -20,29 +25,39 @@ import { handleTitleUpdate,handleDescriptionUpdate,handleTagUpdate ,handlePriceU
 
 // };
 export default function Details() {
-  const symb_olic = useSelector((state) => state.bellefu.postAddata.symbo);
+  const symb_olic = useSelector((state) => state.bellefu?.postAddata?.symbo);
+  const postAddatas = useSelector((state) => state.bellefu?.postAddata);
   const router = useRouter();
   const dispatch = useDispatch();
 
   const [inputtxt, setInputTxt] = useState("");
-  const [ inpt,  setInpt] = useState("");
+  const [inpt, setInpt] = useState("");
   const [inputtxtarr, setinputTxtArr] = useState([]);
   const [disablertag, setDisablertag] = useState(false);
+  const [initInputs, setInitInputs] = useState([]);
+  // let init = 1;
+  // let init2 = 1;
 
+  console.log(initInputs);
   const handleArrUpdate = (e) => {
     e.preventDefault();
-    if (inputtxt === "" || inputtxtarr.length >= 5) {
+    if (inputtxt === "") {
+      toast.error("Tags can't be empty", {
+        position: "top-center",
+      });
+    } else if (inputtxtarr.length >= 5) {
       toast.error("Tags can't be more than 5", {
-        position: 'top-center',
-      })} else {
+        position: "top-center",
+      });
+    } else {
       setinputTxtArr((prevState) => [...prevState, inputtxt]);
       setInputTxt("");
     }
   };
 
-  const handleRemovetag = (tags) => {
-    const newArr = inputtxtarr.filter((tag) => tag !== tags);
-    setinputTxtArr(newArr);
+  const handleRemovetag = (tag) => {
+    const newArr = inputtxtarr.filter((ta) => ta !== tag);
+    dispatch(handleTagUpdate(newArr));
   };
 
   const handleTitle = (e) => {
@@ -52,7 +67,7 @@ export default function Details() {
     dispatch(handlePriceUpdate(e.target.value));
   };
   const handleText = (e) => {
-    setInpt(e.target.value)
+    setInpt(e.target.value);
     dispatch(handleDescriptionUpdate(e.target.value));
   };
 
@@ -61,17 +76,39 @@ export default function Details() {
     router.back();
   };
 
-  const handleSubmit =(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if( inpt!==""){
-          dispatch(handleTagUpdate(inputtxtarr));
-          router.push('/postAds/Images')
- 
-    }else{
+    dispatch(handleTagUpdate(inputtxtarr));
+    if (inpt !== "") {
+      dispatch(handleTagUpdate(inputtxtarr));
+      router.push("/postAds/Images");
+    } else {
       toast.error("All fields are required", {
-        position: 'top-center',
-      })    }
-  }
+        position: "top-center",
+      });
+    }
+  };
+
+  // useEffect(() => {
+  //   inputtxtarr.forEach((element) => {
+  //     localStorage.setItem(`${init++}`, element);
+  //   });
+  //   init2++;
+  // }, [inputtxtarr]);
+  // useEffect(() => {
+  //   console.log("init")
+  //   const inputs = [];
+  //     for (let i = 0; i < 7; i++) {
+  //       if (localStorage.getItem(`${++i}`)) {
+  //         inputs.push(localStorage.getItem(`${++i}`));
+  //         console.log(localStorage.getItem(`${++i}`));
+  //       }
+  //     }
+
+  //     if (inputs.length > 0) {
+  //       setInitInputs(inputs);
+  //     }
+  // });
   return (
     <div className=" shadow bg-bellefuWhite rounded-md  lg:p-5 p-2">
       <div className="border lg:p-5 p-1 lg:mt-7 mt-2 rounded-sm">
@@ -88,6 +125,7 @@ export default function Details() {
                       Product title <strong className="text-red-500">*</strong>
                     </label>
                     <input
+                      defaultValue={postAddatas?.title}
                       onChange={handleTitle}
                       type="text"
                       className=" bg-[white] p-[8px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
@@ -96,23 +134,24 @@ export default function Details() {
 
                   <div className="col-span-6 sm:col-span-3">
                     <div className="flex">
-                    <label
-                      for="last-name"
-                      className="flex text-sm font-medium text-gray-700"
-                    >
-                      Product Price <strong className="text-red-500">*</strong>
-                      
-                    </label>
-                    <div className=" relative bottom-[3px] pl-[7px]">
-                      <p className="text-bellefuGreen flex font-poppins font-semibold">
-                        <p
-                          className="mr-1 text-bellefuGreen"
-                          dangerouslySetInnerHTML={{ __html:symb_olic}}
-                        />
-                      </p>
+                      <label
+                        for="last-name"
+                        className="flex text-sm font-medium text-gray-700"
+                      >
+                        Product Price{" "}
+                        <strong className="text-red-500">*</strong>
+                      </label>
+                      <div className=" relative bottom-[3px] pl-[7px]">
+                        <p className="text-bellefuGreen flex font-poppins font-semibold">
+                          <p
+                            className="mr-1 text-bellefuGreen"
+                            dangerouslySetInnerHTML={{ __html: symb_olic }}
+                          />
+                        </p>
                       </div>
                     </div>
                     <input
+                      defaultValue={postAddatas?.price}
                       onChange={handlePrice}
                       type="number"
                       className=" bg-[white] p-[8px] mt-1 focus:ring-bellefuGreen mb-10 focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
@@ -134,27 +173,58 @@ export default function Details() {
                   <div className="border-gray-300 border-2 rounded-md">
                     <div className=" p-3 flex flex-wrap">
                       {inputtxtarr.length <= 7
-                        ? inputtxtarr.map((tags, index) => (
-                            <span key={index} className="flex bg-gray-300 p-[3px] justify-around lg:w-[6vw] rounded-md m-[2px]">
-                              <p>{tags}</p>
-                              <MdClose
-                                onClick={() => handleRemovetag(tags)}
-                                className="text-[28px] cursor-pointer hover:bg-gray-400 p-[3px] rounded-md mt-[2px]"
-                              />
-                            </span>
-                          ))
+                        ? inputtxtarr.length === 0
+                          ? postAddatas?.tag.map((ta, index) => (
+                              <span
+                                key={index}
+                                className="flex bg-gray-300 p-[3px] justify-around lg:w-[6vw] rounded-md m-[2px]"
+                              >
+                                <p>{ta}</p>
+                                <MdClose
+                                  onClick={() => handleRemovetag(ta)}
+                                  className="text-[28px] cursor-pointer hover:bg-gray-400 p-[3px] rounded-md mt-[2px]"
+                                />
+                              </span>
+                            ))
+                          : postAddatas?.tag.length === 0
+                          ? inputtxtarr.map((ta, index) => (
+                              <span
+                                key={index}
+                                className="flex bg-gray-300 p-[3px] justify-around lg:w-[6vw] rounded-md m-[2px]"
+                              >
+                                <p>{ta}</p>
+                                <MdClose
+                                  onClick={() => handleRemovetag(ta)}
+                                  className="text-[28px] cursor-pointer hover:bg-gray-400 p-[3px] rounded-md mt-[2px]"
+                                />
+                              </span>
+                            )):null
+                          // : initInputs.map((ta, index) => (
+                          //     <span
+                          //       key={index}
+                          //       className="flex bg-gray-300 p-[3px] justify-around lg:w-[6vw] rounded-md m-[2px]"
+                          //     >
+                          //       <p>{ta}</p>
+                          //       <MdClose
+                          //         onClick={() => handleRemovetag(ta)}
+                          //         className="text-[28px] cursor-pointer hover:bg-gray-400 p-[3px] rounded-md mt-[2px]"
+                          //       />
+                          //     </span>
+                          //   ))
                         : null}
                     </div>
                     <div className="flex">
                       <input
-                        onChange={(e) => setInputTxt(e.target.value)}
+                        onChange={(e) => {
+                          setInputTxt(e.target.value);
+                        }}
                         type="text"
                         disabled={disablertag}
                         value={inputtxt}
                         className="  bg-[white] p-[8px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-[100%] shadow-sm sm:text-sm "
                       />
                       <button
-                        onClick={(e) => handleArrUpdate(e)}
+                        onClick={handleArrUpdate}
                         class="flex justify-center items-center lg:w-[4vw] m-[5px] py-[3px] px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-bellefuOrange hover:bg-[#ffc253] focus:outline-none focus:ring-2 focus:ring-offset-2 "
                       >
                         Enter
@@ -173,11 +243,12 @@ export default function Details() {
               </label>
               <div className="mt-1">
                 <textarea
+                  
                   onChange={handleText}
                   rows={4}
                   className="shadow-sm p-2 lg:p-5 focus:outline-0 border-2 bg-[white] mt-1  w-full sm:text-sm  border-gray-300 rounded-md"
                   placeholder="you@example.com"
-                  defaultValue={""}
+                  defaultValue={postAddatas?.description}
                 />
               </div>
             </div>
@@ -190,8 +261,8 @@ export default function Details() {
                 Back
               </button>
               <button
-              onClick={handleSubmit}
-              // disabled={inpt===""?true:false}
+                onClick={handleSubmit}
+                // disabled={inpt===""?true:false}
                 type="submit"
                 class="flex justify-center items-center w-[19vw] lg:w-[15vw] py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-bellefuOrange hover:bg-[#ffc253] focus:outline-none focus:ring-2 focus:ring-offset-2 "
               >

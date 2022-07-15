@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { handleStateUpdate } from "../../features/bellefuSlice";
-import { useDispatch } from "react-redux";
+import { handleStateUpdate ,  handleStatename
+} from "../../features/bellefuSlice";
+import { useDispatch ,useSelector} from "react-redux";
 import axios from "axios";
 import { useState } from "react";
 import {
@@ -10,6 +11,9 @@ import {
 } from "react-icons/md";
 
 export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
+
+  const stateName = useSelector((state) => state.bellefu?.postAddata);
+
   const [open1, setOpen1] = useState(false);
   const [inputdata, setInputData] = useState(null);
   const [searchdata, setSearchData] = useState("");
@@ -23,6 +27,7 @@ export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
       .then((response) => {
         const newLgaArr = response?.data.lga;
         dispatch(handleStateUpdate(counts.code));
+        dispatch(handleStatename(counts.name));
         // console.log(countryStuffs.lga);
         // console.log(newLgaArr);
         catchLgas(newLgaArr, counts.name);
@@ -45,7 +50,7 @@ export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
         >
           <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
             <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
-              {inputdata ? inputdata : "State"}
+            {stateName?.statesname===""? "Select state":stateName?.statesname}
             </h5>
           </div>
           {!open1 ? (

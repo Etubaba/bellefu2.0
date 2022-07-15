@@ -37,10 +37,10 @@ export default function Video({ videoFiles }) {
 
   const { getRootProps, getInputProps } = useDropzone({
     disabled: vidchecker,
-    maxSizeBytes: 102400,
+    maxSizeBytes: 10240000,
     accept: "video/*",
     onDrop: (acceptedFiles) => {
-      if (acceptedFiles[0].size > 614400) {
+      if (acceptedFiles[0].size > 10240000) {
         toast.error("Video can't be more than 10mb", {
           position: "top-center",
         });

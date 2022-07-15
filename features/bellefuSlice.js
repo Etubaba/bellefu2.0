@@ -50,20 +50,26 @@ const initialState = {
   indexApi: [],
   postAddata: {
     categoryid: "",
+    categoryname: "",
     subcategoryid: "",
+    subcategoryname: "",
     title: "",
     location: "",
     countrycode: "",
+    countryname: "",
     states: "",
+    statesname: "",
     phone: "",
     price: null,
     currencyCode: "",
     images: [],
+    imagesurl: [],
     videofile: "",
     tag: [],
     description: "",
     userid: "",
     cityCode: "",
+    cityname: "",
     plans: "",
     adsplanprice: "",
     postingchecker: false,
@@ -92,6 +98,51 @@ export const bellefuSlice = createSlice({
   name: "bellefu",
   initialState,
   reducers: {
+
+    // #####################################
+    // #####################################
+    
+    handleCategoryname: (state, action) => {
+      state.postAddata.categoryname = action.payload;
+    },
+    // #####################################
+    // #####################################
+    // #####################################
+    // #####################################
+    
+    handleSubcategoryname: (state, action) => {
+      state.postAddata.subcategoryname = action.payload;
+    },
+    // #####################################
+    // #####################################
+    // #####################################
+    // #####################################
+    
+    handleCountryname: (state, action) => {
+      state.postAddata.countryname = action.payload;
+    },
+    // #####################################
+    // #####################################
+    // #####################################
+    // #####################################
+    
+    handleStatename: (state, action) => {
+      state.postAddata.statesname = action.payload;
+    },
+    // #####################################
+    // #####################################
+    // #####################################
+    // #####################################
+    
+    handleCityname: (state, action) => {
+      state.postAddata.cityname = action.payload;
+    },
+    // #####################################
+    // #####################################
+   
+
+
+
     isLoggedIn: (state, action) => {
       state.login = action.payload;
       localStorage.setItem("login", state.login);
@@ -222,13 +273,17 @@ export const bellefuSlice = createSlice({
       state.postAddata.price = action.payload;
     },
     handleTagUpdate: (state, action) => {
-      state.postAddata.tag = action.payload;
+      // state.postAddata.tag.push(action.payload); 
+      state.postAddata.tag=action.payload; 
     },
     handleDescriptionUpdate: (state, action) => {
       state.postAddata.description = action.payload;
     },
     handleImagesUpdate: (state, action) => {
       state.postAddata.images = action.payload;
+    },
+    handleImagesurlUpdate: (state, action) => {
+      state.postAddata.imagesurl = action.payload;
     },
     handleVideoUpdate: (state, action) => {
       state.postAddata.videofile = action.payload;
@@ -341,6 +396,12 @@ export const {
   newProductForShop,
   handleAdsPlanPriceUpdate,
   handleAdsPostingCheckerUpdate,
+  handleCityname,
+  handleCategoryname,
+  handleSubcategoryname,
+  handleCountryname,
+  handleStatename,
+  handleImagesurlUpdate
 } = bellefuSlice.actions;
 
 export const login = (state) => state.bellefu.login;

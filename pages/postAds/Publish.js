@@ -51,6 +51,7 @@ export default function Publish({ data1 }) {
 
   const handlePublish = (e) => {
     console.log(dataTopost.videofile);
+    console.log(dataTopost.images);
 
     e.preventDefault();
 

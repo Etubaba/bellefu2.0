@@ -8,7 +8,7 @@ import UnstyledSelectSimple2 from "../../components/postAdsComponent/SubCatInput
 import UnstyledSelectSimple3 from "../../components/postAdsComponent/CountrySelect";
 import UnstyledSelectSimple4 from "../../components/postAdsComponent/State";
 import UnstyledSelectSimple5 from "../../components/postAdsComponent/City";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 import { handleLocationUpdate } from "../../features/bellefuSlice";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
@@ -16,6 +16,9 @@ import Skeleton from "@mui/material/Skeleton";
 import { webApi } from "../../constant";
 
 function Index({ data1, data2 }) {
+
+  const locaten = useSelector((state) => state.bellefu?.postAddata);
+
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -26,7 +29,7 @@ function Index({ data1, data2 }) {
   const [checker2, setChecker2] = useState("");
   const [lga, setLga] = useState([]);
   const [checker3, setChecker3] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(locaten?.location);
   const [symbolcatcher, setSymbolcatcher] = useState("");
 
   const handleCatching = (e, e2) => {
@@ -52,6 +55,7 @@ function Index({ data1, data2 }) {
 
   const handleLocation = (e) => {
     setAddress(e.target.value);
+    dispatch(handleLocationUpdate(e.target.value));
   };
 
   const dispatch = useDispatch();
@@ -160,6 +164,7 @@ function Index({ data1, data2 }) {
                           Location <strong className="text-red-500">*</strong>
                         </label>
                         <input
+                         defaultValue={locaten?.location}
                           type="text"
                           name="location"
                           id="location"

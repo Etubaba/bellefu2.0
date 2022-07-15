@@ -127,7 +127,7 @@ const NavBar = () => {
       {
         pageLanguage: "en",
         autoDisplay: true,
-        // includedLanguages: "en,ms,ta,zh-CN", // include this for selected languages
+        //includedLanguages: "en,ms,ta,zh-CN", // include this for selected languages
         layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
       },
       "google_translate_element"
@@ -223,7 +223,7 @@ const NavBar = () => {
           <Navbarsch />
           <div
             id="google_translate_element"
-            className="ml-4 max-w-[110px] md:max-w-[180px] lg:max-w-[180px]"
+            className="ml-4 max-w-[110px] md:max-w-[180px] lg:max-w-[165px]"
             translate="no"
           ></div>
         </div>

@@ -1,18 +1,14 @@
 import * as React from "react";
-import SelectUnstyled, {
-  selectUnstyledClasses,
-} from "@mui/base/SelectUnstyled";
-import OptionUnstyled, {
-  optionUnstyledClasses,
-} from "@mui/base/OptionUnstyled";
-import PopperUnstyled from "@mui/base/PopperUnstyled";
+
 import {
   handleCountryCodeUpdate,
   handleSymbolUpdate,
   handleCurrencyUpdate,
+  handleCountryname,
+
 } from "../../features/bellefuSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { styled } from "@mui/system";
+
 import axios from "axios";
 import { webApi } from "../../constant";
 import {
@@ -24,6 +20,9 @@ import { useState } from "react";
 
 
 export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
+
+  const countryname = useSelector((state) => state.bellefu?.postAddata);
+
   const [open1, setOpen1] = useState(false);
   const [inputdata, setInputData] = useState(null);
   const [searchdata, setSearchData] = useState("");
@@ -40,6 +39,7 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
         dispatch(handleCountryCodeUpdate(counts.iso2));
         dispatch(handleSymbolUpdate(counts.html_entity));
         dispatch(handleCurrencyUpdate(counts.currencyCode));
+        dispatch(handleCountryname(counts.name));
         console.log(newStateArr);
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
       >
         <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
           <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
-            {inputdata ? inputdata : "Select Country"}
+          {countryname?.countryname===""? "Select country":countryname?.countryname}
           </h5>
         </div>
         {!open1 ? (
