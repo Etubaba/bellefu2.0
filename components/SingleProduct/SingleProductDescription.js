@@ -187,8 +187,6 @@ const SingleProductDescription = ({ productDetails, verified }) => {
 
   const [clean, setClean] = useState(favArr);
 
-  console.log("product details checker", productDetails);
-
   const router = useRouter();
 
   const handleCall = () => {

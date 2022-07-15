@@ -11,6 +11,7 @@ const Body = ({ productsData, slider, currency, location, currencyCode }) => {
   const [loading, setLoading] = useState(false);
 
   const search = useSelector((state) => state.bellefu?.searchFilter);
+  const stateSelected = useSelector((state) => state.bellefu?.stateSelected);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,6 +20,7 @@ const Body = ({ productsData, slider, currency, location, currencyCode }) => {
     return () => clearTimeout(timer);
   }, []);
   // console.log("The products here :", products);
+  console.log("state", stateSelected);
   return (
     <div className="">
       <Head>
@@ -31,7 +33,7 @@ const Body = ({ productsData, slider, currency, location, currencyCode }) => {
         <title>Bellefu</title>
       </Head>
 
-      {search === "" ? (
+      {stateSelected === null && search === "" ? (
         <div className="mb-2">
           {loading ? (
             <div className="hidden md:block lg:block">

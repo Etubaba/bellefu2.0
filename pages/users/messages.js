@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Layout from "../../components/Layout";
 import { FaEye } from "react-icons/fa";
 import { Modal, Fade, Box, Backdrop } from "@mui/material";
-import { IoMdCall } from "react-icons/io";
+import { IoMdCall, IoWarningOutline } from "react-icons/io";
 import { BsCheck2All } from "react-icons/bs";
 import { MdDeleteForever, MdSend, MdClose } from "react-icons/md";
 import { FcVideoCall, FcSms } from "react-icons/fc";
@@ -22,6 +22,7 @@ import Pusher from "pusher-js";
 
 const messages = ({ data1 }) => {
   const [read, setRead] = useState(false);
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(undefined);
   const [preview, setPreview] = useState();
@@ -186,6 +187,7 @@ const messages = ({ data1 }) => {
                 setLname(item.last_name);
                 setDp(item.avatar);
                 setRead(!read);
+                setPhone(item.phone);
                 // const pusher = new Pusher("cef6262983ec85583b4b", {
                 //   cluster: "eu",
                 // });
@@ -270,7 +272,7 @@ const messages = ({ data1 }) => {
                   </span>
                 </div>
                 <div className=" md:hidden flex items-center space-x-5 ">
-                  <div>
+                  <div onClick={() => window.open(`tel:${phone}`)}>
                     <IoMdCall className="text-xl text-bellefuGreen " />{" "}
                   </div>
                   <div onClick={() => setRead(false)}>
@@ -280,7 +282,10 @@ const messages = ({ data1 }) => {
               </div>
               <div className="md:inline-block hidden">
                 <div className="flex  items-center justify-around m-5 ">
-                  <div className="rounded-lg flex border px-3 mr-3 p-1">
+                  <div
+                    onClick={() => window.open(`tel:${phone}`)}
+                    className="rounded-lg flex border px-3 mr-3 p-1"
+                  >
                     <IoMdCall className="text-xl mr-2" /> Call
                   </div>
                   <div
@@ -298,6 +303,49 @@ const messages = ({ data1 }) => {
             </div>
             <hr />
           </div>
+          <Modal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+          >
+            <div
+              className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
+              // sx={edit}
+            >
+              <div className="flex justify-center items-center">
+                {/* <WarningAmberIcon sx={{ fontSize: 50 }} /> */}
+                <FcVideoCall className="md:text-8xl  text-6xl mt-4 md:mb-3" />
+              </div>
+              <p className="p-1 mx-3 mb-2 md:mb-6 text-center ">
+                {" "}
+                Download our mobile application to be able to use this service.
+              </p>
+              <div className=" flex mb-7">
+                <a
+                  target="_blank"
+                  href="https://play.google.com/store/apps/details?id=com.bellefu_farmers_market.bellefu"
+                >
+                  <img
+                    alt="error"
+                    src="https://www.linkpicture.com/q/play-removebg-preview-1.png"
+                    className="w-40 h-10 mr-6"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href="https://apps.apple.com/us/app/bellefu/id1556135856"
+                >
+                  <img
+                    alt="error"
+                    src="https://www.linkpicture.com/q/ios-removebg-preview.png"
+                    className="w-40 h-10"
+                  />
+                </a>
+              </div>
+            </div>
+          </Modal>
 
           <div className="md:h-80 h-72 p-5 overflow-y-scroll    bg-[#F9FDF5] ">
             <ul className="space-y-2">
