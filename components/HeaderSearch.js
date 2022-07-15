@@ -36,7 +36,7 @@ const HeaderSearch = ({
   const [findCountry, setFindCountry] = useState("");
   const [findState, setFindState] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedState, setSelectedState] = useState("All");
+  const [selectedState, setSelectedState] = useState("Select State");
 
   const dispatch = useDispatch();
 
