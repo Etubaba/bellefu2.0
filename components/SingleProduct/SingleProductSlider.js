@@ -16,23 +16,25 @@ const SingleProductSlider = ({ sliderDetails }) => {
 
   return (
     <div className="p-2 lg:p-5 bg-bellefuWhite rounded-t-md  relative">
-      <Carousel
-        showArrows={true}
-        showThumbs={false}
-        internal={4000}
-        infiniteLoop
-        autoplay
-        showStatus={false}
-      >
-        {images?.map((image, index) => (
-          <img
-            loading="lazy"
-            src={`${productImageUrl}${image}`}
-            key={index}
-            className="rounded-md h-48 md:60 lg:h-80 w-full object-contain sm:object-fill "
-          />
-        ))}
-      </Carousel>
+      <div className="w-full lg:w-[60%] mx-auto">
+        <Carousel
+          showArrows={true}
+          showThumbs={false}
+          internal={4000}
+          infiniteLoop
+          autoplay
+          showStatus={false}
+        >
+          {images?.map((image, index) => (
+            <img
+              loading="lazy"
+              src={`${productImageUrl}${image}`}
+              key={index}
+              className="rounded-md w-full object-contain sm:object-fill "
+            />
+          ))}
+        </Carousel>
+      </div>
     </div>
   );
 };
