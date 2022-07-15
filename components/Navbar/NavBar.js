@@ -1,14 +1,16 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Modal } from "@mui/material";
 import BellefuLogo from "../../public/bellefulogo.png";
 import { IoMdNotifications, IoMdAddCircleOutline } from "react-icons/io";
+
 import { AiOutlineCaretRight, AiOutlineCaretDown } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
 import { MdShoppingCart } from "react-icons/md";
 import { BsFillPersonFill } from "react-icons/bs";
 import { RiMessage2Fill } from "react-icons/ri";
 import { AiFillHeart } from "react-icons/ai";
-import { RiLogoutBoxFill } from "react-icons/ri";
+import { RiAlertLine, RiLogoutBoxFill } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
 import { handlePusher, login } from "../../features/bellefuSlice";
 import { profileDetails } from "../../features/bellefuSlice";
@@ -36,6 +38,8 @@ const NavBar = () => {
   const [unread, setUnread] = useState(0);
   const [announcement, setAnnouncement] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [notifyMsg, setNotifyMsg] = useState("");
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -197,6 +201,19 @@ const NavBar = () => {
         cluster: "eu",
       });
       dispatch(handlePusher(pusher));
+      var channel = pusher.subscribe(`notification${username?.id}`);
+      channel.bind("notification", function (data) {
+        // alert(JSON.stringify(data));
+        if (currentPath === "/users/messages") {
+          return;
+        } else {
+          setNotifyMsg(data.data);
+          setModalOpen(true);
+        }
+
+        // setMsgCheck((prev) => (prev !== data ? data : 0));
+      });
+
       //   console.log("pusher", pusher);
     }
   }, []);
@@ -215,6 +232,41 @@ const NavBar = () => {
         </p>
       </div>
 
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <div
+          className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[40%] lg:w-[25%]"
+          // sx={edit}
+        >
+          <div className="flex justify-center items-center">
+            {/* <WarningAmberIcon sx={{ fontSize: 50 }} /> */}
+            <RiAlertLine className="md:text-3xl  text-xl mt-4 md:mb-3" />
+          </div>
+          <p className="p-1 mx-3 text-lg mb-2 md:mb-6 text-center ">
+            {" "}
+            {notifyMsg}.
+          </p>
+          <div className=" flex space-x-20 md:space-x-32 justify-between mb-7">
+            <button
+              onClick={() => setModalOpen(false)}
+              className="bg-gray-400 rounded-lg px-4 py-1 md:px-4 md:py-1 text-base  "
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => router.push("/users/messages")}
+              className="bg-bellefuGreen rounded-lg text-white px-4 py-2 md:px-4 md:py-2 text-base"
+            >
+              View
+            </button>
+          </div>
+        </div>
+      </Modal>
       <nav className="flex px-2 py-2 lg:px-12 bg-bellefuGreen items-center justify-between  ">
         {/* left side */}
         <div className="flex items-center">
