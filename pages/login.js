@@ -157,10 +157,17 @@ const Login = () => {
   return (
     <div className="mt-28">
       <Head>
-        <title> Bellefu Login</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Bellefu Login Page" />
-        <meta name="keywords" content="Bellefu, Login" />
+        <title>Bellefu Digital Agro Connect</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Bellefu is a agricultural products site and connection between farmers and buyers that offers a wide. We are into food products, agricultural machinery,farmers"
+        />
+
+        <link
+          rel="icon"
+          href="https://www.linkpicture.com/q/bellefuApplogo.jpg"
+        />
       </Head>
       <RegisterHeader />
       <div className="w-[90%] md:w-[55%] mx-auto mb-20 rounded-lg border-2 mt-12">
@@ -176,7 +183,8 @@ const Login = () => {
                   id="phone"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  User Name or Phone Number <strong className="text-red-500">*</strong>
+                  User Name or Phone Number{" "}
+                  <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <p>

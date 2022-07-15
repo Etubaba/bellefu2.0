@@ -58,7 +58,7 @@ export default function Home({ data }) {
   return (
     <div>
       <Head>
-        <title>Bellefu</title>
+        <title>Bellefu Digital Agro Connect</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"

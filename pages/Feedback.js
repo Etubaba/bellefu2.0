@@ -5,6 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 import axios from "axios";
 import { AiOutlineCaretRight, AiOutlineCaretDown } from "react-icons/ai";
 import { apiData } from "../constant";
+import Head from "next/head";
 //   import {handleCatUpdate} from "../../features/bellefuSlice";
 //   import { useSelector, useDispatch } from "react-redux";
 
@@ -77,6 +78,19 @@ export default function Feedback() {
 
   return (
     <div className="justify-center align-middle flex mt-20">
+      <Head>
+        <title>Bellefu Digital Agro Connect</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Bellefu is a agricultural products site and connection between farmers and buyers that offers a wide. We are into food products, agricultural machinery,farmers"
+        />
+
+        <link
+          rel="icon"
+          href="https://www.linkpicture.com/q/bellefuApplogo.jpg"
+        />
+      </Head>
       {loading ? (
         <div className=" shadow bg-bellefuWhite lg:w-[50%] m-5 rounded-md  p-5">
           <div className="justify-center align-middle text-center">
