@@ -26,7 +26,7 @@ const thumb = {
   border: "1px solid #eaeaea",
   marginBottom: 8,
   marginRight: 8,
-  width: 200,
+  width: 190,
   height: 150,
   padding: 4,
   boxSizing: "border-box",
@@ -58,14 +58,22 @@ export default function Images(props) {
 
 
 
-  console.log(videoFile);
+  console.log(files);
+  console.log(files2);
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
-      setFiles((prevState) => [
-        ...prevState,
-        URL.createObjectURL(acceptedFiles[0]),
-      ]);
+      if (files.length >= 10) {
+        toast.error("Image upload can not be more than 10", {
+          position: "top-center",
+        });
+      } else {
+        setFiles((prevState) => [
+          ...prevState,
+          URL.createObjectURL(acceptedFiles[0]),
+        ]);      }
+
+     
 
       // see the file object image  dey end for back end which is files2 as arrays of files
 
@@ -73,9 +81,7 @@ export default function Images(props) {
         let loopedFile = acceptedFiles[i];
 
         if (files2.length >= 10) {
-          toast.error("Image upload can not be more than 10", {
-            position: "top-center",
-          });
+          return;
         } else {
           setFiles2((prevState) => [...prevState, loopedFile]);
         }
@@ -100,7 +106,7 @@ export default function Images(props) {
   const thumbs = files.map((file, index) => (
     <div style={thumb} key={index}>
       <div className="flex">
-        <img src={file} className="rounded object-fill w-[200px] lg:w-[20vw]" />
+        <img src={file} className="rounded object-fill w-[200px] lg:w-[18vw]" />
         <MdClose
           onClick={() => handleRemovetag(file)}
           className="text-[28px] z-10 cursor-pointer bg-gray-100  hover:bg-gray-300 p-[2px] rounded-md m-[3px] absolute "
@@ -166,7 +172,7 @@ export default function Images(props) {
               <aside>{thumbs}</aside>
             </div>
             <div
-              className="border-gray-300 p-6 relative top-[13px] sm:h-[20vh] lg:h-[7vh] rounded-md m-5 border-dashed border-4 hover:border-blue-400 "
+              className="border-gray-300 p-6 flex justify-center items-center sm:h-[20vh] lg:h-[7vh] rounded-md m-5 border-dashed border-4 hover:border-blue-400 "
               {...getRootProps()}
             >
               <input {...getInputProps()} />
