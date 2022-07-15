@@ -230,13 +230,6 @@ const SingleProductSidebar = ({ userDetails, verified }) => {
 
       {/* view profile, messages and call */}
       <div className="w-full px-5 mb-10">
-        <div className="flex items-center mt-5 border w-full py-2 space-x-3 rounded-md bg-bellefuWhite justify-center">
-          {" "}
-          <BsFillPersonFill className="w-5 h-5 text-gray-500" />
-          <p className="text-gray-400 font-medium cursor-pointer">
-            View Profile
-          </p>
-        </div>
         {/* message */}
         {senderId !== receiverId && (
           <div
