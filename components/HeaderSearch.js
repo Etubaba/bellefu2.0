@@ -230,10 +230,10 @@ const HeaderSearch = ({
                 className="bg-bellefuBackground focus:outline-none w-9/12"
               />
               <datalist id="brow">
-                <option value="Agro Produce" />
-                <option value="Livestock" />
+                <option value="Fish" />
+                <option value="Meat" />
                 <option value="Food item" />
-                <option value="Farm machine" />
+                <option value="beans" />
                 <option value="Agro Jobs" />
               </datalist>
               <div className="px-3 text-black opacity-20 text-2xl -mt-2">|</div>
@@ -357,11 +357,14 @@ const HeaderSearch = ({
               placeholder="What are you looking for?"
             />
             <datalist id="brow">
-              <option value="Agro Produce" />
-              <option value="Livestock" />
-              <option value="Food item" />
-              <option value="Farm machine" />
-              <option value="Agro Jobs" />
+              <option value="Fish" />
+              <option value="Beans" />
+              <option value="Rice" />
+              <option value="machine" />
+              <option value="Vegetables" />
+              <option value="Sea Food" />
+              <option value="Equipment" />
+              <option value="Gage" />
             </datalist>
           </div>
         ) : (
@@ -379,7 +382,8 @@ const HeaderSearch = ({
             <div className=" flex flex-1 items-center space-x-2 cursor-ponter">
               <ImLocation2 className="text-bellefuOrange" />
               <span>
-                Where? {countryName !== null ? countryName : defaultCountry}
+                {countryName !== null ? countryName : defaultCountry},{" "}
+                {selectedState}
               </span>
             </div>
             <div className="">

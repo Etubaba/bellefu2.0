@@ -1,4 +1,4 @@
-import Body from "../components/ecommerce/Body";
+import StoreBody from "../components/ecommerce/StoreBody";
 import {
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
@@ -47,7 +47,7 @@ const Shops = ({ shops }) => {
         />
       </Head>
       <div className="px-2">
-        <Body shops={shop} />
+        <StoreBody shops={shop} />
       </div>
 
       {shop.length !== 0 && totalPage > 1 && (
@@ -97,8 +97,8 @@ export default Shops;
 
 //get shop data from api
 export async function getServerSideProps() {
-  const res = await fetch(`${shopApi}list/goods`);
-  // const res = await fetch(`${shopApi}view`);
+  //   const res = await fetch(`${shopApi}list/goods`);
+  const res = await fetch(`${shopApi}view`);
   const shops = await res.json();
 
   return {

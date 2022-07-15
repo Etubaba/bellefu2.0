@@ -67,7 +67,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="absolute bg-[#222222] w-72 space-y-3 px-2 pt-2 pb-5 top-0 -left-1 h-[100vh] font-semibold text-white lg:hidden shadow-md animate-slide-in"
+      className="absolute bg-[#000] w-72 space-y-3 px-2 pt-2 pb-5 top-0 -left-1 h-[100vh] font-semibold text-white lg:hidden shadow-md animate-slide-in"
     >
       <div
         className="-mb-2 flex items-center justify-end"

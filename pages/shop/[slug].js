@@ -19,7 +19,7 @@ const Shop = ({ shopProducts }) => {
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);
   }
-
+  // console.log("shopp", shopProducts);
   return (
     <>
       <Head>

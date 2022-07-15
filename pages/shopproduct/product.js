@@ -20,12 +20,10 @@ const ShopProduct = () => {
     getProductDetails();
   }, []);
 
-  console.log("slug", pDetails);
-
   return (
     <div className="flex max-w-[95%] lg:max-w-[90%] mx-auto mt-28">
-      <ShopSideBar userDetails={productDetails[0]} />
-      <ShopProducts productDetails={productDetails[0]} />
+      <ShopSideBar userDetails={productDetails} />
+      <ShopProducts productDetails={productDetails} />
     </div>
   );
 };
