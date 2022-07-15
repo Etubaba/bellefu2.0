@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { shopApi } from "../constant";
 import Payment from "../components/paymentComponent/Payment";
 import { payment } from "../features/bellefuSlice";
+import Head from "next/head";
 
 export default function CreateShop() {
   const [checkpass, setCheckPass] = useState(false);
@@ -187,6 +188,19 @@ export default function CreateShop() {
 
   return (
     <>
+      <Head>
+        <title>Bellefu Digital Agro Connect</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Bellefu is a agricultural products site and connection between farmers and buyers that offers a wide. We are into food products, agricultural machinery,farmers"
+        />
+
+        <link
+          rel="icon"
+          href="https://www.linkpicture.com/q/bellefuApplogo.jpg"
+        />
+      </Head>
       <Modal
         open={modalopen}
         onClose={() => setModalOpen(false)}
@@ -276,7 +290,10 @@ export default function CreateShop() {
                       <div className="grid grid-cols-6 gap-6">
                         <div className="col-span-6 sm:col-span-3">
                           <label className=" text-sm font-medium text-gray-700 flex justify-between">
-                            <p>Shop Name <strong className="text-red-500">*</strong></p>
+                            <p>
+                              Shop Name{" "}
+                              <strong className="text-red-500">*</strong>
+                            </p>
                             {checkpass ? (
                               <p className="text-red-600 relative right-3">
                                 Name Already exist ❌
@@ -293,7 +310,8 @@ export default function CreateShop() {
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                           <label className="block  text-sm font-medium text-gray-700">
-                            Store description <strong className="text-red-500">*</strong>
+                            Store description{" "}
+                            <strong className="text-red-500">*</strong>
                           </label>
                           <textarea
                             value={description}
@@ -303,7 +321,8 @@ export default function CreateShop() {
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                           <label className="block  text-sm font-medium text-gray-700">
-                            Next of Kin <strong className="text-red-500">*</strong>
+                            Next of Kin{" "}
+                            <strong className="text-red-500">*</strong>
                           </label>
                           <input
                             value={nextofkin}
@@ -332,7 +351,8 @@ export default function CreateShop() {
                             for="last-name"
                             className="block  text-sm font-medium text-gray-700"
                           >
-                            Bank name <strong className="text-red-500">*</strong>
+                            Bank name{" "}
+                            <strong className="text-red-500">*</strong>
                           </label>
                           <input
                             value={bankname}
@@ -346,7 +366,8 @@ export default function CreateShop() {
                             for="last-name"
                             className="block  text-sm font-medium text-gray-700"
                           >
-                            Account name <strong className="text-red-500">*</strong>
+                            Account name{" "}
+                            <strong className="text-red-500">*</strong>
                           </label>
                           <input
                             value={accountname}
@@ -357,7 +378,8 @@ export default function CreateShop() {
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                           <label className="block text-sm font-medium text-gray-700">
-                            Account number <strong className="text-red-500">*</strong>
+                            Account number{" "}
+                            <strong className="text-red-500">*</strong>
                           </label>
                           <input
                             value={accountnumber}
@@ -368,7 +390,8 @@ export default function CreateShop() {
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                           <label className="block text-sm font-medium text-gray-700">
-                            Account Type <strong className="text-red-500">*</strong>
+                            Account Type{" "}
+                            <strong className="text-red-500">*</strong>
                           </label>
                           <input
                             value={accounttype}
@@ -382,7 +405,8 @@ export default function CreateShop() {
                       {!idchecker?.id && (
                         <div className="col-span-3 sm:col-span-3 w-full">
                           <label className="block  text-sm font-medium mt-3 text-gray-700">
-                            Upload Govt. Issued ID <strong className="text-red-500">*</strong>
+                            Upload Govt. Issued ID{" "}
+                            <strong className="text-red-500">*</strong>
                           </label>
 
                           <GovId handleGovid={handleGovid} />
@@ -393,7 +417,8 @@ export default function CreateShop() {
                           onClick={() => router.push("/policy")}
                           className="block hover:text-orange-300 underline text-sm font-medium mb-2 text-bellefuOrange"
                         >
-                          Terms & Conditions <strong className="text-red-500">*</strong>
+                          Terms & Conditions{" "}
+                          <strong className="text-red-500">*</strong>
                         </label>
                         <input
                           onClick={() => setTerms(!terms)}

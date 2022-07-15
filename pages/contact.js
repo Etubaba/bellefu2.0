@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useState } from "react";
 import {
   BsFacebook,
@@ -54,6 +55,19 @@ const Contact = () => {
 
   return (
     <div className="md:max-w-5xl md:mx-auto w-full flex flex-col md:flex-row space-y-3 md:space-x-10 bg-white mt-20 md:mt-20 md:p-5 p-2 rounded-sm">
+      <Head>
+        <title>Bellefu Digital Agro Connect</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Bellefu is a agricultural products site and connection between farmers and buyers that offers a wide. We are into food products, agricultural machinery,farmers"
+        />
+
+        <link
+          rel="icon"
+          href="https://www.linkpicture.com/q/bellefuApplogo.jpg"
+        />
+      </Head>
       {/* left side */}
       <div className="w-full md:w-[60%]">
         <h2 className="uppercase text-5xl font-semibold text-gray-700 tracking-wider mb-6">
