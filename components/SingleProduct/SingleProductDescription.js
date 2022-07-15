@@ -411,24 +411,21 @@ const SingleProductDescription = ({ productDetails, verified }) => {
               <p className="text-2xl text-bellefuBlack1">Contact The Seller</p>
 
               <div className="flex items-center mt-2 w-full space-x-10 justify-center">
-                {userId !== receiverId && (
-                  <div
-                    onClick={handleMessage}
-                    className="bg-bellefuOrange px-8 py-3 rounded-md flex items-center space-x-2 cursor-pointer"
-                  >
-                    <RiMessage2Fill className="text-white" />
-                    <p className="text-white">Message</p>
-                  </div>
-                )}
-                {userId !== receiverId && (
-                  <div
-                    onClick={handleCall}
-                    className="bg-bellefuGreen px-12 py-3 rounded-md flex items-center cursor-pointer space-x-2"
-                  >
-                    <MdCall className="text-white" />
-                    <p className="text-white">Call</p>
-                  </div>
-                )}
+                <div
+                  onClick={handleMessage}
+                  className="bg-bellefuOrange px-8 py-3 rounded-md flex items-center space-x-2 cursor-pointer"
+                >
+                  <RiMessage2Fill className="text-white" />
+                  <p className="text-white">Message</p>
+                </div>
+
+                <div
+                  onClick={handleCall}
+                  className="bg-bellefuGreen px-12 py-3 rounded-md flex items-center cursor-pointer space-x-2"
+                >
+                  <MdCall className="text-white" />
+                  <p className="text-white">Call</p>
+                </div>
 
                 {/* Watching video modal  */}
 

@@ -21,6 +21,7 @@ const initialState = {
   msgScroll: 0,
   messageRead: 0,
   fromCart: "",
+  pusher: null,
   // messageRead: typeof window !== "undefined" ? localStorage.getItem("msg") : 0,
   verificationStatus:
     typeof window !== "undefined"
@@ -119,6 +120,10 @@ export const bellefuSlice = createSlice({
     },
     msgRead: (state) => {
       state.messageRead += 1;
+      // localStorage.setItem('msg', state.messageRead)
+    },
+    handlePusher: (state, action) => {
+      state.pusher = action.payload;
       // localStorage.setItem('msg', state.messageRead)
     },
     msgScroll: (state, action) => {
@@ -338,6 +343,7 @@ export const {
   countryProductSearchEmpty,
   searchCountry,
   phoneveri,
+  handlePusher,
   newProductForShop,
   handleAdsPlanPriceUpdate,
   handleAdsPostingCheckerUpdate,

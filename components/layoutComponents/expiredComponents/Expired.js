@@ -5,7 +5,7 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { productImageUrl } from '../../../constant'
+import { productImageUrl } from "../../../constant";
 
 const Expired = ({ product }) => {
   const [open, setOpen] = useState(false);
@@ -53,7 +53,7 @@ const Expired = ({ product }) => {
       </div>
 
       {/* drop down beginning */}
-      {open ? (
+      {/* {open ? (
         <div className="w-full mt-1 bg-bellefuWhite rounded border transition duration-300 ease-in z-40 shadow-lg">
           <ul className="rounded px-2 py-3 space-y-2">
             <div className="flex items-center space-x-4 mb-2 bg-bellefuBackground px-2 rounded-md py-1">
@@ -74,7 +74,7 @@ const Expired = ({ product }) => {
             </li>
           </ul>
         </div>
-      ) : null}
+      ) : null} */}
       {/* dropdown end */}
     </div>
   );
