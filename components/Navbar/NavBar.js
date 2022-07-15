@@ -132,7 +132,7 @@ const NavBar = () => {
       {
         pageLanguage: "en",
         autoDisplay: true,
-        //includedLanguages: "en,ms,ta,zh-CN", // include this for selected languages
+        includedLanguages: "en,ar,zh-CN,zh-TW,de,es,sw,fr,zu", // include this for selected languages
         layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
       },
       "google_translate_element"
