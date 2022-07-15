@@ -16,12 +16,9 @@ const BottomNav = () => {
   const username = useSelector(profileDetails);
   const verify = useSelector((state) => state.bellefu?.verificationStatus);
 
-
-
-
   if (loading) {
     setTimeout(() => {
-      setLoading(false)
+      setLoading(false);
     }, 3000);
   }
   const toPostAds = () => {
@@ -53,6 +50,7 @@ const BottomNav = () => {
       setLoading(true);
     } else {
       toast.error("You need to login first");
+      router.push("/login");
     }
   };
   const handleMsg = () => {
@@ -61,6 +59,7 @@ const BottomNav = () => {
       setLoading(true);
     } else {
       toast.error("You need to login first");
+      router.push("/login");
     }
   };
   const handleProfile = () => {
@@ -69,13 +68,20 @@ const BottomNav = () => {
       setLoading(true);
     } else {
       toast.error("You need to login first");
+      router.push("/login");
     }
   };
 
   return (
     <div className="lg:hidden fixed z-[1000] bottom-0  bg-bellefuGreen w-full h-16 px-7 p-3 justify-center items-center flex  ">
       <div className="flex space-x-12 md:space-x-24 ">
-        <AiFillHome className="text-2xl text-white" onClick={() => router.push("/")} />
+        <AiFillHome
+          className="text-2xl text-white"
+          onClick={() => {
+            router.push("/");
+            window.location.reload();
+          }}
+        />
         <FaHeart className="text-white text-2xl" onClick={handlefav} />
       </div>
       {loading && <Loader isLoading={loading} />}

@@ -10,7 +10,7 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { AiFillHeart } from "react-icons/ai";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../../features/bellefuSlice";
+import { handlePusher, login } from "../../features/bellefuSlice";
 import { profileDetails } from "../../features/bellefuSlice";
 import { isLoggedIn } from "../../features/bellefuSlice";
 import { useRouter } from "next/router";
@@ -26,6 +26,7 @@ import {
   UserAvataUrl,
 } from "../../constant";
 import Loader from "../../constant";
+import Pusher from "pusher-js";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -190,7 +191,15 @@ const NavBar = () => {
   const randomAnouncement =
     announcement[Math.floor(Math.random() * announcement?.length)];
 
-  // console.log("user", username);
+  useEffect(() => {
+    if (getIsLoggedIn) {
+      const pusher = new Pusher("cef6262983ec85583b4b", {
+        cluster: "eu",
+      });
+      dispatch(handlePusher(pusher));
+      //   console.log("pusher", pusher);
+    }
+  }, []);
 
   return (
     <div className="fixed top-0 z-[1000] w-full ">
@@ -217,6 +226,9 @@ const NavBar = () => {
             onClick={() => {
               router.push("/");
               setLoading(!loading);
+              if (currentPath === "/") {
+                window.location.reload();
+              }
             }}
           />
           {/* $$country select and language select for mobile */}

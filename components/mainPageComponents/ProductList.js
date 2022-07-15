@@ -268,6 +268,7 @@ const ProductList = ({
                       });
                   } else {
                     toast.error("Login to add favorite product");
+                    router.push("/login");
                     setOpen(true);
                   }
                 }}

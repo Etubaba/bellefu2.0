@@ -52,7 +52,7 @@ const MyAd = ({ product }) => {
         </div>
       </div>
       {/* drop down beginning */}
-      {open === true ? (
+      {/* {open ? (
         <div className="w-full mt-1 bg-bellefuWhite rounded border transition duration-300 ease-in z-40 shadow-lg">
           <ul className="rounded px-2 py-3 space-y-2">
             <div className="flex items-center space-x-4 mb-2 bg-bellefuBackground px-2 rounded-md py-1">
@@ -71,7 +71,7 @@ const MyAd = ({ product }) => {
             </li>
           </ul>
         </div>
-      ) : null}
+      ) : null} */}
       {/* dropdown end */}
     </div>
   );
