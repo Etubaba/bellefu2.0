@@ -86,6 +86,7 @@ const ProductList = ({
         console.log(err);
       });
   };
+
   const actionCall = () => {
     axios
       .post(`${apiData}monitor/user/action`, {

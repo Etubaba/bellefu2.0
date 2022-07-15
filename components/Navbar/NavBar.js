@@ -100,7 +100,7 @@ const NavBar = () => {
     axios
       .get(`${apiData}unseen/messages/count/${username?.id}`)
       .then((res) => setUnseen(res.data.unseen));
-  }, [msgRead]);
+  }, [msgRead, notifyMsg]);
 
   //handle loading
 
@@ -115,7 +115,7 @@ const NavBar = () => {
     axios
       .get(`${apiData}notification/count/${username?.id}`)
       .then((res) => setUnread(res.data.unread));
-  }, []);
+  }, [notifyMsg]);
 
   useEffect(() => {
     const addScript = document.createElement("script");
@@ -249,17 +249,24 @@ const NavBar = () => {
           </div>
           <p className="p-1 mx-3 text-lg mb-2 md:mb-6 text-center ">
             {" "}
-            {notifyMsg}.
+            {notifyMsg.charAt(0).toLocaleUpperCase() + notifyMsg.slice(1)}.
           </p>
           <div className=" flex space-x-20 md:space-x-32 justify-between mb-7">
             <button
-              onClick={() => setModalOpen(false)}
+              onClick={() => {
+                setModalOpen(false);
+                setNotifyMsg("");
+              }}
               className="bg-gray-400 rounded-lg px-4 py-1 md:px-4 md:py-1 text-base  "
             >
               Cancel
             </button>
             <button
-              onClick={() => router.push("/users/messages")}
+              onClick={() => {
+                router.push("/users/messages");
+                setModalOpen(false);
+                setNotifyMsg("");
+              }}
               className="bg-bellefuGreen rounded-lg text-white px-4 py-2 md:px-4 md:py-2 text-base"
             >
               View
