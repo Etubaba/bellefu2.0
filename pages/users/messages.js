@@ -192,11 +192,13 @@ const messages = ({ data1 }) => {
                 //   cluster: "eu",
                 // });
                 // var channel = pusher.subscribe(`${channelName}`);
-                var channel = pusher.subscribe(`${item.channelName}`);
-                channel.bind("my-event", function (data) {
+                var channel = pusher.subscribe(`notification${senderId}`);
+                channel.bind("notification", function (data) {
                   // alert(JSON.stringify(data));
                   console.log("push", data);
-                  setMsgCheck((prev) => (prev !== data ? data : 0));
+
+                  if (data.data.type === "chat")
+                    setMsgCheck((prev) => (prev !== data ? data : 0));
                 });
 
                 if (item.unread > 0) {

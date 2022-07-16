@@ -40,6 +40,8 @@ const NavBar = () => {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [notifyMsg, setNotifyMsg] = useState("");
+  const [notifyType, setNotifyType] = useState("");
+  const [from, setFrom] = useState("");
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -204,10 +206,13 @@ const NavBar = () => {
       var channel = pusher.subscribe(`notification${username?.id}`);
       channel.bind("notification", function (data) {
         // alert(JSON.stringify(data));
-        if (currentPath === "/users/messages") {
+        setFrom(data.data.from);
+        setNotifyType(data.data.type);
+
+        if (currentPath === "/users/messages" && data.data.type === "chat") {
           return;
         } else {
-          setNotifyMsg(data.data);
+          setNotifyMsg(data.data.message);
           setModalOpen(true);
         }
 
@@ -221,7 +226,7 @@ const NavBar = () => {
   if (modalOpen) {
     setTimeout(() => {
       setModalOpen(false);
-    }, 7000);
+    }, 10000);
   }
 
   return (
@@ -237,11 +242,12 @@ const NavBar = () => {
           {randomAnouncement?.announcement}
         </p>
       </div>
-
       {modalOpen && (
         <div
           onClick={() => {
-            router.push("/users/messages");
+            if (notifyType === "chat") router.push("/users/messages");
+            if (notifyType === "notification")
+              router.push("/users/notification");
             setModalOpen(false);
           }}
           className="w-auto top-32 animate-slide-in flex absolute justify-end items-end"
