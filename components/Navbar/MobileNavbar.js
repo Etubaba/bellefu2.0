@@ -3,9 +3,12 @@ import Image from "next/image";
 import { IoMdNotifications, IoMdAddCircleOutline } from "react-icons/io";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { AiOutlineClose } from "react-icons/ai";
+import { FiRadio } from "react-icons/fi";
+import { FaBloggerB} from "react-icons/fa";
+import { BiWorld } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { MdShoppingCart } from "react-icons/md";
+import { MdShoppingCart,MdDashboard } from "react-icons/md";
 import { isLoggedIn, login, profileDetails } from "../../features/bellefuSlice";
 import axios from "axios";
 import Loader, { apiData, shopApi, UserAvataUrl } from "../../constant";
@@ -67,13 +70,13 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="absolute bg-[#222222] w-72 space-y-3 px-2 pt-2 pb-5 top-0 -left-1 h-[100vh] font-semibold text-white lg:hidden shadow-md animate-slide-in"
+      className="absolute bg-[#ffffff] w-72 space-y-3 px-2 pt-2 pb-5 top-0 -left-1 h-[100vh] font-semibold text-gray-700 lg:hidden shadow-md animate-slide-in"
     >
       <div
         className="-mb-2 flex items-center justify-end"
         onClick={() => setIsOpen(false)}
       >
-        {isOpen && <AiOutlineClose className="w-6 h-6" />}
+        {isOpen && <AiOutlineClose className="w-6 h-6 text-black" />}
       </div>
 
       {/* avatar for mobile */}
@@ -96,14 +99,14 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             />
             {unseen !== 0 ? (
               <p className="bg-orange-400 -mt-20 ml-14 h-8 w-8 absolute flex items-center justify-center rounded-full">
-                <span className="text-white text-base text-center font-semibold">
+                <span className="text-gray-700 text-base text-left font-semibold">
                   {unseen}
                 </span>
               </p>
             ) : null}
           </div>
           <div className="w-3/5 mx-auto flex justify-between">
-            <p className="text-lg font-bold tracking-wide ">
+            <p className="text-lg font-bold text-gray-700 tracking-wide ">
               {username?.username}
             </p>
 
@@ -123,14 +126,14 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
                 <MdShoppingCart
                   className={
                     cartCount.length !== 0
-                      ? "text-white w-6 h-6 animate-shake"
-                      : "text-white w-6 h-6"
+                      ? "text-gray-700 w-6 h-6 animate-shake"
+                      : "text-gray-700 w-6 h-6"
                   }
                 />
 
                 {cartCount.length !== 0 ? (
                   <p className=" bg-bellefuOrange -top-2 left-4 h-4 w-4 absolute flex items-center justify-center rounded-full">
-                    <span className="text-white text-[10px] text-center ">
+                    <span className="text-gray-700 text-[10px] text-left ">
                       {cartCount.length}
                     </span>
                   </p>
@@ -142,14 +145,14 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
               <IoMdNotifications
                 className={
                   unread !== 0
-                    ? "text-white w-6 h-6 animate-shake"
-                    : "text-white w-6 h-6"
+                    ? "text-gray-700 w-6 h-6 animate-shake"
+                    : "text-gray-700 w-6 h-6"
                 }
               />
 
               {unread !== 0 ? (
                 <p className=" bg-orange-400 -top-1 left-3 h-4 w-4 absolute flex items-center justify-center rounded-full">
-                  <span className="text-white text-sm text-center ">
+                  <span className="text-gray-700 text-sm text-left ">
                     {unread}
                   </span>
                 </p>
@@ -161,50 +164,52 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
 
       {/* end of avatar for mobile */}
 
-      <div className="space-y-4 text-white">
+      <div className="space-y-4  text-gray-700">
         {getIsLoggedIn && (
           <div
-            className=" bg-[#343a40] font-bold tracking-wider p-2 text-center rounded text-sm"
+            className=" bg-gray-100 font-bold tracking-wider flex p-2 text-left rounded text-sm"
             onClick={() => {
               router.push("/users");
               setIsOpen(false);
               setLoading(true);
             }}
           >
-            Dashboard
+            <MdDashboard className="w-6 h-6 ml-1 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/><p>Dashboard</p>
           </div>
         )}
 
         <a className="" href="https://webinar.bellefu.com/" target="_blank">
           <p
-            className="bg-[#343a40] my-4 font-bold tracking-wider p-2 text-center rounded text-sm"
+            className="bg-gray-100 my-4 flex font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            Webinar
+            <BiWorld className="w-6 h-6 ml-1 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
+            <p>Webinar</p>
           </p>{" "}
         </a>
         <a href="https://radio.bellefu.com/" target="_blank">
           {" "}
           <p
-            className=" bg-[#343a40] mb-4 font-bold tracking-wider p-2 text-center rounded text-sm"
+            className=" bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            Bellefu Radio
+            <FiRadio className="w-6 h-6 ml-1"/><p>Bellefu Radio</p>
           </p>
         </a>
 
         <a href="https://blog.bellefu.com/" target="_blank">
           <p
-            className="bg-[#343a40] font-bold tracking-wider p-2 text-center rounded text-sm"
+            className="bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
+            <FaBloggerB className="w-6 h-6 ml-1 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
             Blog
           </p>{" "}
         </a>
         {!getIsLoggedIn && (
           <>
             <p
-              className="bg-[#343a40] font-bold tracking-wider p-2 text-center rounded text-sm"
+              className="bg-gray-100 font-bold tracking-wider p-2 text-left rounded text-sm"
               onClick={() => {
                 router.push("/login"), setIsOpen(false), setLoading(true);
               }}
@@ -212,7 +217,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
               Login
             </p>
             <p
-              className=" bg-[#343a40] font-bold tracking-wider p-2 text-center rounded text-sm"
+              className=" bg-gray-100 font-bold tracking-wider p-2 text-left rounded text-sm"
               onClick={() => (
                 router.push("/register"), setIsOpen(false), setLoading(true)
               )}
@@ -224,7 +229,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
         {getIsLoggedIn &&
           (username?.shopId === null || username?.shopId === undefined ? (
             <div
-              className=" bg-[#343a40] font-bold tracking-wider p-2 justify-center rounded text-sm flex items-center space-x-2"
+              className=" bg-gray-100 font-bold tracking-wider p-2 justify-left rounded text-sm flex items-left space-x-2"
               onClick={() => {
                 router.push("/createShop");
                 setIsOpen(false);
@@ -239,7 +244,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             </div>
           ) : (
             <div
-              className=" bg-[#343a40] font-bold tracking-wider p-2 justify-center rounded text-sm flex items-center space-x-2"
+              className=" bg-gray-100 font-bold tracking-wider p-2 justify-left rounded text-sm flex items-left space-x-2"
               onClick={() => {
                 router.push("/users/shop");
                 // setIsOpen(false);
@@ -255,7 +260,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
           ))}
 
         <div
-          className=" bg-[#343a40] font-bold tracking-wider p-2 justify-center rounded text-sm flex items-center space-x-2"
+          className=" bg-gray-100 font-bold tracking-wider p-2 justify-left rounded text-sm flex items-left space-x-2"
           onClick={() => {
             router.push("/shops");
             setIsOpen(false);
@@ -270,7 +275,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
         {getIsLoggedIn && (
           <div className="w-2/5 mx-auto pt-2">
             <div
-              className="flex items-center justify-center space-x-1 px-2 py-1  bg-[#343a40] font-bold tracking-wider rounded"
+              className="flex items-left justify-left space-x-1 px-2 py-1  bg-gray-100 font-bold tracking-wider rounded"
               onClick={() => {
                 dispatch(isLoggedIn(false));
                 localStorage.clear();
@@ -281,7 +286,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
                 });
               }}
             >
-              <RiLogoutBoxFill className="text-white w-5 h-5" />
+              <RiLogoutBoxFill className="text-gray-700 w-5 h-5" />
               <p className="text-sm capitalize py-1">Logout</p>
             </div>
           </div>
