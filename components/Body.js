@@ -20,7 +20,7 @@ const Body = ({ productsData, slider, currency, location, currencyCode }) => {
     return () => clearTimeout(timer);
   }, []);
   // console.log("The products here :", products);
-  console.log("state", stateSelected);
+
   return (
     <div className="">
       <Head>
