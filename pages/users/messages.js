@@ -15,7 +15,7 @@ import axios from "axios";
 import Dropzone from "react-dropzone";
 
 import moment from "moment";
-import { msgRead } from "../../features/bellefuSlice";
+import { chatting, msgRead } from "../../features/bellefuSlice";
 import Skeleton from "@mui/material/Skeleton";
 
 import Pusher from "pusher-js";
@@ -86,7 +86,7 @@ const messages = ({ data1 }) => {
     };
 
     getMessages();
-  }, []);
+  }, [pusher]);
 
   // get chat between two people
 
@@ -188,14 +188,16 @@ const messages = ({ data1 }) => {
                 setDp(item.avatar);
                 setRead(!read);
                 setPhone(item.phone);
+                checkRead(chatting(item.id));
+                localStorage.setItem("chatwith", item.id);
                 // const pusher = new Pusher("cef6262983ec85583b4b", {
                 //   cluster: "eu",
                 // });
                 // var channel = pusher.subscribe(`${channelName}`);
-                var channel = pusher.subscribe(`notification${senderId}`);
+                var channel = pusher?.subscribe(`notification${senderId}`);
                 channel.bind("notification", function (data) {
                   // alert(JSON.stringify(data));
-                  console.log("push", data);
+                  // console.log("push", data);
 
                   if (data.data.type === "chat")
                     setMsgCheck((prev) => (prev !== data ? data : 0));
@@ -277,7 +279,12 @@ const messages = ({ data1 }) => {
                   <div onClick={() => window.open(`tel:${phone}`)}>
                     <IoMdCall className="text-xl text-bellefuGreen " />{" "}
                   </div>
-                  <div onClick={() => setRead(false)}>
+                  <div
+                    onClick={() => {
+                      setRead(false);
+                      checkRead(chatting(null));
+                    }}
+                  >
                     <MdOutlineCancel className="text-xl  text-bellefuOrange " />
                   </div>
                 </div>
