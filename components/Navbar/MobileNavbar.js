@@ -12,7 +12,7 @@ import { MdShoppingCart,MdDashboard ,MdDevices} from "react-icons/md";
 import { isLoggedIn, login, profileDetails } from "../../features/bellefuSlice";
 import axios from "axios";
 import Loader, { apiData, shopApi, UserAvataUrl } from "../../constant";
-import { BsShop} from "react-icons/bs";
+import { BsShop,BsNewspaper} from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 
 const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
@@ -202,7 +202,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             className="bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            <FaBloggerB className="w-6 h-6 mr-2   text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
+            <BsNewspaper className="w-6 h-6 mr-2   text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
             Blog
           </p>{" "}
         </a>
