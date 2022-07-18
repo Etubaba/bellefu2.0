@@ -29,6 +29,7 @@ import {
 } from "../../constant";
 import Loader from "../../constant";
 import Pusher from "pusher-js";
+import { GiCoinsPile } from "react-icons/gi";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -42,6 +43,7 @@ const NavBar = () => {
   const [notifyMsg, setNotifyMsg] = useState("");
   const [notifyType, setNotifyType] = useState("");
   const [from, setFrom] = useState("");
+  // const [chatWith, setChatWth] = useState(null);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -49,9 +51,10 @@ const NavBar = () => {
   const username = useSelector(profileDetails);
   const msgRead = useSelector((state) => state.bellefu?.messageRead);
   const verify = useSelector((state) => state.bellefu?.verificationStatus);
-  // const userDetails = useSelector(state => state.bellefu?.userDetails.id)
   const cartCheck = useSelector((state) => state.bellefu?.favLoad);
   const phoneAlt = useSelector((state) => state.bellefu?.phoneVerified);
+  const pusher = useSelector((state) => state.bellefu?.pusher);
+  const chatWith = useSelector((state) => state.bellefu?.chatUser);
 
   const toPostAds = () => {
     if (
@@ -102,7 +105,7 @@ const NavBar = () => {
     axios
       .get(`${apiData}unseen/messages/count/${username?.id}`)
       .then((res) => setUnseen(res.data.unseen));
-  }, [msgRead, notifyMsg]);
+  }, [msgRead, pusher, notifyMsg]);
 
   //handle loading
 
@@ -117,7 +120,7 @@ const NavBar = () => {
     axios
       .get(`${apiData}notification/count/${username?.id}`)
       .then((res) => setUnread(res.data.unread));
-  }, [notifyMsg]);
+  }, [notifyMsg, pusher]);
 
   useEffect(() => {
     const addScript = document.createElement("script");
@@ -197,6 +200,12 @@ const NavBar = () => {
   const randomAnouncement =
     announcement[Math.floor(Math.random() * announcement?.length)];
 
+  //handle notification
+
+  // useEffect(() => {
+  //   setChatWth(openedChat);
+  // }, [openedChat]);
+  // console.log(chatWith);
   useEffect(() => {
     if (getIsLoggedIn) {
       const pusher = new Pusher("cef6262983ec85583b4b", {
@@ -206,17 +215,24 @@ const NavBar = () => {
       var channel = pusher.subscribe(`notification${username?.id}`);
       channel.bind("notification", function (data) {
         // alert(JSON.stringify(data));
+        console.log("data", data);
         setFrom(data.data.from);
         setNotifyType(data.data.type);
+        setNotifyMsg(data.data.message);
+        setModalOpen(true);
+        // const chatWith = localStorage.getItem("chatwith");
+        const chatSenderId = Number(data?.data?.userid);
 
-        if (currentPath === "/users/messages" && data.data.type === "chat") {
-          return;
-        } else {
-          setNotifyMsg(data.data.message);
+        console.log("msgSender", chatSenderId);
+        console.log("msgIOpen", chatWith);
+        console.log("type", data.data?.type);
+
+        if (
+          chatSenderId !== Number(chatWith) &&
+          data.data.type !== "notification"
+        ) {
           setModalOpen(true);
         }
-
-        // setMsgCheck((prev) => (prev !== data ? data : 0));
       });
 
       //   console.log("pusher", pusher);
@@ -250,10 +266,11 @@ const NavBar = () => {
               router.push("/users/notification");
             setModalOpen(false);
           }}
-          className="w-auto top-32 animate-slide-in flex absolute justify-end items-end"
+          className="w-auto top-32 ml-10 animate-slide-in flex absolute justify-end items-end"
         >
           <Alert variant="filled" severity="success">
             <p>
+              {from} :{"   "}{" "}
               {notifyMsg.charAt(0).toLocaleUpperCase() + notifyMsg.slice(1)}.
             </p>
           </Alert>

@@ -22,6 +22,7 @@ const initialState = {
   messageRead: 0,
   fromCart: "",
   pusher: null,
+  chatUser: null,
   // messageRead: typeof window !== "undefined" ? localStorage.getItem("msg") : 0,
   verificationStatus:
     typeof window !== "undefined"
@@ -38,6 +39,7 @@ const initialState = {
         : null
       : null,
   formDisabler: true,
+
   countrySelected: null,
   catfilter: typeof window !== "undefined" ? localStorage.getItem("cat") : null,
   login: typeof window !== "undefined" ? localStorage.getItem("login") : null,
@@ -99,10 +101,9 @@ export const bellefuSlice = createSlice({
   name: "bellefu",
   initialState,
   reducers: {
+    // #####################################
+    // #####################################
 
-    // #####################################
-    // #####################################
-    
     handleCategoryname: (state, action) => {
       state.postAddata.categoryname = action.payload;
     },
@@ -110,7 +111,7 @@ export const bellefuSlice = createSlice({
     // #####################################
     // #####################################
     // #####################################
-    
+
     handleSubcategoryname: (state, action) => {
       state.postAddata.subcategoryname = action.payload;
     },
@@ -118,7 +119,7 @@ export const bellefuSlice = createSlice({
     // #####################################
     // #####################################
     // #####################################
-    
+
     handleCountryname: (state, action) => {
       state.postAddata.countryname = action.payload;
     },
@@ -126,7 +127,7 @@ export const bellefuSlice = createSlice({
     // #####################################
     // #####################################
     // #####################################
-    
+
     handleStatename: (state, action) => {
       state.postAddata.statesname = action.payload;
     },
@@ -134,15 +135,12 @@ export const bellefuSlice = createSlice({
     // #####################################
     // #####################################
     // #####################################
-    
+
     handleCityname: (state, action) => {
       state.postAddata.cityname = action.payload;
     },
     // #####################################
     // #####################################
-   
-
-
 
     isLoggedIn: (state, action) => {
       state.login = action.payload;
@@ -211,6 +209,9 @@ export const bellefuSlice = createSlice({
     updateIdpath: (state, action) => {
       state.catId = action.payload;
     },
+    chatting: (state, action) => {
+      state.chatUser = action.payload;
+    },
     handleSearch: (state, action) => {
       state.searchFilter = action.payload;
     },
@@ -278,8 +279,8 @@ export const bellefuSlice = createSlice({
       state.postAddata.price = action.payload;
     },
     handleTagUpdate: (state, action) => {
-      // state.postAddata.tag.push(action.payload); 
-      state.postAddata.tag=action.payload; 
+      // state.postAddata.tag.push(action.payload);
+      state.postAddata.tag = action.payload;
     },
     handleDescriptionUpdate: (state, action) => {
       state.postAddata.description = action.payload;
@@ -363,6 +364,7 @@ export const {
   fetchData,
   userFav,
   Subcat,
+  chatting,
   msgRead,
   selectCat,
   favUpdated,
@@ -407,7 +409,7 @@ export const {
   handleSubcategoryname,
   handleCountryname,
   handleStatename,
-  handleImagesurlUpdate
+  handleImagesurlUpdate,
 } = bellefuSlice.actions;
 
 export const login = (state) => state.bellefu.login;
