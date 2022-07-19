@@ -202,10 +202,6 @@ const NavBar = () => {
 
   //handle notification
 
-  // useEffect(() => {
-  //   setChatWth(openedChat);
-  // }, [openedChat]);
-  // console.log(chatWith);
   useEffect(() => {
     if (getIsLoggedIn) {
       const pusher = new Pusher("cef6262983ec85583b4b", {
@@ -214,31 +210,22 @@ const NavBar = () => {
       dispatch(handlePusher(pusher));
       var channel = pusher.subscribe(`notification${username?.id}`);
       channel.bind("notification", function (data) {
-        // alert(JSON.stringify(data));
-        console.log("data", data);
         setFrom(data.data.from);
         setNotifyType(data.data.type);
         setNotifyMsg(data.data.message);
-        setModalOpen(true);
-        // const chatWith = localStorage.getItem("chatwith");
-        const chatSenderId = Number(data?.data?.userid);
 
-        console.log("msgSender", chatSenderId);
-        console.log("msgIOpen", chatWith);
-        console.log("type", data.data?.type);
-
-        if (
-          chatSenderId !== Number(chatWith) &&
-          data.data.type !== "notification"
-        ) {
-          setModalOpen(true);
-        }
+        setTimeout(() => {
+          if (data.data.type === "chat" && currentPath === "/users/messages") {
+            return;
+          } else {
+            setModalOpen(true);
+          }
+        }, 3000);
       });
 
       //   console.log("pusher", pusher);
     }
   }, []);
-
   if (modalOpen) {
     setTimeout(() => {
       setModalOpen(false);

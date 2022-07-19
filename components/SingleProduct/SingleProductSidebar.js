@@ -211,11 +211,13 @@ const SingleProductSidebar = ({ userDetails, verified }) => {
               }
             />
             <i className="text-[10px] ml-2">
-              {verified?.phone && !verified?.id && !verified?.kyc
-                ? "Phone verified"
-                : verified?.phone && verified?.id && !verified?.kyc
-                ? "ID verified"
-                : "KYC verified"}
+              {verified?.phone && !verified?.id && !verified?.kyc ? (
+                <p className="text-[#4E9E4F]">Phone verified</p>
+              ) : verified?.phone && verified?.id && !verified?.kyc ? (
+                <p className="text-[#4E9E4F]">ID verified</p>
+              ) : (
+                <p className="text-[#4E9E4F]">KYC verified</p>
+              )}
             </i>
           </span>
         </div>

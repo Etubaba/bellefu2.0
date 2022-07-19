@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Layout from "../../components/Layout";
 import { FaEye } from "react-icons/fa";
-import { Modal, Fade, Box, Backdrop } from "@mui/material";
+import { Modal, Fade, Box, Backdrop, Alert } from "@mui/material";
 import { IoMdCall, IoWarningOutline } from "react-icons/io";
 import { BsCheck2All } from "react-icons/bs";
 import { MdDeleteForever, MdSend, MdClose } from "react-icons/md";
@@ -19,6 +19,7 @@ import { chatting, msgRead } from "../../features/bellefuSlice";
 import Skeleton from "@mui/material/Skeleton";
 
 import Pusher from "pusher-js";
+import { useRouter } from "next/router";
 
 const messages = ({ data1 }) => {
   const [read, setRead] = useState(false);
@@ -36,18 +37,23 @@ const messages = ({ data1 }) => {
   const [unread, setUnread] = useState(0);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
+  const [noteModal, setNoteModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [attachments, setAttachments] = useState(null);
   const [refetch, setRefetch] = useState(0);
   const [msgCheck, setMsgCheck] = useState(0);
+  const [notifyMsg, setNotifyMsg] = useState("");
+  const [notifyType, setNotifyType] = useState("");
+  const [from, setFrom] = useState("");
 
   const theRef = useRef();
+  const router = useRouter();
 
   const senderId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const pusher = useSelector((state) => state.bellefu?.pusher);
 
   const checkRead = useDispatch();
-
+  const currentPath = router.pathname;
   const test = 639;
   // handle message sent
 
@@ -139,6 +145,12 @@ const messages = ({ data1 }) => {
     );
   }
 
+  if (noteModal) {
+    setTimeout(() => {
+      setNoteModal(!noteModal);
+    }, 10000);
+  }
+
   //const channelName = `graceful${senderId}${receiverId}`;
 
   return (
@@ -147,6 +159,24 @@ const messages = ({ data1 }) => {
       onKeyPress={(e) => e.key == "Enter" && handleMessage()}
       className="w-full md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 "
     >
+      {noteModal && (
+        <div
+          onClick={() => {
+            if (notifyType === "chat") router.push("/users/messages");
+            if (notifyType === "notification")
+              router.push("/users/notification");
+            setModalOpen(false);
+          }}
+          className="w-auto top-32 ml-10 animate-slide-in flex absolute justify-end items-end"
+        >
+          <Alert variant="filled" severity="success">
+            <p>
+              {from} :{"   "}{" "}
+              {notifyMsg.charAt(0).toLocaleUpperCase() + notifyMsg.slice(1)}.
+            </p>
+          </Alert>
+        </div>
+      )}
       {loading ? (
         <div className="flex items-center  text-center p-3">
           <div className="text-xl ">Messages</div>
@@ -195,12 +225,24 @@ const messages = ({ data1 }) => {
                 // });
                 // var channel = pusher.subscribe(`${channelName}`);
                 var channel = pusher?.subscribe(`notification${senderId}`);
-                channel.bind("notification", function (data) {
+                channel?.bind("notification", function (data) {
                   // alert(JSON.stringify(data));
-                  // console.log("push", data);
+
+                  setFrom(data.data.from);
+                  setNotifyType(data.data.type);
+                  setNotifyMsg(data.data.message);
 
                   if (data.data.type === "chat")
                     setMsgCheck((prev) => (prev !== data ? data : 0));
+                  if (
+                    data.data.type === "chat" &&
+                    data.data.userid == item.id
+                    // && currentPath === "/users/messages"
+                  ) {
+                    return;
+                  } else {
+                    setNoteModal(true);
+                  }
                 });
 
                 if (item.unread > 0) {
