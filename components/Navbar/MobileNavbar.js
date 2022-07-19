@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoMdNotifications, IoMdAddCircleOutline } from "react-icons/io";
-import { RiLogoutBoxFill } from "react-icons/ri";
+import { RiLogoutBoxFill, RiLogoutBoxLine } from "react-icons/ri";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiRadio } from "react-icons/fi";
 import { FaBloggerB} from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { MdShoppingCart,MdDashboard } from "react-icons/md";
+import { MdShoppingCart,MdDashboard ,MdDevices} from "react-icons/md";
 import { isLoggedIn, login, profileDetails } from "../../features/bellefuSlice";
 import axios from "axios";
 import Loader, { apiData, shopApi, UserAvataUrl } from "../../constant";
-import { FcShop } from "react-icons/fc";
+import { BsShop,BsNewspaper} from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 
 const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
@@ -174,7 +174,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
               setLoading(true);
             }}
           >
-            <MdDashboard className="w-6 h-6 ml-1 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/><p>Dashboard</p>
+            <MdDashboard className="w-6 h-6 mr-2 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/><p>Dashboard</p>
           </div>
         )}
 
@@ -183,7 +183,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             className="bg-gray-100 my-4 flex font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            <BiWorld className="w-6 h-6 ml-1 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
+            <MdDevices className="w-6 h-6 mr-2  text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
             <p>Webinar</p>
           </p>{" "}
         </a>
@@ -193,7 +193,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             className=" bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            <FiRadio className="w-6 h-6 ml-1"/><p>Bellefu Radio</p>
+            <FiRadio className="w-6 h-6 mr-2"/><p>Bellefu Radio</p>
           </p>
         </a>
 
@@ -202,7 +202,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             className="bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            <FaBloggerB className="w-6 h-6 ml-1 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
+            <BsNewspaper className="w-6 h-6 mr-2   text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
             Blog
           </p>{" "}
         </a>
@@ -237,7 +237,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
               }}
             >
               <div className="flex" onClick={() => router.push("/createShop")}>
-                <FcShop className="w-6 h-6" />
+                <BsShop className="w-6 mr-2 h-6" />
                 Create Shop
               </div>
               <div onClick={() => router.push("/createShop")} />
@@ -252,7 +252,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
               }}
             >
               <div className="flex" onClick={() => router.push("/users/shop")}>
-                <FcShop className="w-6 h-6" />
+                <BsShop className="w-6 mr-2 h-6" />
                 Manage Shop
               </div>
               <div onClick={() => router.push("/users/shop")} />
@@ -267,7 +267,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             setLoading(true);
           }}
         >
-          <FcShop className="w-6 h-6" />
+          <BsShop className="w-6 mr-2 h-6" />
           Shops
           <div onClick={() => router.push("/shops")} />
         </div>
@@ -286,7 +286,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
                 });
               }}
             >
-              <RiLogoutBoxFill className="text-gray-700 w-5 h-5" />
+              <RiLogoutBoxLine className="text-gray-700 mt-[3px] w-5 h-5" />
               <p className="text-sm capitalize py-1">Logout</p>
             </div>
           </div>
