@@ -19,6 +19,8 @@ import { useState } from "react";
 
 export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
   const country = useSelector((state) => state.bellefu.indexData);
+  const countryCode = useSelector((state) => state.bellefu.profileDetails?.country_code);
+
 
   console.log("country", country);
 
@@ -27,22 +29,25 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
   const [searchdata, setSearchData] = useState("");
   const dispatch = useDispatch();
 
-  const handleThings = (counts) => {
+  // const handleThings = (counts) => {
+   React.useEffect(() => {
     axios
-      .get(`${webApi}get/postadd/states/${counts.iso2}`)
+      .get(`${webApi}get/postadd/states/${countryCode}`)
       .then((response) => {
         const newStateArr = response?.data.state;
-        catchState(newStateArr, counts.name, counts.html_entity);
-        dispatch(handleCountryCodeUpdate(counts.iso2));
-        dispatch(handleSymbolUpdate(counts.html_entity));
-        dispatch(handleCurrencyUpdate(counts.currencyCode));
-        dispatch(handleCountryname(counts.name));
+        catchState(newStateArr, country.defaultCountryName, country.defaultCurrency);
+        dispatch(handleCountryCodeUpdate(countryCode));
+        dispatch(handleSymbolUpdate(country.defaultCurrency));
+        dispatch(handleCurrencyUpdate(country.defaultCurrencyCode));
+        dispatch(handleCountryname( country.defaultCountryName));
         console.log(newStateArr);
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+   }, [countryCode])
+   
+  // };
 
   return (
     <div>
