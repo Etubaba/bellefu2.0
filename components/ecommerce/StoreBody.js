@@ -5,6 +5,7 @@ import ShopsItem from "./ShopsItem";
 
 const Body = ({ shops }) => {
   const router = useRouter();
+
   return (
     <div className="max-w-6xl mx-auto z-40 mt-32">
       <Head>

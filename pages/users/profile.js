@@ -71,16 +71,6 @@ const profile = ({ data1 }) => {
   const handleBio = (e) => {
     setBioholder(e.target.value);
   };
-  // converting image path to [fileobject]
-
-  // const url = `https://bellefu.inmotionhub.xyz/get/user/images/${userThings?.avatar}`;
-  // const response = await fetch(url);
-  // const arrBuff = await response.arrayBuffer();  //Get read response as array buffer
-  // const imgExt = userThings?.avatar.match(/.\w+$/)[0].substring(1);  //Get image extension
-  // const fileData = new File([arrBuff], userThings?.avatar, {type:`image/${imgExt}`});
-  // console.log("Here is JavaScript File Object:", fileData);
-  //console.log("Here is File type:", imgExt)
-  // formData.append("image", fileData);
 
   // ##################
   const handleSave = async (e) => {
@@ -100,14 +90,6 @@ const profile = ({ data1 }) => {
     formData.append("userid", userThings?.id);
 
     if (files === "") {
-      // const url = `https://bellefu.inmotionhub.xyz/get/user/images/${userThings?.avatar}`;
-      // const response = await fetch(url);
-      // const arrBuff = await response.arrayBuffer(); //Get read response as array buffer
-      // const imgExt = userThings?.avatar.match(/.\w+$/)[0].substring(1); //Get image extension
-      // const fileData = new File([arrBuff], userThings?.avatar, {
-      //   type: `image/${imgExt}`,
-      // });
-      // console.log("Here is JavaScript File Object:", fileData);
       formData.append("image", userThings?.avatar);
     } else {
       formData.append("image", files2);
@@ -351,7 +333,9 @@ const profile = ({ data1 }) => {
                           for="state"
                           className="block  text-sm font-medium text-gray-700"
                         >
-                          States/Province <strong className="text-red-500">*</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                          States/Province{" "}
+                          <strong className="text-red-500">*</strong>
+                          :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                           {userCountrythings.statesname}
                         </label>
                         <UnstyledSelectSimple3
@@ -366,7 +350,8 @@ const profile = ({ data1 }) => {
                           for="email"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          LGA/City <strong className="text-red-500">*</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                          LGA/City <strong className="text-red-500">*</strong>
+                          :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                           {userCountrythings.lganame}
                         </label>
                         <UnstyledSelectSimple5

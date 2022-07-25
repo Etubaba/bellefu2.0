@@ -304,14 +304,14 @@ function Cart() {
                   <p>${priceSum}</p>
                 </span>
               </div>
-              <div className="flex justify-between text-lg ">
+              {/* <div className="flex justify-between text-lg ">
                 <p>Shipping</p>
                 <p>200</p>
-              </div>
+              </div> */}
               <div className="flex justify-between text-xl font-semibold">
                 <p>Total</p>
                 <span className="flex">
-                  <p>${priceSum + 200}</p>
+                  <p>${priceSum}</p>
                 </span>
               </div>
             </div>
