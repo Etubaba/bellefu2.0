@@ -5,16 +5,11 @@ import { BsHeart, BsSuitHeartFill, BsCart3 } from "react-icons/bs";
 import { MdOutlineMessage, MdCall } from "react-icons/md";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import Loader, { apiData, productImageUrl } from "../../constant";
+import Loader, { apiData, productImageUrl, shopApi } from "../../constant";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { login, shop, favUpdated } from "../../features/bellefuSlice";
 import { useDispatch } from "react-redux";
-
-
-
-const shopurl = 'https://bellefu.inmotionhub.xyz/api/shop/add/cart/item'
-
 
 const ShopComponent = ({ product }) => {
   const [fav2, setFav2] = useState(false);
@@ -23,13 +18,17 @@ const ShopComponent = ({ product }) => {
   const router = useRouter();
   const favArr = useSelector((state) => state.bellefu?.favArr);
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
+  const currency = useSelector(
+    (state) => state.bellefu?.indexData?.defaultCurrency
+  );
   const isLoggedIn = useSelector(login);
   const dispatch = useDispatch();
 
+  console.log("user", currency);
 
   if (loading) {
     setTimeout(() => {
-      setLoading(false)
+      setLoading(false);
     }, 3000);
   }
 
@@ -47,7 +46,6 @@ const ShopComponent = ({ product }) => {
         console.log(err);
       });
   };
-
 
   const addFav = (e) => {
     e.stopPropagation();
@@ -95,36 +93,32 @@ const ShopComponent = ({ product }) => {
       });
   };
 
-
   const viewDetails = () => {
     dispatch(shop(`${product?.slug}/${product?.productSlug}`));
-    router.push(`/shopproduct/product`)
-    setLoading(true)
-  }
-
-
+    router.push(`/shopproduct/product`);
+    setLoading(true);
+  };
 
   const addtocart = () => {
-    setWait(true)
+    setWait(true);
     if (isLoggedIn) {
-      axios.post(`${shopurl}`, {
-        productId: product.productId,
-        userId: userId,
-      }).then((res) => {
-        if (res.data.status) {
-          setWait(false)
-          toast.success(`${product.title.substring(0, 20)} added to cart`)
+      axios
+        .post(`${shopApi}add/cart/item`, {
+          productId: product.productId,
+          userId: userId,
+        })
+        .then((res) => {
+          if (res.data.status) {
+            setWait(false);
+            toast.success(`${product.title.substring(0, 20)} added to cart`);
 
-          dispatch(favUpdated())
-        }
-      });
+            dispatch(favUpdated());
+          }
+        });
     } else {
       toast.info("Login to add to cart", { position: "top-center" });
     }
-  }
-
-
-
+  };
 
   return (
     <div className="bg-bellefuWhite p-3 rounded-b-md">
@@ -148,9 +142,10 @@ const ShopComponent = ({ product }) => {
         </div>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-bellefuGreen font-poppins font-semibold">
-          $ {product.price}
-        </p>
+        <span className="text-bellefuGreen flex font-poppins font-semibold">
+          <p className="mr-1" dangerouslySetInnerHTML={{ __html: currency }} />{" "}
+          {product.price}
+        </span>
         {fav2 || favArr?.includes(product.productId) ? (
           <div onClick={removeFav} className="cursor-pointer">
             <BsSuitHeartFill className="w-4 h-4 text-bellefuOrange" />
@@ -164,16 +159,18 @@ const ShopComponent = ({ product }) => {
       <div className="flex items-center space-x-3 mt-2">
         <button
           onClick={addtocart}
-          className="bg-bellefuOrange hover:bg-orange-300 text-white rounded-md w-full flex items-center justify-center py-2">
-          {
-            wait ?
-              <div className="p-[2px]" translate="no">
-                <CircularProgress size="1rem" color="success" />
-              </div> :
-              <>
-                <BsCart3 className="mr-2" /> <span>Add to Cart</span></>}
+          className="bg-bellefuOrange hover:bg-orange-300 text-white rounded-md w-full flex items-center justify-center py-2"
+        >
+          {wait ? (
+            <div className="p-[2px]" translate="no">
+              <CircularProgress size="1rem" color="success" />
+            </div>
+          ) : (
+            <>
+              <BsCart3 className="mr-2" /> <span>Add to Cart</span>
+            </>
+          )}
         </button>
-
       </div>
     </div>
   );

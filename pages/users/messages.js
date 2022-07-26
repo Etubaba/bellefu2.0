@@ -33,7 +33,7 @@ const messages = ({ data1 }) => {
   const [lname, setLname] = useState(null);
   const [dp, setDp] = useState(null);
   const [receiverId, setReceiverId] = useState(null);
-  const [sent, setSent] = useState(false);
+  const [sent, setSent] = useState(0);
   const [unread, setUnread] = useState(0);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
@@ -59,7 +59,7 @@ const messages = ({ data1 }) => {
 
   const handleMessage = (e) => {
     // e.preventDefault();
-    setSent(!sent);
+    setSent((prev) => prev + 1);
     if ((message !== "" || file !== undefined) && read) {
       const formData = new FormData();
       formData.append("messageTo", receiverId);

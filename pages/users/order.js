@@ -1,5 +1,6 @@
 import React from "react";
-import { MdHistoryToggleOff, MdCheck } from "react-icons/md";
+import classNames from "classnames";
+import { MdHistoryToggleOff, MdCheck, MdPayment } from "react-icons/md";
 import Layout from "../../components/Layout";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ import { toast } from "react-toastify";
 import { GoListOrdered } from "react-icons/go";
 import { useRouter } from "next/router";
 import { productImageUrl, shopApi } from "../../constant";
+import PaymentModal from "../../components/PaymentModal";
 
 
 const order = () => {
@@ -17,6 +19,9 @@ const order = () => {
   const user = useSelector(profileDetails);
   const currencyLogo = useSelector(homeData);
   const [orderhistory, setOrderHistory] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [currentPrice, setPrice] = useState(null);
+  const [currencyCode, setCurrencyCode] = useState(null);
 
   useEffect(() => {
     axios
@@ -116,10 +121,7 @@ const order = () => {
                 </p>
                 <div>
                   <button
-                    className={
-                      order?.status === "processing"
-                        ? "bg-bellefuOrange flex flex-col justify-center items-center md:hidden text-center hover:bg-orange-300 px-7  py-2 text-white w-full sm:w-auto md:w-auto lg:w-auto rounded-full mt-3"
-                        : "bg-bellefuGreen flex flex-col justify-center items-center md:hidden text-center hover:bg-green-400 px-7  py-2 text-white w-full sm:w-auto md:w-auto lg:w-auto rounded-full mt-3"
+                    className={classNames("bg-bellefuGreen hover:bg-green-400 flex flex-col justify-center items-center md:hidden text-center text-white w-full sm:w-auto md:w-auto lg:w-auto rounded-full mt-3", {"bg-bellefuOrange hover:bg-orange-300":order?.status === "processing", "border-2 border-bellefuGreen bg-transparent": order?.status === "complete payment" })
                     }
                   >
                     <span className="flex space-x-4">
@@ -162,21 +164,25 @@ const order = () => {
                   {order?.product_quantity * order?.price}
                 </p>
                 <button
-                  onClick={() => router.push("/profile/orderdetails")}
-                  className={
-                    order?.status === "processing"
-                      ? "bg-bellefuOrange hover:bg-orange-300 px-5 md:text-md text-sm  md:px-7 py-2 text-white flex justify-center items-center rounded-full mt-3 md:mt-5"
-                      : "bg-bellefuGreen hover:bg-green-400 px-5 md:text-md text-sm  md:px-7 py-2 text-white flex justify-center items-center rounded-full mt-3 md:mt-5"
+                  onClick={() => {
+                    setShowModal(true);
+                    setPrice(order?.price);
+                    setCurrencyCode(order?.currency_code);
+                    //router.push("/profile/orderdetails");
+                  }}
+                  className={classNames("border-2 border-bellefuGreen bg-transparent px-5 md:text-md text-sm  md:px-7 py-2 text-black flex justify-center items-center rounded-full mt-3 md:mt-5", {"bg-bellefuOrange hover:bg-orange-30": order?.status === "processing"})
                   }
                 >
                   <span className="flex space-x-4">
                     <span className="text-[8px] md:text-sm">
-                      {order?.status}
+                      {/* {order?.status} */}
+                      Make Payment
                     </span>
                     <span className="text-[8px] md:text-sm mt-1">
                       {order?.status === "processing" ? (
                         <MdHistoryToggleOff />
-                      ) : (
+                      ) : order?.status === "make payment"?
+                      <MdPayment />: (
                         <MdCheck />
                       )}{" "}
                     </span>
@@ -189,6 +195,9 @@ const order = () => {
 
 
 
+      </div>
+      <div>
+        {showModal && currentPrice && <PaymentModal setShowModal={setShowModal} price={currentPrice} setPrice={setPrice} currency={currencyCode} />}
       </div>
     </div>
   );
