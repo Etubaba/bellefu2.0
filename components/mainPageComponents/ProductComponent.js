@@ -67,7 +67,6 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
     getAdverts();
   }, []);
 
-  console.log("ads", adverts);
   // getting random ads
   useEffect(() => {
     if (page > 1) {
