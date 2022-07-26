@@ -2,8 +2,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export const imageBaseUrl = "https://bellefu.inmotionhub.xyz/";
-// export const imageBaseUrl =
-//   "https://phpstack-794034-2715115.cloudwaysapps.com/";
+// export const imageBaseUrl ="https://phpstack-794034-2715115.cloudwaysapps.com/";
 export const productImageUrl = `${imageBaseUrl}get/product/image/`;
 export const shopApi = `${imageBaseUrl}api/shop/`;
 
