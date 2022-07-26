@@ -54,6 +54,9 @@
     padding: 3px 5px !important;
   }
 }
+.modal-bg {
+  background-color:rgba(192,192,192,0.5);
+}
 
 @tailwind base;
 @tailwind components;
