@@ -54,23 +54,25 @@ const PaymentModal = ({setShowModal, price, setPrice, currency}) => {
   //const cartId = cartList.length > 0 ? cartList?.map((item) => item.cartId) : [];
   const handleFlutterPayment = useFlutterwave(config);
 
-  useEffect(() => {
-    const getCart = async () => {
-      await axios
-        .get(`${shopApi}list/cart/item/${userId?.id}`)
-        .then((res) => setCartList(res.data.data));
-    };
-    getCart();
-  }, []);
+  // useEffect(() => {
+  //   const getCart = async () => {
+  //     await axios
+  //       .get(`${shopApi}list/cart/item/${userId?.id}`)
+  //       .then((res) => setCartList(res.data.data));
+  //   };
+  //   getCart();
+  // }, []);
 
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 modal-bg z-50" onClick={() => setShowModal(false)}>
       <div className="w-1/2 mx-auto mt-52 relative">
-        <div className="mb-6 absolute -right-8 -top-8 w-6 h-6 bg-white rounded-full border-2"><span className="-mt-12 -ml-1.5 inline-block hover:cursor-pointer text-lg p-2" onClick={() => setShowModal(false)}><strong className="text-bellefuOrange">&#10006;</strong></span></div>
+        <div className="mb-6 absolute -right-8 -top-8 w-6 h-6 bg-white rounded-full border-2">
+          <span className="-mt-12 -ml-1.5 inline-block hover:cursor-pointer text-lg p-2" onClick={() => setShowModal(false)}><strong className="text-bellefuOrange">&#10006;</strong></span>
+        </div>
         <div className="bg-white px-6 py-8 rounded-lg">
-          <div className="bg-[#cfcccc] py-3 mt-3 lg:mt-0">
+          <div className="bg-black py-3 mt-3 lg:mt-0">
             <section className="pl-3 py-2">
-              <h2 className="font-semibold text-sm md:text-base font-poppins">
+              <h2 className="font-semibold text-sm md:text-base font-poppins text-white">
                 Make Payment
               </h2>
             </section>
