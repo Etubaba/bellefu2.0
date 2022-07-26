@@ -67,6 +67,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
     getAdverts();
   }, []);
 
+  console.log("ads", adverts);
   // getting random ads
   useEffect(() => {
     if (page > 1) {
@@ -93,7 +94,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
 
           setCountryData(res.data.data.data);
           setTotalPage(res.data.data.last_page);
-          setInitialData(res.data.data.data);
+          // setInitialData(res.data.data.data);
           setSearching(false);
         })
         .catch((err) => {

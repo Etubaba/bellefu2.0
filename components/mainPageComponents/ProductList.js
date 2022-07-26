@@ -11,7 +11,7 @@ import { MdOutlineMessage, MdCall } from "react-icons/md";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { apiData, productImageUrl } from "../../constant";
-import { login, msgScroll } from "../../features/bellefuSlice";
+import { ifVerified, login, msgScroll } from "../../features/bellefuSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -154,7 +154,7 @@ const ProductList = ({
             </div>
           </div>
           <div className="flex items items-center justify-between">
-            <p
+            <div
               className="text-bellefuGreen flex font-poppins font-semibold"
               translate="no"
             >
@@ -194,17 +194,21 @@ const ProductList = ({
                   translate="no"
                   onClick={(e) => {
                     e.stopPropagation();
-                    axios
-                      .post(`${apiData}convert/currency`, {
-                        amount: product.price,
-                        to: currencyCode,
-                        from: product.currency_code,
-                      })
-                      .then((res) => {
-                        setNewPrice(res.data.data.result);
-                      });
+                    if (converter) {
+                      setConverter(false);
+                    } else {
+                      axios
+                        .post(`${apiData}convert/currency`, {
+                          amount: product.price,
+                          to: currencyCode,
+                          from: product.currency_code,
+                        })
+                        .then((res) => {
+                          setNewPrice(res.data.data.result);
+                        });
 
-                    setConverter(true);
+                      setConverter(true);
+                    }
                   }}
                   className="ml-5"
                 >
@@ -213,7 +217,7 @@ const ProductList = ({
                   </Tooltip>
                 </span>
               ) : null}
-            </p>
+            </div>
             {fav2 || (fav?.includes(product.productId) && getIsLoggedIn) ? (
               <span
                 onClick={(e) => {

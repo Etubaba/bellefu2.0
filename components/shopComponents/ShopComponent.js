@@ -19,7 +19,7 @@ const ShopComponent = ({ product }) => {
   const favArr = useSelector((state) => state.bellefu?.favArr);
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const currency = useSelector(
-    (state) => state.bellefu?.indexData.defaultCurrency
+    (state) => state.bellefu?.indexData?.defaultCurrency
   );
   const isLoggedIn = useSelector(login);
   const dispatch = useDispatch();
