@@ -31,7 +31,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { login, userFav, msgScroll } from "../../features/bellefuSlice";
 import axios from "axios";
-import { apiData, productImageUrl, videoUrl } from "../../constant";
+import {
+  apiData,
+  imageBaseUrl,
+  productImageUrl,
+  videoUrl,
+} from "../../constant";
 import { toast } from "react-toastify";
 
 const SingleProductDescription = ({ productDetails, verified }) => {
@@ -278,7 +283,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
     productDetails[0]?.images[0]
   }&title=${title}&description=${description?.trim()}&type=image`;
 
-  const video = "https://bellefu.inmotionhub.xyz/get/video/";
+  const video = `${imageBaseUrl}/get/video/`;
 
   const style = {
     position: "absolute",

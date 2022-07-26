@@ -1,8 +1,10 @@
 import * as React from "react";
 
-import { handleStateUpdate ,  handleStatename
+import {
+  handleStateUpdate,
+  handleStatename,
 } from "../../features/bellefuSlice";
-import { useDispatch ,useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
 import {
@@ -11,7 +13,6 @@ import {
 } from "react-icons/md";
 
 export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
-
   const stateName = useSelector((state) => state.bellefu?.postAddata);
 
   const [open1, setOpen1] = useState(false);
@@ -38,8 +39,6 @@ export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
   };
 
   return (
-   
-
     <div>
       <div className="w-full">
         <div
@@ -50,7 +49,9 @@ export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
         >
           <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
             <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
-            {stateName?.statesname===""? "Select state":stateName?.statesname}
+              {stateName?.statesname === ""
+                ? "Select state"
+                : stateName?.statesname}
             </h5>
           </div>
           {!open1 ? (

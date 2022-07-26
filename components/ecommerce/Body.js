@@ -7,7 +7,7 @@ const Body = ({ shops }) => {
     <div className="max-w-6xl mx-auto z-40 mt-32">
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-gray-800 text-xl tracking-wider font-bold">
-          Shops
+          Products
         </h3>
 
         <p

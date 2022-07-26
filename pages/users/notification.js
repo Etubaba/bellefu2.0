@@ -58,8 +58,6 @@ const notification = () => {
     getNotify();
   }, []);
 
-  console.log("notify=>", notifyList);
-
   const deleteAll = () => {
     if (notifyList.length !== 0) {
       axios

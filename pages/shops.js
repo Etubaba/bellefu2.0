@@ -22,8 +22,6 @@ const Shops = ({ shops }) => {
     }
   }, [page]);
 
-  console.log("product", newShop);
-
   const shop = page === 1 ? shops.data.data : newShop;
 
   const pageNumber = [];
@@ -31,6 +29,7 @@ const Shops = ({ shops }) => {
     pageNumber.push(i);
   }
 
+  console.log("shop product", shops);
   return (
     <div>
       <Head>

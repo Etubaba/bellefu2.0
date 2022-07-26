@@ -10,8 +10,10 @@ import { useRouter } from "next/router";
 import { homeData, updateIdpath, selectCat } from "../../features/bellefuSlice";
 import axios from "axios";
 import Slider from "@mui/material/Slider";
-import { MdOutlineArrowForwardIos, MdOutlineArrowBackIosNew } from 'react-icons/md'
-
+import {
+  MdOutlineArrowForwardIos,
+  MdOutlineArrowBackIosNew,
+} from "react-icons/md";
 
 function valuetext(value) {
   return `₦ ${value}`;
@@ -30,7 +32,7 @@ const Product = () => {
   const [subCatId, setSubCatId] = useState(null);
   const [stateList, setStateList] = useState([]);
   const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(1);
 
   const productId = useSelector((state) => state.bellefu.catfilter);
 
@@ -47,7 +49,9 @@ const Product = () => {
   // getting product base on category
   useEffect(() => {
     const getProduct = async () => {
-      const response = await fetch(`${apiData}get/product/cat/${newId}?page=${page}`);
+      const response = await fetch(
+        `${apiData}get/product/cat/${newId}?page=${page}`
+      );
       const { data } = await response.json();
       setProduct(data.data);
       setTotalPage(data.last_page);
@@ -105,11 +109,12 @@ const Product = () => {
     }
   });
 
-
-  const pageNumber = []
+  const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
-    pageNumber.push(i)
+    pageNumber.push(i);
   }
+
+  // console.log("product", filterProduct);
 
   return (
     <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-28">
@@ -759,45 +764,51 @@ const Product = () => {
 
       {/* pagination goes here */}
 
-      {(product.length !== 0 && totalPage > 1) &&
-        <div className='flex justify-center md:mb-0 mb-8 md:mt-10 mt-7 items-center'>
+      {product.length !== 0 && totalPage > 1 && (
+        <div className="flex justify-center md:mb-0 mb-8 md:mt-10 mt-7 items-center">
           <button
             onClick={() => {
               if (page > 1) {
-                setPage(prev => prev - 1)
+                setPage((prev) => prev - 1);
               }
             }}
-            className='flex bg-bellefuOrange hover:bg-orange-500 text-white px-4 py-2 rounded-lg space-x-2'>
-            <MdOutlineArrowBackIosNew className='mt-1' />       <span> Prev</span>
+            className="flex bg-bellefuOrange hover:bg-orange-500 text-white px-4 py-2 rounded-lg space-x-2"
+          >
+            <MdOutlineArrowBackIosNew className="mt-1" /> <span> Prev</span>
           </button>
 
-          <span className='justify-center items-center mx-4 px-4 flex space-x-6'>
-            {pageNumber?.map((item, index) => <p onClick={() => setPage(item)} className={page === item ? 'bg-bellefuGreen p-1 px-2 rounded-full text-white' : 'cursor-pointer'} key={index}>{item}</p>)}
-
+          <span className="justify-center items-center mx-4 px-4 flex space-x-6">
+            {pageNumber?.map((item, index) => (
+              <p
+                onClick={() => setPage(item)}
+                className={
+                  page === item
+                    ? "bg-bellefuGreen p-1 px-2 rounded-full text-white"
+                    : "cursor-pointer"
+                }
+                key={index}
+              >
+                {item}
+              </p>
+            ))}
           </span>
 
-          {(product.length === 32) &&
+          {product.length === 32 && (
             <button
               onClick={() => {
                 if (page < totalPage) {
-                  { setPage(prev => prev + 1) }
+                  {
+                    setPage((prev) => prev + 1);
+                  }
                 }
               }}
-              className='flex bg-bellefuGreen hover:bg-green-400 text-white px-4 py-2 rounded-lg space-x-2'>
-              <span> Next</span> <MdOutlineArrowForwardIos className='mt-1' />
-            </button>}
-
-
-        </div>}
-
-
-
-
-
-
-
-
-
+              className="flex bg-bellefuGreen hover:bg-green-400 text-white px-4 py-2 rounded-lg space-x-2"
+            >
+              <span> Next</span> <MdOutlineArrowForwardIos className="mt-1" />
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

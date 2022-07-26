@@ -18,7 +18,7 @@ const Published = () => {
   const profile = useSelector(profileDetails);
   const router = useRouter();
 
- const reload=useSelector((state)=>state.bellefu?.favLoad);
+  const reload = useSelector((state) => state.bellefu?.favLoad);
   const test = 1285;
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Published = () => {
     getProduct();
   }, [reload]);
 
-
+  console.log("ads", approvedProduct);
   const toPostAds = () => {
     if (verify.phone && profile.avatar !== "useravatar.jpg") {
       router.push("/postAds");
@@ -48,12 +48,6 @@ const Published = () => {
       router.push("/users/profile");
     }
   };
-
-
-
-
-
-
 
   return (
     <div className="rounded-lg mt-5 bg-bellefuWhite h-auto w-auto pb-2">
@@ -71,7 +65,10 @@ const Published = () => {
                 You do not have any published product yet
               </p>
 
-              <button onClick={toPostAds} className="py-1 lg:py-3 hover:bg-orange-200 mt-16 px-8 lg:px-12 rounded-lg bg-bellefuOrange text-white text-sm lg:text-lg">
+              <button
+                onClick={toPostAds}
+                className="py-1 lg:py-3 hover:bg-orange-200 mt-16 px-8 lg:px-12 rounded-lg bg-bellefuOrange text-white text-sm lg:text-lg"
+              >
                 Make your first post
               </button>
             </div>

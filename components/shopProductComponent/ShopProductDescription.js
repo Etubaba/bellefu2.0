@@ -12,6 +12,9 @@ const ShopProductDescription = ({ productDetails }) => {
   const [wait, setWait] = useState(false);
 
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
+  const currency = useSelector(
+    (state) => state.bellefu?.indexData?.defaultCurrency
+  );
   const isLoggedIn = useSelector(login);
   const dispatch = useDispatch();
 
@@ -76,7 +79,10 @@ const ShopProductDescription = ({ productDetails }) => {
       <div className="border-b my-5" />
       <div className="flex text-2xl text-bellefuGreen ml-7 space-x-5">
         <strong>Price :</strong>
-        <p>${productDetails?.price}</p>
+        <span className="flex">
+          <p className="mr-1" dangerouslySetInnerHTML={{ __html: currency }} />
+          {productDetails?.price}
+        </span>
       </div>
 
       <div className="border-b my-5" />

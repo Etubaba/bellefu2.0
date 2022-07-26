@@ -15,70 +15,75 @@ import { favUpdated } from "../../../features/bellefuSlice";
 
 const MyAd = ({ product }) => {
   const [open, setOpen] = useState(false);
-  const[modalopen,setModalOpen]=useState(false);
-  const [price, setPrice] = useState('');
+  const [modalopen, setModalOpen] = useState(false);
+  const [price, setPrice] = useState("");
 
   const router = useRouter();
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
 
   const details = useSelector((state) => state.bellefu?.indexData);
 
   const handleOut = () => {
-    setOpen(!open)
-    axios.post(`${apiData}change/stock`, {
-
-      productId: product.id,
-      stockStatus: 0
-    })
-      .then(res => {
-        if (res.data.status) {
-          toast.info(`${product.title} is out of stock`, { position: 'top-right' })
-          dispatch(favUpdated())
-        }
+    setOpen(!open);
+    axios
+      .post(`${apiData}change/stock`, {
+        productId: product.id,
+        stockStatus: 0,
       })
-
-  }
+      .then((res) => {
+        if (res.data.status) {
+          toast.info(`${product.title} is out of stock`, {
+            position: "top-right",
+          });
+          dispatch(favUpdated());
+        }
+      });
+  };
 
   const handleIn = () => {
-    setOpen(!open)
-    axios.post(`${apiData}change/stock`, {
-
-      productId: product.id,
-      stockStatus: 1
-    })
-      .then(res => {
-        if (res.data.status) {
-          toast.success(` ${product.title} is now in stock`, { position: 'top-right' })
-          dispatch(favUpdated())
-        }
+    setOpen(!open);
+    axios
+      .post(`${apiData}change/stock`, {
+        productId: product.id,
+        stockStatus: 1,
       })
-  }
-
-
-  console.log('product',product);
+      .then((res) => {
+        if (res.data.status) {
+          toast.success(` ${product.title} is now in stock`, {
+            position: "top-right",
+          });
+          dispatch(favUpdated());
+        }
+      });
+  };
 
   const updatePrice = () => {
-    const formData=new FormData();
-    formData.append('productId',product.id);
-    formData.append('price',price);
+    const formData = new FormData();
+    formData.append("productId", product.id);
+    formData.append("price", price);
     axios({
-      url:`${apiData}change/product/price`,
-      method:'POST',
-      data:formData,
-      headers:{
-        'Content-Type':'multipart/form-data'
-      }
+      url: `${apiData}change/product/price`,
+      method: "POST",
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     })
-    .then(res => {
-      if (res.data.status) {
-        toast.success(`${product.title} price updated`, { position: 'top-right' })
-        dispatch(favUpdated())
-        setModalOpen(false)
-      } else {
-        toast.error(`something went wrong try again.`, { position: 'top-right' })
-      }
-    }).catch(err => console.log(err))
-  }
+      .then((res) => {
+        if (res.data.status) {
+          toast.success(`${product.title} price updated`, {
+            position: "top-right",
+          });
+          dispatch(favUpdated());
+          setModalOpen(false);
+        } else {
+          toast.error(`something went wrong try again.`, {
+            position: "top-right",
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="w-full">
@@ -111,7 +116,7 @@ const MyAd = ({ product }) => {
         </div>
         <div className="flex items-center justify-between mt-2">
           <p className="text-[#767873]  capitalize italic text-xs font-medium">
-            {product.inStock ? 'In stock' : 'Out of stock'}
+            {product.inStock ? "In stock" : "Out of stock"}
           </p>
           <div
             onClick={() => setOpen(!open)}
@@ -124,45 +129,50 @@ const MyAd = ({ product }) => {
 
       {/* drop down beginning */}
       {open ? (
-        <div
-          className="w-full mt-1 bg-bellefuWhite rounded border transition duration-300 ease-in z-40 shadow-lg">
+        <div className="w-full mt-1 bg-bellefuWhite rounded border transition duration-300 ease-in z-40 shadow-lg">
           <ul className="rounded px-2 py-3 space-y-2">
             <div
               onClick={() => {
                 setOpen(!open);
-                router.push(`/product/${product.productId}`)
+                router.push(`/product/${product.id}`);
               }}
-              className="flex items-center space-x-4 mb-2 hover:bg-bellefuBackground px-2 rounded-md py-1">
+              className="flex items-center space-x-4 mb-2 hover:bg-bellefuBackground px-2 rounded-md py-1"
+            >
               <BsFillEyeFill className="w-4 h-4 text-bellefuOrange" />
               <p className="text-xs text-bellefuBlack1 font-normal whitespace-nowrap">
                 View Products
               </p>
             </div>
             <li
-              onClick={() => {setOpen(!open);setModalOpen(true)}}
-              className="px-2 py-1 hover:bg-bellefuBackground flex space-x-3 items-center cursor-pointer rounded">
+              onClick={() => {
+                setOpen(!open);
+                setModalOpen(true);
+              }}
+              className="px-2 py-1 hover:bg-bellefuBackground flex space-x-3 items-center cursor-pointer rounded"
+            >
               <GrEdit className="w-3 h-3 text-[#767873]" />
               <span className="text-xs text-bellefuBlack1">update price</span>
             </li>
 
-            {
-              product.inStock ?
-                <li
-                  onClick={handleOut}
-                  className="px-2 py-1 hover:bg-bellefuBackground flex space-x-3 items-center cursor-pointer rounded">
-                  <RiDeleteBin6Line className="w-3 h-3 text-[#767873]" />
-                  <span className="text-xs text-bellefuBlack1">
-                    Put out of stock
-                  </span>
-                </li> :
-                <li
-                  onClick={handleIn}
-                  className="px-2 py-1 hover:bg-bellefuBackground flex space-x-3 items-center cursor-pointer rounded">
-                  <FcApproval className="w-3 h-3 text-[#767873]" />
-                  <span className="text-xs text-bellefuBlack1">
-                    Put in stock
-                  </span>
-                </li>}
+            {product.inStock ? (
+              <li
+                onClick={handleOut}
+                className="px-2 py-1 hover:bg-bellefuBackground flex space-x-3 items-center cursor-pointer rounded"
+              >
+                <RiDeleteBin6Line className="w-3 h-3 text-[#767873]" />
+                <span className="text-xs text-bellefuBlack1">
+                  Put out of stock
+                </span>
+              </li>
+            ) : (
+              <li
+                onClick={handleIn}
+                className="px-2 py-1 hover:bg-bellefuBackground flex space-x-3 items-center cursor-pointer rounded"
+              >
+                <FcApproval className="w-3 h-3 text-[#767873]" />
+                <span className="text-xs text-bellefuBlack1">Put in stock</span>
+              </li>
+            )}
           </ul>
         </div>
       ) : null}
@@ -176,7 +186,7 @@ const MyAd = ({ product }) => {
       >
         <div
           className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
-        // sx={edit}
+          // sx={edit}
         >
           <div className="grid grid-cols-6 gap-3  my-5">
             <div className="col-span-6 sm:col-span-3">
@@ -184,7 +194,7 @@ const MyAd = ({ product }) => {
                 <p>Product Name</p>
               </label>
               <input
-              disabled={true}
+                disabled={true}
                 // onChange={(e) => setProductsName(e.target.value)}
                 defaultValue={product.title}
                 type="text"
@@ -196,14 +206,12 @@ const MyAd = ({ product }) => {
                 <p>price</p>
               </label>
               <input
-               onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => setPrice(e.target.value)}
                 defaultValue={product.price}
                 type="number"
                 className="  bg-gray-100 p-[7px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
               />
             </div>
-            
-           
           </div>
           <div className="flex my-4 md:w-[60%] lg:w-[60%] space-x-20 justify-between">
             <button
