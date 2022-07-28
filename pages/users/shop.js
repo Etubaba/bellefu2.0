@@ -9,7 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import { payment, profileDetails } from "../../features/bellefuSlice";
+import {
+  payment,
+  profileDetails,
+  shopCreated,
+} from "../../features/bellefuSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BsShopWindow } from "react-icons/bs";
@@ -29,7 +33,7 @@ function shop() {
   const [orderdetails, setOrderDetails] = useState();
   const [showorders, setShowOrders] = useState([]);
   const [products, setProducts] = useState([]);
-  const [subType, setSubType] = useState(0);
+  const [subType, setSubType] = useState(25);
   const [productsname, setProductsName] = useState(valueupdate?.title);
   const [shoporder, SetshopOrder] = useState(false);
   const [productsprice, setProductsPrice] = useState(valueupdate?.promoPrice);
@@ -43,16 +47,31 @@ function shop() {
   const [checked, setChecked] = useState(null);
   const [shippingfee, setShippingFee] = useState(null);
   const [comment, setComment] = useState(null);
+  const [userShop, setUserShop] = useState(null);
+
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
 
+  // get/user/shop/userid
+
+  // does a user have a shop ?
+  const shopOwner = useSelector((state) => state.bellefu?.shop);
+  const shopId = useSelector((state) => state.bellefu?.shopIdentity);
+  // useEffect(() => {
+  //   axios.get(`${shopApi}get/user/shop/${user?.id}`).then((res)=>{
+  //     setUserShop(res.data?.status);
+  //    setShopId(res.data?.data?.id) ;
+  //   });
+  // }, []);
+
   const dispatch = useDispatch();
+  console.log("shopid", shopId);
   useEffect(() => {
     axios
-      .get(`${shopApi}view/single/${user?.shopId}`)
+      .get(`${shopApi}view/single/${shopId}`)
       .then((res) => {
-        setProducts(res.data.data);
+        if (res.data.status) setProducts(res.data.data);
         if (res.data.shop !== undefined) {
           setShopDetails(res.data?.shop);
           console.log(res.data?.shop);
@@ -62,12 +81,12 @@ function shop() {
         console.log(err);
       });
   }, []);
+
   useEffect(() => {
     axios
       .get(
         // `${shopApi}/list/shop/order/${user?.shopId}`
-
-        `https://phpstack-794034-2715115.cloudwaysapps.com/api/shop/list/shop/order/${user?.shopId}`
+        `${shopApi}list/shop/order/${shopId}`
       )
       .then((res) => {
         setOrderDetails(res.data.data);
@@ -107,7 +126,7 @@ function shop() {
           });
 
           axios
-            .get(`${shopApi}view/single/${user?.shopId}`)
+            .get(`${shopApi}view/single/${shopId}`)
             .then((res) => {
               setProducts(res.data.data);
             })
@@ -173,6 +192,7 @@ function shop() {
               "Your shop subscription has been successfully renewed."
             );
             dispatch(payment(false));
+            dispatch(shopCreated(true));
             setSubType(0);
             localStorage.removeItem("coin");
           }
@@ -180,7 +200,6 @@ function shop() {
     }, 2000);
   }
 
-  console.log(showorders);
   return (
     <>
       <Modal
@@ -371,9 +390,9 @@ function shop() {
           {shoporder ? (
             <h1 className="font-semibold text-sm">My Shop Order Details</h1>
           ) : (
-            <h1 className="font-semibold text-sm">My Order Details</h1>
+            <h1 className="font-semibold text-sm">My Shop</h1>
           )}{" "}
-          {user?.shopId === null ? null : (
+          {shopId === null || !shopOwner ? null : (
             <div>
               {shopDetails[0]?.expired ? (
                 <button
@@ -407,7 +426,7 @@ function shop() {
             </div>
           )}
         </div>
-        {user?.shopId === null ? (
+        {shopId === null || !shopOwner ? (
           <div className="h-full px-2 lg:px-0 ">
             <div className="border mx-auto mt-2 lg:my-5 rounded-xl w-full lg:w-7/12 h-11/12 ">
               <div className="flex flex-col justify-center mt-24 mb-24 items-center">
@@ -429,11 +448,11 @@ function shop() {
           </div>
         ) : (
           <>
-            <div className="px-2 md:px-5 lg:px-10 py-6 ">
+            <div className="px-2 md:px-5 lg:px-10  ">
               {products?.length === 0 ? (
                 <div className="h-full px-2 lg:px-0 ">
-                  <div className="border mx-auto mt-2 lg:my-5 rounded-xl w-full lg:w-[64%] h-11/12 ">
-                    <div className="flex flex-col justify-center mt-24 mb-24 items-center">
+                  <div className="border py-7 my-8 mx-auto mt-2 lg:my-10 rounded-xl w-full lg:w-[64%] h-auto ">
+                    <div className="flex flex-col justify-center  items-center">
                       <img
                         src={`${`${imageBaseUrl}get/store/image/`}${
                           shopDetails[0]?.logo
@@ -466,14 +485,14 @@ function shop() {
                         {shopDetails[0]?.expired ? (
                           <button
                             // onClick={() => router.push("/shop/upload-product")}
-                            className="py-1 md:py-2  mt-16 px-7 lg:px-6 rounded-full bg-bellefuGreen text-white text-sm lg:text-lg"
+                            className="py-1 md:py-2  mt-7 px-7 lg:px-6 rounded-full bg-bellefuGreen text-white text-sm lg:text-lg"
                           >
                             Renew Subscription
                           </button>
                         ) : (
                           <button
                             onClick={() => router.push("/shop/upload-product")}
-                            className="py-1 lg:py-2 hover:bg-orange-400 mt-16 px-7 lg:px-6 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg"
+                            className="py-1 lg:py-2 hover:bg-orange-400 mt-7 px-7 lg:px-6 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg"
                           >
                             Add products
                           </button>
@@ -530,9 +549,9 @@ function shop() {
                             <IconButton onClick={() => setModalOpen2(true)}>
                               <FaRegEdit />
                             </IconButton>
-                            <IconButton onClick={(e) => e.stopPropagation()}>
+                            {/* <IconButton onClick={(e) => e.stopPropagation()}>
                               <MdOutlineDeleteOutline />
-                            </IconButton>
+                            </IconButton> */}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -578,14 +597,11 @@ function shop() {
                             {product.promoPrice}
                           </TableCell>
                           <TableCell align="center">
-                            {product.inStock === 1 ? "instock" : "out Of stock"}
+                            {product.inStock ? "instock" : "out Of stock"}
                           </TableCell>
                           <TableCell className=" " align="center">
                             <IconButton onClick={() => handleEdith(product)}>
                               <FaRegEdit />
-                            </IconButton>
-                            <IconButton>
-                              <MdOutlineDeleteOutline />
                             </IconButton>
                           </TableCell>
                         </TableRow>

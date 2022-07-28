@@ -12,7 +12,12 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { AiFillHeart } from "react-icons/ai";
 import { RiAlertLine, RiLogoutBoxFill } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
-import { handlePusher, ifVerified, login } from "../../features/bellefuSlice";
+import {
+  handlePusher,
+  ifVerified,
+  login,
+  shopId,
+} from "../../features/bellefuSlice";
 import { profileDetails } from "../../features/bellefuSlice";
 import { isLoggedIn } from "../../features/bellefuSlice";
 import { useRouter } from "next/router";
@@ -43,7 +48,7 @@ const NavBar = () => {
   const [notifyMsg, setNotifyMsg] = useState("");
   const [notifyType, setNotifyType] = useState("");
   const [from, setFrom] = useState("");
-  // const [chatWith, setChatWth] = useState(null);
+  const [userShop, setUserShop] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -55,8 +60,6 @@ const NavBar = () => {
   const phoneAlt = useSelector((state) => state.bellefu?.phoneVerified);
   const pusher = useSelector((state) => state.bellefu?.pusher);
   const chatWith = useSelector((state) => state.bellefu?.chatUser);
-
-  console.log("user", username);
 
   const toPostAds = () => {
     if (
@@ -234,6 +237,19 @@ const NavBar = () => {
     }, 10000);
   }
 
+  // does a user have a shop ?
+  const shopOwner = useSelector((state) => state.bellefu?.shop);
+  useEffect(() => {
+    if (getIsLoggedIn) {
+      axios.get(`${shopApi}get/user/shop/${username?.id}`).then((res) => {
+        setUserShop(res.data.status);
+        if (res.data.status) {
+          dispatch(shopId(res.data?.data?.id));
+        }
+      });
+    }
+  }, []);
+
   return (
     <div className="fixed top-0 z-[1000] w-full ">
       {loading && <Loader isLoading={loading} />}
@@ -366,7 +382,7 @@ const NavBar = () => {
               >
                 Shops
               </p>
-              {username?.shopId === null || username?.shopId === undefined ? (
+              {!shopOwner || !userShop ? (
                 <p
                   className="hover:text-gray-200 cursor-pointer"
                   onClick={handleCreateShop}

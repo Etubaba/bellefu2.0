@@ -21,6 +21,10 @@ const initialState = {
   msgScroll: 0,
   messageRead: 0,
   fromCart: "",
+  shop:
+    typeof window !== "undefined" ? localStorage.getItem("shopcreated") : false,
+  shopIdentity:
+    typeof window !== "undefined" ? localStorage.getItem("shopId") : null,
   pusher: null,
   chatUser: null,
   // messageRead: typeof window !== "undefined" ? localStorage.getItem("msg") : 0,
@@ -183,6 +187,10 @@ export const bellefuSlice = createSlice({
       state.shopProduct = action.payload;
       localStorage.setItem("shop", state.shopProduct);
     },
+    shopId: (state, action) => {
+      state.shopIdentity = action.payload;
+      localStorage.setItem("shopId", state.shopIdentity);
+    },
     kycpending: (state, action) => {
       state.kycApply = action.payload;
       localStorage.setItem("kycapply", state.kycApply);
@@ -190,6 +198,10 @@ export const bellefuSlice = createSlice({
     phoneveri: (state, action) => {
       state.phoneVerified = action.payload;
       localStorage.setItem("phone", state.phoneVerified);
+    },
+    shopCreated: (state, action) => {
+      state.shop = action.payload;
+      localStorage.setItem("shopcreated", state.shop);
     },
     userFav: (state, action) => {
       state.favArr = action.payload;
@@ -392,6 +404,8 @@ export const {
   idpending,
   handleLga,
   prevPath,
+  shopId,
+  shopCreated,
   ifVerified,
   handleLganame,
   kycpending,

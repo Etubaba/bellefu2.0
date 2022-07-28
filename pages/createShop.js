@@ -17,7 +17,7 @@ import GovId from "../components/GovId";
 import { useRouter } from "next/router";
 import { shopApi } from "../constant";
 import Payment from "../components/paymentComponent/Payment";
-import { payment } from "../features/bellefuSlice";
+import { payment, shopCreated } from "../features/bellefuSlice";
 import Head from "next/head";
 
 export default function CreateShop() {
@@ -36,7 +36,7 @@ export default function CreateShop() {
   const [files2, setFiles2] = useState(null);
   const [govid, setGovid] = useState([]);
   const [paymentModal, setPaymentModal] = useState(false);
-  const [subType, setSubType] = useState(0);
+  const [subType, setSubType] = useState(25);
 
   const router = useRouter();
 
@@ -153,6 +153,7 @@ export default function CreateShop() {
             console.log(res.status);
             if (res.data.status) {
               dispatch(payment(false));
+              dispatch(shopCreated(true));
               localStorage.removeItem("coin");
               setModalOpen(true);
               setTerms(false);
@@ -169,7 +170,7 @@ export default function CreateShop() {
               setFiles2(null);
               setGovid([]);
             } else {
-              toast.error("Something happend. Try again", {
+              toast.error(`${res.data.msg}`, {
                 position: "top-center",
               });
             }
@@ -220,12 +221,12 @@ export default function CreateShop() {
 
           <p className="p-1 mx-3 mb-2 md:mb-6 text-center ">
             {" "}
-            Congratulations... Your shop creation was successful
+            Congratulations!!! Your shop creation was successful
           </p>
           <div onClick={() => router.push(`/shop/upload-product`)}>
             <button
               onClick={() => router.push(`/shop/upload-product`)}
-              className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
+              className="py-1 lg:py-1.5 hover:bg-orange-400 mb-5 px-1.5 lg:px-3 rounded-xl bg-bellefuOrange text-white text-sm lg:text-sm"
             >
               Add product
             </button>

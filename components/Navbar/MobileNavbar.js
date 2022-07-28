@@ -4,18 +4,19 @@ import { IoMdNotifications, IoMdAddCircleOutline } from "react-icons/io";
 import { RiLogoutBoxFill, RiLogoutBoxLine } from "react-icons/ri";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiRadio } from "react-icons/fi";
-import { FaBloggerB} from "react-icons/fa";
+import { FaBloggerB } from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { MdShoppingCart,MdDashboard ,MdDevices} from "react-icons/md";
+import { MdShoppingCart, MdDashboard, MdDevices } from "react-icons/md";
 import { isLoggedIn, login, profileDetails } from "../../features/bellefuSlice";
 import axios from "axios";
 import Loader, { apiData, shopApi, UserAvataUrl } from "../../constant";
-import { BsShop,BsNewspaper} from "react-icons/bs";
+import { BsShop, BsNewspaper } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 
 const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
+  const [userShop, setUserShop] = useState(false);
   const getIsLoggedIn = useSelector(login);
   const verify = useSelector((state) => state.bellefu?.verificationStatus);
 
@@ -66,6 +67,16 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
   }, [cartCheck]);
 
   const currentPath = router.pathname;
+
+  // does a user have a shop ?
+  const shopOwner = useSelector((state) => state.bellefu?.shop);
+  useEffect(() => {
+    if (getIsLoggedIn) {
+      axios.get(`${shopApi}get/user/shop/${username?.id}`).then((res) => {
+        setUserShop(res.data.status);
+      });
+    }
+  }, []);
 
   return (
     <div
@@ -174,7 +185,8 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
               setLoading(true);
             }}
           >
-            <MdDashboard className="w-6 h-6 mr-2 text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/><p>Dashboard</p>
+            <MdDashboard className="w-6 h-6 mr-2 text-gradient-to-r from-yellow-200 via-green-200 to-green-500" />
+            <p>Dashboard</p>
           </div>
         )}
 
@@ -183,7 +195,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             className="bg-gray-100 my-4 flex font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            <MdDevices className="w-6 h-6 mr-2  text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
+            <MdDevices className="w-6 h-6 mr-2  text-gradient-to-r from-yellow-200 via-green-200 to-green-500" />
             <p>Webinar</p>
           </p>{" "}
         </a>
@@ -193,7 +205,8 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             className=" bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            <FiRadio className="w-6 h-6 mr-2"/><p>Bellefu Radio</p>
+            <FiRadio className="w-6 h-6 mr-2" />
+            <p>Bellefu Radio</p>
           </p>
         </a>
 
@@ -202,7 +215,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             className="bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
-            <BsNewspaper className="w-6 h-6 mr-2   text-gradient-to-r from-yellow-200 via-green-200 to-green-500"/>
+            <BsNewspaper className="w-6 h-6 mr-2   text-gradient-to-r from-yellow-200 via-green-200 to-green-500" />
             Blog
           </p>{" "}
         </a>
@@ -227,7 +240,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
           </>
         )}
         {getIsLoggedIn &&
-          (username?.shopId === null || username?.shopId === undefined ? (
+          (!shopOwner || !userShop ? (
             <div
               className=" bg-gray-100 font-bold tracking-wider p-2 justify-left rounded text-sm flex items-left space-x-2"
               onClick={() => {
