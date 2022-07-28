@@ -41,7 +41,8 @@ function shop() {
   const [sub, setSub] = useState(false);
 
   const [checked, setChecked] = useState(null);
-
+  const [shippingfee, setShippingFee] = useState(null);
+  const [comment, setComment] = useState(null);
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
@@ -64,6 +65,8 @@ function shop() {
   useEffect(() => {
     axios
       .get(
+        // `${shopApi}/list/shop/order/${user?.shopId}`
+
         `https://phpstack-794034-2715115.cloudwaysapps.com/api/shop/list/shop/order/${user?.shopId}`
       )
       .then((res) => {
@@ -120,6 +123,40 @@ function shop() {
         });
       });
   };
+  const handleSave2 = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(`${shopApi}update/order/item`, {
+        actor: "seller",
+        // productId: valueupdate?.productId,
+        status: showorders?.status,
+        shipping: Number(shippingfee),
+        comment: comment,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Save Sucessful", {
+            position: "top-center",
+          });
+
+          // axios
+          //   .get(`${shopApi}view/single/${user?.shopId}`)
+          //   .then((res) => {
+          //     setProducts(res.data.data);
+          //   })
+          //   .then((err) => {
+          //     console.log(err);
+          //   });
+          // setModalOpen(false);
+        }
+      })
+      .catch((err) => {
+        toast.error(`${err}`, {
+          position: "top-center",
+        });
+      });
+  };
 
   const hasPaid = useSelector((state) => state.bellefu?.hasPaid);
 
@@ -152,7 +189,7 @@ function shop() {
         onClose={() => setModalOpen2(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        sx={{overflowY: "scroll"}}
+        sx={{ overflowY: "scroll" }}
       >
         <div
           className="flex flex-col items-center justify-center mx-auto mt-16 p-4  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[50%]"
@@ -209,12 +246,22 @@ function shop() {
               <p className="font-bold text-[1rem]">Status</p>
               <p>{showorders?.status}</p>
             </div>
-            <div className="flex justify-between  mb-2">
-              <p className="font-bold text-[1rem]">shipping fee</p>
+            <div className="flex justify-between border-b-2 border-dashed  mb-2">
+              <p className="font-bold text-[1rem]">Shipping fee</p>
               <input
+                onChange={(e) => setShippingFee(e.target.value)}
                 className=" p-1 w-[120px] md:auto lg:w-auto  bg-gray-100 rounded-md"
                 type="number"
                 placeholder="Enter shipping fee.."
+              />
+            </div>
+            <div className="flex justify-between  mb-2">
+              <p className="font-bold text-[1rem]">Comment</p>
+              <input
+                onChange={(e) => setComment(e.target.value)}
+                className=" p-1 w-[120px] md:auto lg:w-auto  bg-gray-100 rounded-md"
+                type="text"
+                placeholder="comment here.."
               />
             </div>
           </div>
@@ -227,7 +274,7 @@ function shop() {
             </button>
             <button
               className="bg-bellefuOrange rounded-md py-2 px-5"
-              onClick={handleSave}
+              onClick={handleSave2}
             >
               <p className="text-xs text-white md:text-[15px]">save </p>
             </button>
