@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { orderPayment, profileDetails } from "../features/bellefuSlice";
 
 const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, orderhistory, setOrderHistory}) => {
-  const [paymentRes, setPaymentRes] = useState(null);
+  //const [paymentRes, setPaymentRes] = useState(null);
   //const [cartList, setCartList] = useState([]);
   //const [modalopen, setModalOpen] = useState(false);
   const [gateway, setGateway] = useState(null);
@@ -23,7 +23,7 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
   const userFullName = userData?.first_name + "  " + userData?.last_name;
   const userEmail = userData?.email;
   const phone = userData?.phone;
-  const {currency_code, orderId, price, product_quantity: quantity, shipping, userId} = currentOrderItem;
+  const {currency_code, orderItemId, price, product_quantity: quantity, shipping, userId} = currentOrderItem;
 
   //const parser = new DOMParser();
   //const doc = parser.parseFromString(currency, "text/html");
@@ -57,14 +57,17 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
   //const cartId = cartList.length > 0 ? cartList?.map((item) => item.cartId) : [];
   const handleFlutterPayment = useFlutterwave(config);
   const OnPaymentSuccess = (res) => {
+    console.log(res);
+    console.log(res.transaction_id)
+
     axios.post(`${shopApi}update/order/item`, {
-      orderItemId: orderId,
+      orderItemId,
       actor: "buyer",
       gateway,
-      transactionId: paymentRes.transaction_id,
+      transactionId: res.transaction_id,
       totalAmount: price,
       userId: userId,
-      shipping
+      shipping: "200"
     })
     .then((res) => {
       if (res.data.status) {
@@ -97,7 +100,7 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
           <span className="-mt-12 -ml-1.5 inline-block hover:cursor-pointer text-lg p-2" onClick={() => setShowModal(false)}><strong className="text-bellefuOrange">&#10006;</strong></span>
         </div>
         <div className="bg-white px-6 py-8 rounded-lg">
-          <div className="bg-black py-3 mt-3 lg:mt-0">
+          <div className="bg-slate-500 py-3 mt-3 lg:mt-0">
             <section className="pl-3 py-2">
               <h2 className="font-semibold text-sm md:text-base font-poppins text-white">
                 Make Payment
@@ -113,13 +116,14 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
                       
                       handleFlutterPayment({
                         callback: (response) => {
-                          setPaymentRes(response);
+                          //setPaymentRes(response);
                           console.log(response);
                           closePaymentModal();
                           setShowModal(false);
-                          setPrice(null);
+                          //setPrice(null);
                           if (response.status === "successful") {
-                            dispatch(orderPayment(true));
+                            //dispatch(orderPayment(true));
+                            OnPaymentSuccess(response)
                             toast.success("Payment Successful");
                           }
                           // this will close the modal programmatically
