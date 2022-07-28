@@ -11,7 +11,6 @@ import { GoListOrdered } from "react-icons/go";
 import { useRouter } from "next/router";
 import { productImageUrl, shopApi } from "../../constant";
 import PaymentModal from "../../components/PaymentModal";
-import moment from "moment";
 
 
 const order = () => {
@@ -22,7 +21,6 @@ const order = () => {
   const [orderhistory, setOrderHistory] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentOrderItem, setOrderItem] = useState(null);
-  const [currentOrderItemIndex, setOrderItemIndex] = useState(-1);
   //const [currentPrice, setPrice] = useState(null);
   //const [currencyCode, setCurrencyCode] = useState(null);
 
@@ -80,10 +78,18 @@ const order = () => {
                   {order?.title}
                 </h3>
 
-                <p className="mb-2 text-xs md:text-lg ">
+                {/* <p className="mb-2 text-xs md:text-lg ">
                   Qty:{order?.product_quantity}
+                </p> */}
+
+                {/* REPLACING FIELD */}
+                <p className="mb-2 text-xs md:text-lg ">
+                  Quantity
                 </p>
-                <p className="md:mb-7 mb-3 text-xs md:text-lg">shipping Fee</p>
+                <p className="mb-2 text-xs md:text-lg">shipping Fee</p>
+                <p className="md:mb-7 mb-3 text-xs md:text-lg">Total Price</p>
+                {/* END OF REPLACEMENT */}
+
                 <div className="flex sm:block justify-between">
                   <span className="flex md:hidden lg:hidden">
                     <p
@@ -96,9 +102,21 @@ const order = () => {
                       {order?.price}
                     </h1>
                   </span>
+                  <div className="md:hidden font-bold">{order?.product_quantity}</div>
 
                   <span className=" md:hidden lg:hidden flex">
-                    <p className=" font-semibold">Total:</p>
+                    <div className="flex font-semibold">
+                      <p
+                        className="mr-1 font-semibold "
+                        dangerouslySetInnerHTML={{
+                          __html: currencyLogo?.defaultCurrency,
+                        }}
+                      />
+                      <p className="font-semibold">
+                        {order?.product_quantity * order?.price}
+                      </p>
+                    </div>
+                    {/* <p className=" font-semibold">Total:</p>
                     <p
                       className="mr-1 font-semibold "
                       dangerouslySetInnerHTML={{
@@ -107,9 +125,19 @@ const order = () => {
                     />
                     <p className="font-semibold">
                       {order?.product_quantity * order?.price}
-                    </p>
+                    </p> */}
                     <p className="font-semibold text-bellefuOrange">{order?.shipping? order.shipping:"pending"}</p>
                   </span>
+                  <p className="font-semibold flex items-center md:hidden">
+                    <span 
+                      className="mr-1 text-lg font-semibold"
+                      dangerouslySetInnerHTML={{
+                        __html: currencyLogo?.defaultCurrency,
+                      }} />
+                    <span className="">
+                      {order?.product_quantity > 0?order?.shipping?((order?.grandTotal)) + order?.shipping: `${order?.grandTotal} + shipping fee`:0}
+                    </span>
+                  </p>
                   {/* <p className="block md:hidden lg:hidden font-semibold">
                     Total:
                     <p
@@ -123,7 +151,7 @@ const order = () => {
                 </div>
 
                 <p className="flex space-x-2 text-[#FF5F00]">
-                  <span className="text-sm md:text-lg">{moment(order?.orderTime).format("llll")}</span>
+                  <span className="text-sm md:text-lg">{order?.orderTime}</span>
                 </p>
                 <div>
                   <button
@@ -148,7 +176,7 @@ const order = () => {
               <div className="  flex-col items-end justify-end ">
                 <span className="flex">
                   <p
-                    className="mr-1 mt-1 text-lg font-semibold"
+                    className="mr-1 mt-1 text-xl font-semibold"
                     dangerouslySetInnerHTML={{
                       __html: currencyLogo?.defaultCurrency,
                     }}
@@ -157,8 +185,9 @@ const order = () => {
                     {order?.price}{" "}
                   </h1>
                 </span>
+                <div className="font-bold text-lg mt-2">{order?.product_quantity}</div>
 
-                <p className="font-semibold mt-1 flex">
+                {/* <p className="font-semibold mt-1 flex">
                   {" "}
                   Total:
                   <p
@@ -168,13 +197,22 @@ const order = () => {
                     }}
                   />
                   {order?.product_quantity * order?.price}
+                </p> */}
+                <p className="font-semibold mt-2 text-bellefuOrange">{order?.shipping? order.shipping:"pending"}</p>
+                <p className="font-semibold mt-2 flex items-center">
+                  <span 
+                    className="mr-1 text-lg font-semibold"
+                    dangerouslySetInnerHTML={{
+                      __html: currencyLogo?.defaultCurrency,
+                    }} />
+                  <span className="">
+                    {order?.product_quantity > 0?order?.shipping?((order?.grandTotal)) + order?.shipping: `${order?.grandTotal} + shipping fee`:0}
+                  </span>
                 </p>
-                <p className="font-semibold mt-3 text-bellefuOrange">{order?.shipping? order.shipping:"pending"}</p>
                 <button
                   onClick={() => {
                     setShowModal(true);
                     setOrderItem(order);
-                    setOrderItemIndex(index)
                     //setPrice(order?.price);
                     //setCurrencyCode(order?.currency_code);
                     //router.push("/profile/orderdetails");
@@ -184,8 +222,7 @@ const order = () => {
                 >
                   <span className="flex space-x-4">
                     <span className="text-[8px] md:text-sm">
-                      {/* {order?.status} */}
-                      Make Payment
+                      {order?.status === "processing"? "Make Payment": order?.status}
                     </span>
                     <span className="text-[8px] md:text-sm mt-1">
                       {order?.status === "processing" ? (
@@ -206,7 +243,7 @@ const order = () => {
 
       </div>
       <div>
-        {showModal && currentOrderItem && <PaymentModal setShowModal={setShowModal} currentOrderItem={currentOrderItem} currentOrderItemIndex={currentOrderItemIndex} orderhistory={orderhistory}  setOrderHistory={setOrderHistory} />}
+        {showModal && currentOrderItem && <PaymentModal setShowModal={setShowModal} currentOrderItem={currentOrderItem} orderhistory={orderhistory}  setOrderHistory={setOrderHistory} />}
       </div>
     </div>
   );
