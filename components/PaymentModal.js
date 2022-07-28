@@ -7,35 +7,38 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { orderPayment, profileDetails } from "../features/bellefuSlice";
 
-const PaymentModal = ({setShowModal, price, setPrice, currency}) => {
-  //const [hasPaid, setHasPaid] = useState(null);
+const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, orderhistory, setOrderHistory}) => {
+  const [paymentRes, setPaymentRes] = useState(null);
   //const [cartList, setCartList] = useState([]);
   //const [modalopen, setModalOpen] = useState(false);
   const [gateway, setGateway] = useState(null);
 
-  const userId = useSelector(profileDetails);
+  const userData = useSelector(profileDetails);
   // const priceSum = cartList?.reduce((acc, curr) => {
   //   acc += curr.price * curr.quantity;
   //   return acc;
   // }, 0);
   // const shippingFee = 200;
   // const totalPrice = priceSum + shippingFee;
-  const userFullName = userId?.first_name + "  " + userId?.last_name;
-  const userEmail = userId?.email;
-  const phone = userId?.phone;
+  const userFullName = userData?.first_name + "  " + userData?.last_name;
+  const userEmail = userData?.email;
+  const phone = userData?.phone;
+  const {currency_code, orderId, price, product_quantity: quantity, shipping, userId} = currentOrderItem;
+
   //const parser = new DOMParser();
   //const doc = parser.parseFromString(currency, "text/html");
   //const currencyCode = doc.body.firstChild.textContent;
   //console.log(doc.body.firstChild.textContent);
-  //const currencyCode = userId?.currency_code;
-  console.log(phone);
-  console.log(currency);
-  console.log(price);
+  //const currencyCode = userData?.currency_code;
+  // console.log(phone);
+  // console.log(price)
+  // console.log(product_quantity);
+  // console.log(quantity)
 
   const config = {
     public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
     tx_ref: Date.now(),
-    amount: price,
+    amount: price*quantity,
     // amount: 999,
     currency: "NGN",
     payment_options: "card,mobilemoney,ussd",
@@ -53,24 +56,50 @@ const PaymentModal = ({setShowModal, price, setPrice, currency}) => {
 
   //const cartId = cartList.length > 0 ? cartList?.map((item) => item.cartId) : [];
   const handleFlutterPayment = useFlutterwave(config);
+  const OnPaymentSuccess = (res) => {
+    axios.post(`${shopApi}update/order/item`, {
+      orderItemId: orderId,
+      actor: "buyer",
+      gateway,
+      transactionId: paymentRes.transaction_id,
+      totalAmount: price,
+      userId: userId,
+      shipping
+    })
+    .then((res) => {
+      if (res.data.status) {
+        const orders = orderhistory;
+        orders[currentOrderItemIndex] = {
+          ...orders[currentOrderItemIndex],
+          status: "on transmit",
+        }
+        setOrderHistory(orders);
+      }
+    })
+    .catch(error => {
+      console.log(`Error reaching server after payment due to: ${error.message}`)
+    })
+  }
 
-  useEffect(() => {
-    const getCart = async () => {
-      await axios
-        .get(`${shopApi}list/cart/item/${userId?.id}`)
-        .then((res) => setCartList(res.data.data));
-    };
-    getCart();
-  }, []);
+  // useEffect(() => {
+  //   const getCart = async () => {
+  //     await axios
+  //       .get(`${shopApi}list/cart/item/${userData?.id}`)
+  //       .then((res) => setCartList(res.data.data));
+  //   };
+  //   getCart();
+  // }, []);
 
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 modal-bg z-50" onClick={() => setShowModal(false)}>
       <div className="w-1/2 mx-auto mt-52 relative">
-        <div className="mb-6 absolute -right-8 -top-8 w-6 h-6 bg-white rounded-full border-2"><span className="-mt-12 -ml-1.5 inline-block hover:cursor-pointer text-lg p-2" onClick={() => setShowModal(false)}><strong className="text-bellefuOrange">&#10006;</strong></span></div>
+        <div className="mb-6 absolute -right-8 -top-8 w-6 h-6 bg-white rounded-full border-2">
+          <span className="-mt-12 -ml-1.5 inline-block hover:cursor-pointer text-lg p-2" onClick={() => setShowModal(false)}><strong className="text-bellefuOrange">&#10006;</strong></span>
+        </div>
         <div className="bg-white px-6 py-8 rounded-lg">
-          <div className="bg-[#cfcccc] py-3 mt-3 lg:mt-0">
+          <div className="bg-black py-3 mt-3 lg:mt-0">
             <section className="pl-3 py-2">
-              <h2 className="font-semibold text-sm md:text-base font-poppins">
+              <h2 className="font-semibold text-sm md:text-base font-poppins text-white">
                 Make Payment
               </h2>
             </section>
@@ -84,7 +113,7 @@ const PaymentModal = ({setShowModal, price, setPrice, currency}) => {
                       
                       handleFlutterPayment({
                         callback: (response) => {
-                          setHasPaid(response);
+                          setPaymentRes(response);
                           console.log(response);
                           closePaymentModal();
                           setShowModal(false);

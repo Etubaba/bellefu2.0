@@ -11,6 +11,7 @@ import { GoListOrdered } from "react-icons/go";
 import { useRouter } from "next/router";
 import { productImageUrl, shopApi } from "../../constant";
 import PaymentModal from "../../components/PaymentModal";
+import moment from "moment";
 
 
 const order = () => {
@@ -20,14 +21,17 @@ const order = () => {
   const currencyLogo = useSelector(homeData);
   const [orderhistory, setOrderHistory] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [currentPrice, setPrice] = useState(null);
-  const [currencyCode, setCurrencyCode] = useState(null);
+  const [currentOrderItem, setOrderItem] = useState(null);
+  const [currentOrderItemIndex, setOrderItemIndex] = useState(-1);
+  //const [currentPrice, setPrice] = useState(null);
+  //const [currencyCode, setCurrencyCode] = useState(null);
 
   useEffect(() => {
     axios
       .get(`${shopApi}list/order/${user?.id}`)
       .then((res) => {
         setOrderHistory(res.data.data);
+        console.log(res.data.data[0]);
       })
       .catch((err) => {
         toast.error(`${err}`, {
@@ -72,13 +76,14 @@ const order = () => {
                 className="object-cover  flex  sm:w-40 sm:h-40 md:w-40 md:h-32 lg:h-32  lg:w-40 mr-5  rounded-md"
               />
               <div className=" ">
-                <h3 className="text-md sm:text-xl   md:text-2xl  mb-2">
+                <h3 className="text-md sm:text-xl md:text-2xl  mb-2">
                   {order?.title}
                 </h3>
 
-                <p className="md:mb-7 mb-3 text-xs   md:text-lg ">
+                <p className="mb-2 text-xs md:text-lg ">
                   Qty:{order?.product_quantity}
                 </p>
+                <p className="md:mb-7 mb-3 text-xs md:text-lg">shipping Fee</p>
                 <div className="flex sm:block justify-between">
                   <span className="flex md:hidden lg:hidden">
                     <p
@@ -103,6 +108,7 @@ const order = () => {
                     <p className="font-semibold">
                       {order?.product_quantity * order?.price}
                     </p>
+                    <p className="font-semibold text-bellefuOrange">{order?.shipping? order.shipping:"pending"}</p>
                   </span>
                   {/* <p className="block md:hidden lg:hidden font-semibold">
                     Total:
@@ -117,7 +123,7 @@ const order = () => {
                 </div>
 
                 <p className="flex space-x-2 text-[#FF5F00]">
-                  <span className="text-sm md:text-lg">{order?.orderTime}</span>
+                  <span className="text-sm md:text-lg">{moment(order?.orderTime).format("llll")}</span>
                 </p>
                 <div>
                   <button
@@ -163,11 +169,14 @@ const order = () => {
                   />
                   {order?.product_quantity * order?.price}
                 </p>
+                <p className="font-semibold mt-3 text-bellefuOrange">{order?.shipping? order.shipping:"pending"}</p>
                 <button
                   onClick={() => {
                     setShowModal(true);
-                    setPrice(order?.price);
-                    setCurrencyCode(order?.currency_code);
+                    setOrderItem(order);
+                    setOrderItemIndex(index)
+                    //setPrice(order?.price);
+                    //setCurrencyCode(order?.currency_code);
                     //router.push("/profile/orderdetails");
                   }}
                   className={classNames("border-2 border-bellefuGreen bg-transparent px-5 md:text-md text-sm  md:px-7 py-2 text-black flex justify-center items-center rounded-full mt-3 md:mt-5", {"bg-bellefuOrange hover:bg-orange-30": order?.status === "processing"})
@@ -197,7 +206,7 @@ const order = () => {
 
       </div>
       <div>
-        {showModal && currentPrice && <PaymentModal setShowModal={setShowModal} price={currentPrice} setPrice={setPrice} currency={currencyCode} />}
+        {showModal && currentOrderItem && <PaymentModal setShowModal={setShowModal} currentOrderItem={currentOrderItem} currentOrderItemIndex={currentOrderItemIndex} orderhistory={orderhistory}  setOrderHistory={setOrderHistory} />}
       </div>
     </div>
   );
