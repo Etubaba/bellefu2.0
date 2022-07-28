@@ -56,7 +56,7 @@ const NavBar = () => {
   const pusher = useSelector((state) => state.bellefu?.pusher);
   const chatWith = useSelector((state) => state.bellefu?.chatUser);
 
-  //console.log("user", username);
+  console.log("user", username);
 
   const toPostAds = () => {
     if (

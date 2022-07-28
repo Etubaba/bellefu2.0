@@ -340,15 +340,25 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       </div>
       {/* the ads start here */}
 
-      <div className="my-7">
-        <a href={randomAdverts?.action} target="_blank">
+      {adverts.length === 0 ? (
+        <div onClick={() => router.push("/custom")} className="my-7">
           <img
-            src={`${commercialUrl}${randomAdverts?.image}`}
+            src="/advert.png"
             alt="ads"
-            className="w-full h-80 object-cover rounded-md"
+            className="w-full h-80 object-fill rounded-md"
           />
-        </a>
-      </div>
+        </div>
+      ) : (
+        <div className="my-7">
+          <a href={randomAdverts?.action} target="_blank">
+            <img
+              src={`${commercialUrl}${randomAdverts?.image}`}
+              alt="ads"
+              className="w-full h-80 object-cover rounded-md"
+            />
+          </a>
+        </div>
+      )}
 
       <div
         className={classNames("bg-bellefuBackground mt-1 rounded-md", {
@@ -384,8 +394,27 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
           ))}
       </div>
       {/* the ads start here */}
-
-      {main.length > 8 && getState === null && (
+      {randomImage1?.image === undefined ? (
+        <div onClick={() => router.push("/custom")} className="my-7">
+          <img
+            src="/advert.png"
+            alt="ads"
+            className="w-full h-80 object-fill rounded-md"
+          />
+        </div>
+      ) : (
+        main.length > 8 &&
+        getState === null && (
+          <a href={randomImage1?.action} target="_blank" className="my-7">
+            <img
+              src={`${commercialUrl}${randomImage1?.image}`}
+              alt="ads"
+              className="w-full h-80 object-cover rounded-md"
+            />
+          </a>
+        )
+      )}
+      {/* {main.length > 8 && getState === null && (
         <a href={randomImage1?.action} target="_blank" className="my-7">
           <img
             src={`${commercialUrl}${randomImage1?.image}`}
@@ -393,7 +422,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
             className="w-full h-80 object-cover rounded-md"
           />
         </a>
-      )}
+      )} */}
 
       <div
         className={classNames("bg-bellefuBackground mt-3 rounded-md", {
@@ -429,7 +458,27 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
           ))}
       </div>
 
-      {main.length > 16 && getState === null && (
+      {randomImage2?.image === undefined ? (
+        <div onClick={() => router.push("/custom")} className="my-7">
+          <img
+            src="/advert.png"
+            alt="ads"
+            className="w-full h-80 object-fill rounded-md"
+          />
+        </div>
+      ) : (
+        main.length > 16 &&
+        getState === null && (
+          <a href={randomImage2?.action} target="_blank" className=" my-5">
+            <img
+              src={`${commercialUrl}${randomImage2?.image}`}
+              alt="ads"
+              className="w-full h-80 object-cover rounded-md"
+            />
+          </a>
+        )
+      )}
+      {/* {main.length > 16 && getState === null && (
         <a href={randomImage2?.action} target="_blank" className=" my-5">
           <img
             src={`${commercialUrl}${randomImage2?.image}`}
@@ -437,7 +486,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
             className="w-full h-80 object-cover rounded-md"
           />
         </a>
-      )}
+      )} */}
 
       <div
         className={classNames("bg-bellefuBackground mt-3 rounded-md", {
