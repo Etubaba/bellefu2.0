@@ -85,7 +85,7 @@ function shop() {
     axios
       .get(
         // `${shopApi}/list/shop/order/${user?.shopId}`
-        `${shopApi}list/shop/order/${52}`
+        `${shopApi}list/shop/order/${shopId}`
       )
       .then((res) => {
         setOrderDetails(res.data.data);
