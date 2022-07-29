@@ -8,6 +8,16 @@ import { toast } from "react-toastify";
 import { orderPayment, profileDetails } from "../features/bellefuSlice";
 
 const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, orderhistory, setOrderHistory}) => {
+  // console.log(currentOrderItem);
+  // console.log(currentOrderItemIndex);
+  // console.log(orderhistory[currentOrderItemIndex]);
+  // const orders = orderhistory;
+  // orders[currentOrderItemIndex] = {
+  //   ...orders[currentOrderItemIndex],
+  //   status: "on transmit",
+  // };
+  // console.log(orders[currentOrderItemIndex]);
+  // console.log(orders)
   //const [paymentRes, setPaymentRes] = useState(null);
   //const [cartList, setCartList] = useState([]);
   //const [modalopen, setModalOpen] = useState(false);
@@ -57,25 +67,32 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
   //const cartId = cartList.length > 0 ? cartList?.map((item) => item.cartId) : [];
   const handleFlutterPayment = useFlutterwave(config);
   const OnPaymentSuccess = (res) => {
-    console.log(res);
-    console.log(res.transaction_id)
+    // console.log(gateway);
+    // console.log(res);
+    // console.log(res.transaction_id)
 
     axios.post(`${shopApi}update/order/item`, {
       orderItemId,
       actor: "buyer",
-      gateway,
+      gateway: "flutterwave",
       transactionId: res.transaction_id,
-      totalAmount: price,
+      totalAmount: price * quantity,
       userId: userId,
       shipping: "200"
     })
     .then((res) => {
       if (res.data.status) {
         const orders = orderhistory;
+        // console.log(orders);
+        // console.log(currentOrderItem);
+        // console.log(currentOrderItemIndex);
+        // console.log(orders[currentOrderItemIndex]);
         orders[currentOrderItemIndex] = {
           ...orders[currentOrderItemIndex],
-          status: "on transmit",
-        }
+          status: "ordered",
+        };
+        console.log(orders[currentOrderItemIndex]);
+        console.log(orders);
         setOrderHistory(orders);
       }
     })
@@ -113,6 +130,7 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
                   <button
                     onClick={(evt) => {
                       evt.stopPropagation();
+                      setGateway("flutterwave");
                       
                       handleFlutterPayment({
                         callback: (response) => {
@@ -130,7 +148,6 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
                         },
                         onClose: () => {},
                       });
-                      setGateway("flutterwave");
                     }}
                     className="flex items-center outline outline-bellefuOrange rounded-lg px-3 py-2"
                   >
