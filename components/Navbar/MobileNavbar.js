@@ -240,7 +240,7 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
           </>
         )}
         {getIsLoggedIn &&
-          (!shopOwner || !userShop ? (
+          (!userShop ? (
             <div
               className=" bg-gray-100 font-bold tracking-wider p-2 justify-left rounded text-sm flex items-left space-x-2"
               onClick={() => {

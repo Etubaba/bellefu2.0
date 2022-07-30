@@ -55,11 +55,12 @@ const messages = ({ data1 }) => {
   const checkRead = useDispatch();
   const currentPath = router.pathname;
   const test = 639;
+
   // handle message sent
 
   const handleMessage = (e) => {
     // e.preventDefault();
-    setSent((prev) => prev + 1);
+    setMsgCheck((prev) => prev + 1);
     if ((message !== "" || file !== undefined) && read) {
       const formData = new FormData();
       formData.append("messageTo", receiverId);
@@ -107,7 +108,7 @@ const messages = ({ data1 }) => {
     };
 
     getChat();
-  }, [msgCheck, refetch, receiverId, sent]);
+  }, [msgCheck, refetch, receiverId]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -156,7 +157,10 @@ const messages = ({ data1 }) => {
   return (
     // the message header
     <div
-      onKeyPress={(e) => e.key == "Enter" && handleMessage()}
+      onKeyPress={(e) =>
+        e.key == "Enter" &&
+        (handleMessage(), read ? setMsgCheck((prev) => prev + 1) : null)
+      }
       className="w-full md:mt-3  rounded-lg lg:mt-5 bg-bellefuWhite h-auto md:w-auto  pb-2 "
     >
       {noteModal && (

@@ -480,7 +480,7 @@ function shop() {
                         onClick={() => SetshopOrder(true)}
                         className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
                       >
-                        shop orders
+                        Shop orders
                       </button>
                     )}
                   </div>
