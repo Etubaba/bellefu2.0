@@ -306,7 +306,12 @@ const profile = ({ data1 }) => {
             <div className=" flex justify-right items-right">
               {disable ? (
                 <div className="flex relative left-[45vw] ">
-                  <div className="flex bg-[orangered] p-1 rounded-md">
+                  <div
+                    onClick={() =>
+                      toast.info('Click "Edit Profile" to enable editting')
+                    }
+                    className="flex bg-[orangered] p-1 rounded-md"
+                  >
                     <strong className="text-white">Disabled</strong>
                     <GiPadlock className="text-lg" />
                   </div>

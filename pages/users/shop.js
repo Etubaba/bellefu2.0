@@ -24,6 +24,8 @@ import { IconButton } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import { imageBaseUrl, shopApi } from "../../constant";
 import Payment from "../../components/paymentComponent/Payment";
+import { GoListOrdered } from "react-icons/go";
+import moment from "moment";
 
 function shop() {
   const user = useSelector(profileDetails);
@@ -47,26 +49,23 @@ function shop() {
   const [checked, setChecked] = useState(null);
   const [shippingfee, setShippingFee] = useState(null);
   const [comment, setComment] = useState(null);
-  const [userShop, setUserShop] = useState(null);
+  const [orderId, setOrderId] = useState(null);
+  const [reload, setReload] = useState(0);
+  const [orderLocation, setOrderLocation] = useState(false);
+  const [orderStatus, setOrderStatus] = useState("");
+  const [orderComment, setOrderComment] = useState("");
+  const [orderpaid, setOrderpaid] = useState(null);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
 
-  // get/user/shop/userid
-
   // does a user have a shop ?
   const shopOwner = useSelector((state) => state.bellefu?.shop);
   const shopId = useSelector((state) => state.bellefu?.shopIdentity);
-  // useEffect(() => {
-  //   axios.get(`${shopApi}get/user/shop/${user?.id}`).then((res)=>{
-  //     setUserShop(res.data?.status);
-  //    setShopId(res.data?.data?.id) ;
-  //   });
-  // }, []);
 
   const dispatch = useDispatch();
-  console.log("shopid", shopId);
+
   useEffect(() => {
     axios
       .get(`${shopApi}view/single/${shopId}`)
@@ -90,14 +89,11 @@ function shop() {
       )
       .then((res) => {
         setOrderDetails(res.data.data);
-        // if (res.data.shop !== undefined) {
-        //   setShopDetails(res.data?.shop);
-        // }
       })
       .then((err) => {
         console.log(err);
       });
-  }, []);
+  }, [reload]);
 
   const handleEdith = (e) => {
     e?.inStock === 1 ? setChecked(true) : setChecked(false);
@@ -142,6 +138,30 @@ function shop() {
         });
       });
   };
+  const updateOrderStatus = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(`${shopApi}update/shipment`, {
+        status: orderStatus,
+        comment: orderComment,
+        orderItemId: orderId,
+      })
+      .then((res) => {
+        if (res.data.status) {
+          toast.success("Shipment updated Sucessfully", {
+            position: "top-center",
+          });
+          setReload((prev) => prev + 1);
+          setOrderLocation(false);
+        }
+      })
+      .catch((err) => {
+        toast.error(`${err}`, {
+          position: "top-center",
+        });
+      });
+  };
   const handleSave2 = (e) => {
     e.preventDefault();
 
@@ -149,25 +169,18 @@ function shop() {
       .post(`${shopApi}update/order/item`, {
         actor: "seller",
         // productId: valueupdate?.productId,
-        status: showorders?.status,
-        shipping: Number(shippingfee),
+        status: "pending",
+        shipping: shippingfee,
         comment: comment,
+        orderItemId: orderId,
       })
       .then((res) => {
-        if (res.status === 200) {
-          toast.success("Save Sucessful", {
+        if (res.data.status) {
+          toast.success("Shipping fee updated Sucessfully", {
             position: "top-center",
           });
-
-          // axios
-          //   .get(`${shopApi}view/single/${user?.shopId}`)
-          //   .then((res) => {
-          //     setProducts(res.data.data);
-          //   })
-          //   .then((err) => {
-          //     console.log(err);
-          //   });
-          // setModalOpen(false);
+          setReload((prev) => prev + 1);
+          setModalOpen2(false);
         }
       })
       .catch((err) => {
@@ -216,10 +229,10 @@ function shop() {
         >
           <div className="w-full">
             <h1 className="font-bold text-xl italic">Buyer Location</h1>
-            <div className="flex justify-between border-b-2 border-dashed my-2">
+            {/* <div className="flex justify-between border-b-2 border-dashed my-2">
               <p className="font-bold text-[1rem]">Name</p>
               <p>John doe</p>
-            </div>
+            </div> */}
             <div className="flex justify-between  border-b-2 border-dashed mb-2">
               <p className="font-bold text-[1rem]">Country</p>
               <p>{showorders?.countryName}</p>
@@ -294,6 +307,57 @@ function shop() {
             <button
               className="bg-bellefuOrange rounded-md py-2 px-5"
               onClick={handleSave2}
+            >
+              <p className="text-xs text-white md:text-[15px]">save </p>
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        open={orderLocation}
+        onClose={() => setOrderLocation(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <div
+          className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   bg-bellefuWhite w-[80%] md:w-[60%] lg:w-[40%]"
+          // sx={edit}
+        >
+          <div className="grid grid-cols-6 gap-3  my-5">
+            <div className="col-span-6 sm:col-span-3">
+              <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
+                <p>Order Location/Status</p>
+              </label>
+              <input
+                onChange={(e) => setOrderStatus(e.target.value)}
+                value={orderStatus}
+                type="text"
+                className="  bg-gray-100 p-[7px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-3">
+              <label className="block text-sm font-medium text-gray-700 flex-row justify-between">
+                <p>Comment</p>
+              </label>
+              <input
+                onChange={(e) => setOrderComment(e.target.value)}
+                value={orderComment}
+                type="text"
+                className="  bg-gray-100 p-[7px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+              />
+            </div>
+          </div>
+          <div className="flex my-4 md:w-[60%] lg:w-[60%] space-x-20 justify-between">
+            <button
+              className=" bg-gray-400 rounded-md py-2 px-5"
+              onClick={() => setOrderLocation(false)}
+            >
+              <p className="text-xs text-white md:text-[15px]">Cancel</p>
+            </button>
+            <button
+              className="bg-bellefuOrange rounded-md py-2 px-5"
+              onClick={updateOrderStatus}
             >
               <p className="text-xs text-white md:text-[15px]">save </p>
             </button>
@@ -388,7 +452,7 @@ function shop() {
       <div className="rounded-lg md:mt-5 mt-2 bg-bellefuWhite   h-auto w-full md:w-auto">
         <div className="flex justify-between px-3  lg:px-10 md:py-6 py-2 border-b">
           {shoporder ? (
-            <h1 className="font-semibold text-sm">My Shop Order Details</h1>
+            <h1 className="font-semibold text-sm">Order Details</h1>
           ) : (
             <h1 className="font-semibold text-sm">My Shop</h1>
           )}{" "}
@@ -404,12 +468,21 @@ function shop() {
               ) : (
                 <div className="flex justify-between md:space-x-10 lg:space-x-10 ">
                   <div>
-                    <button
-                      onClick={() => SetshopOrder(true)}
-                      className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
-                    >
-                      shop orders
-                    </button>
+                    {shoporder ? (
+                      <button
+                        onClick={() => SetshopOrder(!shoporder)}
+                        className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
+                      >
+                        View Shop
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => SetshopOrder(true)}
+                        className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
+                      >
+                        Shop orders
+                      </button>
+                    )}
                   </div>
                   {shoporder ? null : (
                     <div>
@@ -449,167 +522,221 @@ function shop() {
         ) : (
           <>
             <div className="px-2 md:px-5 lg:px-10  ">
-              {products?.length === 0 ? (
-                <div className="h-full px-2 lg:px-0 ">
-                  <div className="border py-7 my-8 mx-auto mt-2 lg:my-10 rounded-xl w-full lg:w-[64%] h-auto ">
-                    <div className="flex flex-col justify-center  items-center">
-                      <img
-                        src={`${`${imageBaseUrl}get/store/image/`}${
-                          shopDetails[0]?.logo
-                        }`}
-                        alt=""
-                        className="object-cover  rounded-md w-[70%] h-64"
-                      />
-                      {shopDetails[0]?.expired && (
-                        <p className="absolute top-[14rem] lg:top-[15.1rem] uppercase text-xs bg-bellefuGreen px-3 py-1 rounded-tl-md rounded-br-md text-bellefuWhite font-medium">
-                          expired
-                        </p>
-                      )}
-
-                      <p className="my-3 text-2xl font-semibold">
-                        {shopDetails[0]?.shopName}
-                      </p>
-                      {/* <BsShopWindow className="text-7xl lg:text-9xl mb-5 text-gray-600" /> */}
-                      {!shopDetails[0]?.expired && (
-                        <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
-                          You do not have any products in your shop
-                        </p>
-                      )}
-                      {shopDetails[0]?.expired && (
-                        <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
-                          Renew your subscription for shop
-                        </p>
-                      )}
-                      <div>
-                        {" "}
-                        {shopDetails[0]?.expired ? (
-                          <button
-                            // onClick={() => router.push("/shop/upload-product")}
-                            className="py-1 md:py-2  mt-7 px-7 lg:px-6 rounded-full bg-bellefuGreen text-white text-sm lg:text-lg"
-                          >
-                            Renew Subscription
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => router.push("/shop/upload-product")}
-                            className="py-1 lg:py-2 hover:bg-orange-400 mt-7 px-7 lg:px-6 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg"
-                          >
-                            Add products
-                          </button>
+              {!shoporder &&
+                (products?.length === 0 ? (
+                  <div className="h-full px-2 lg:px-0 ">
+                    <div className="border py-7 my-8 mx-auto mt-2 lg:my-10 rounded-xl w-full lg:w-[64%] h-auto ">
+                      <div className="flex flex-col justify-center  items-center">
+                        <img
+                          src={`${`${imageBaseUrl}get/store/image/`}${
+                            shopDetails[0]?.logo
+                          }`}
+                          alt=""
+                          className="object-cover  rounded-md w-[70%] h-64"
+                        />
+                        {shopDetails[0]?.expired && (
+                          <p className="absolute top-[14rem] lg:top-[15.1rem] uppercase text-xs bg-bellefuGreen px-3 py-1 rounded-tl-md rounded-br-md text-bellefuWhite font-medium">
+                            expired
+                          </p>
                         )}
+
+                        <p className="my-3 text-2xl font-semibold">
+                          {shopDetails[0]?.shopName}
+                        </p>
+                        {/* <BsShopWindow className="text-7xl lg:text-9xl mb-5 text-gray-600" /> */}
+                        {!shopDetails[0]?.expired && (
+                          <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
+                            You do not have any products in your shop
+                          </p>
+                        )}
+                        {shopDetails[0]?.expired && (
+                          <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
+                            Renew your subscription for shop
+                          </p>
+                        )}
+                        <div>
+                          {" "}
+                          {shopDetails[0]?.expired ? (
+                            <button
+                              // onClick={() => router.push("/shop/upload-product")}
+                              className="py-1 md:py-2  mt-7 px-7 lg:px-6 rounded-full bg-bellefuGreen text-white text-sm lg:text-lg"
+                            >
+                              Renew Subscription
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                router.push("/shop/upload-product")
+                              }
+                              className="py-1 lg:py-2 hover:bg-orange-400 mt-7 px-7 lg:px-6 rounded-full bg-bellefuOrange text-white text-sm lg:text-lg"
+                            >
+                              Add products
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ) : shoporder ? (
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell className="font-semibold">
-                          Product-Name
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          Price
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          shipping-fee
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          Status
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          Action
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {orderdetails?.map((product, index) => (
-                        <TableRow
-                          onClick={() => {
-                            setShowOrders(product), setModalOpen2(true);
-                          }}
-                          className="hover:bg-gray-100 cursor-pointer"
-                          key={index}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            {product.title?.substring(0, 20) + "...."}
+                ) : (
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell className="font-semibold">
+                            Product-Name
                           </TableCell>
-                          <TableCell align="center">{product.price}</TableCell>
-                          <TableCell align="center">
-                            {product.promoPrice}
+                          <TableCell className="font-semibold" align="center">
+                            Price
                           </TableCell>
-                          <TableCell align="center">
-                            {product.inStock === 1 ? "instock" : "out Of stock"}
+                          <TableCell className="font-semibold" align="center">
+                            Promo-Price
                           </TableCell>
-                          <TableCell className=" " align="center">
-                            <IconButton onClick={() => setModalOpen2(true)}>
-                              <FaRegEdit />
-                            </IconButton>
-                            {/* <IconButton onClick={(e) => e.stopPropagation()}>
-                              <MdOutlineDeleteOutline />
-                            </IconButton> */}
+                          <TableCell className="font-semibold" align="center">
+                            Status
+                          </TableCell>
+                          <TableCell className="font-semibold" align="center">
+                            Action
                           </TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              ) : (
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell className="font-semibold">
-                          Product-Name
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          Price
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          Promo-Price
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          Status
-                        </TableCell>
-                        <TableCell className="font-semibold" align="center">
-                          Action
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {products?.map((product, index) => (
-                        <TableRow
-                          className="hover:bg-gray-100 cursor-pointer"
-                          key={index}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            {product.title?.substring(0, 20) + "...."}
+                      </TableHead>
+                      <TableBody>
+                        {products?.map((product, index) => (
+                          <TableRow
+                            className="hover:bg-gray-100 cursor-pointer"
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {product.title?.substring(0, 20) + "...."}
+                            </TableCell>
+                            <TableCell align="center">
+                              {product.price}
+                            </TableCell>
+                            <TableCell align="center">
+                              {product.promoPrice}
+                            </TableCell>
+                            <TableCell align="center">
+                              {product.inStock ? "instock" : "out Of stock"}
+                            </TableCell>
+                            <TableCell className=" " align="center">
+                              <IconButton onClick={() => handleEdith(product)}>
+                                <FaRegEdit />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                ))}
+
+              {shoporder &&
+                (orderdetails.length === 0 ? (
+                  <div className="border mx-auto mt-2 lg:my-5 rounded-xl w-full lg:w-7/12 h-11/12 ">
+                    <div className="flex flex-col justify-center mt-24 mb-24 items-center">
+                      <GoListOrdered className="text-7xl lg:text-9xl mb-5 text-gray-600" />
+                      <p className="text-sm capitalize lg:text-lg text-gray-600 px-2 text-center">
+                        You do not have any order from your shop yet.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell className="font-semibold">
+                            Product-Name
                           </TableCell>
-                          <TableCell align="center">{product.price}</TableCell>
-                          <TableCell align="center">
-                            {product.promoPrice}
+                          <TableCell className="font-semibold" align="center">
+                            Price
                           </TableCell>
-                          <TableCell align="center">
-                            {product.inStock ? "instock" : "out Of stock"}
+                          <TableCell className="font-semibold" align="center">
+                            order Date
                           </TableCell>
-                          <TableCell className=" " align="center">
-                            <IconButton onClick={() => handleEdith(product)}>
-                              <FaRegEdit />
-                            </IconButton>
+                          <TableCell className="font-semibold" align="center">
+                            shipping-fee
                           </TableCell>
+                          <TableCell className="font-semibold" align="center">
+                            Status
+                          </TableCell>
+                          <TableCell className="font-semibold" align="center">
+                            Add shipping fee
+                          </TableCell>
+                          {
+                            <TableCell className="font-semibold" align="center">
+                              shipment status
+                            </TableCell>
+                          }
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
+                      </TableHead>
+                      <TableBody>
+                        {orderdetails?.map((product, index) => (
+                          <TableRow
+                            onClick={() => {
+                              setShowOrders(product), setModalOpen2(true);
+                            }}
+                            className="hover:bg-gray-100 cursor-pointer"
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {product.title?.substring(0, 20) + "...."}
+                            </TableCell>
+                            <TableCell align="center">
+                              {product.price}
+                            </TableCell>
+                            <TableCell align="center">
+                              {moment(product.orderTime).format("ll")}
+                            </TableCell>
+                            <TableCell align="center">
+                              {product.shipping_fee === null
+                                ? "Update Price"
+                                : product.shipping_fee}
+                            </TableCell>
+                            {/* <TableCell align="center">
+                              {product.promoPrice}
+                            </TableCell> */}
+                            <TableCell align="center">
+                              {product.status === "ordered"
+                                ? "Payment completed"
+                                : product.status}
+                            </TableCell>
+                            <TableCell className=" " align="center">
+                              <IconButton
+                                onClick={() => {
+                                  setModalOpen2(true);
+                                  setOrderId(product.orderItemId);
+                                }}
+                              >
+                                <FaRegEdit />
+                              </IconButton>
+                            </TableCell>
+                            <TableCell className=" " align="center">
+                              {product.status === "ordered" && (
+                                <IconButton
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOrderLocation(true);
+                                    setOrderId(product.orderItemId);
+                                  }}
+                                >
+                                  <FaRegEdit />
+                                </IconButton>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                ))}
             </div>
           </>
         )}

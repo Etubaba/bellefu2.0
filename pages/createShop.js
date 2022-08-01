@@ -37,6 +37,7 @@ export default function CreateShop() {
   const [govid, setGovid] = useState([]);
   const [paymentModal, setPaymentModal] = useState(false);
   const [subType, setSubType] = useState(25);
+  const [fee, setFee] = useState(null);
 
   const router = useRouter();
 
@@ -187,6 +188,16 @@ export default function CreateShop() {
     }
   };
 
+  useEffect(() => {
+    const getSub = async () => {
+      axios
+        .get(`${shopApi}get/subscription/fee`)
+        .then((res) => setFee(res.data.data));
+    };
+
+    getSub();
+  }, []);
+
   return (
     <>
       <Head>
@@ -253,7 +264,7 @@ export default function CreateShop() {
                 Create Shop
               </p>
               <p className="text-lg text-gray-700 font-semibold tracking-wider">
-                For $25
+                ${fee?.monthly}/monthly & ${fee?.yearly}/yearly
               </p>
             </div>
             <hr style={{ backgroundColor: "#343434" }} />

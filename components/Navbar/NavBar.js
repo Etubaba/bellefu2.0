@@ -16,6 +16,7 @@ import {
   handlePusher,
   ifVerified,
   login,
+  shopCreated,
   shopId,
 } from "../../features/bellefuSlice";
 import { profileDetails } from "../../features/bellefuSlice";
@@ -245,6 +246,7 @@ const NavBar = () => {
         setUserShop(res.data.status);
         if (res.data.status) {
           dispatch(shopId(res.data?.data?.id));
+          dispatch(shopCreated(true));
         }
       });
     }
@@ -382,7 +384,7 @@ const NavBar = () => {
               >
                 Shops
               </p>
-              {!shopOwner || !userShop ? (
+              {!userShop ? (
                 <p
                   className="hover:text-gray-200 cursor-pointer"
                   onClick={handleCreateShop}
