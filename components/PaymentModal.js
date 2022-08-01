@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Modal } from "@mui/material";
+import { useState } from "react";
+//import { Modal } from "@mui/material";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { useDispatch, useSelector } from "react-redux";
 import { productImageUrl, shopApi } from "../constant";
@@ -8,43 +8,12 @@ import { toast } from "react-toastify";
 import { orderPayment, profileDetails } from "../features/bellefuSlice";
 
 const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, orderhistory, setOrderHistory}) => {
-  // console.log(currentOrderItem);
-  // console.log(currentOrderItemIndex);
-  // console.log(orderhistory[currentOrderItemIndex]);
-  // const orders = orderhistory;
-  // orders[currentOrderItemIndex] = {
-  //   ...orders[currentOrderItemIndex],
-  //   status: "on transmit",
-  // };
-  // console.log(orders[currentOrderItemIndex]);
-  // console.log(orders)
-  //const [paymentRes, setPaymentRes] = useState(null);
-  //const [cartList, setCartList] = useState([]);
-  //const [modalopen, setModalOpen] = useState(false);
   const [gateway, setGateway] = useState(null);
-
   const userData = useSelector(profileDetails);
-  // const priceSum = cartList?.reduce((acc, curr) => {
-  //   acc += curr.price * curr.quantity;
-  //   return acc;
-  // }, 0);
-  // const shippingFee = 200;
-  // const totalPrice = priceSum + shippingFee;
   const userFullName = userData?.first_name + "  " + userData?.last_name;
   const userEmail = userData?.email;
   const phone = userData?.phone;
   const {currency_code, orderItemId, price, product_quantity: quantity, shipping, userId} = currentOrderItem;
-
-  //const parser = new DOMParser();
-  //const doc = parser.parseFromString(currency, "text/html");
-  //const currencyCode = doc.body.firstChild.textContent;
-  //console.log(doc.body.firstChild.textContent);
-  //const currencyCode = userData?.currency_code;
-  // console.log(phone);
-  // console.log(price)
-  // console.log(product_quantity);
-  // console.log(quantity)
-
   const config = {
     public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
     tx_ref: Date.now(),
@@ -64,35 +33,26 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
     },
   };
 
-  //const cartId = cartList.length > 0 ? cartList?.map((item) => item.cartId) : [];
   const handleFlutterPayment = useFlutterwave(config);
-  const OnPaymentSuccess = (res) => {
-    // console.log(gateway);
-    // console.log(res);
-    // console.log(res.transaction_id)
-
-    axios.post(`${shopApi}update/order/item`, {
+  const onPaymentSuccess = async (res) => {
+    await axios.post(`${shopApi}update/order/item`, {
       orderItemId,
       actor: "buyer",
       gateway: "flutterwave",
       transactionId: res.transaction_id,
       totalAmount: price * quantity,
       userId: userId,
-      shipping: "200"
+      shipping: 200
     })
     .then((res) => {
+      console.log(res.data);
       if (res.data.status) {
         const orders = orderhistory;
-        // console.log(orders);
-        // console.log(currentOrderItem);
-        // console.log(currentOrderItemIndex);
-        // console.log(orders[currentOrderItemIndex]);
         orders[currentOrderItemIndex] = {
           ...orders[currentOrderItemIndex],
           status: "ordered",
         };
-        console.log(orders[currentOrderItemIndex]);
-        console.log(orders);
+        
         setOrderHistory(orders);
       }
     })
@@ -101,14 +61,6 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
     })
   }
 
-  // useEffect(() => {
-  //   const getCart = async () => {
-  //     await axios
-  //       .get(`${shopApi}list/cart/item/${userData?.id}`)
-  //       .then((res) => setCartList(res.data.data));
-  //   };
-  //   getCart();
-  // }, []);
 
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 modal-bg z-50" onClick={() => setShowModal(false)}>
@@ -133,15 +85,15 @@ const PaymentModal = ({setShowModal, currentOrderItem, currentOrderItemIndex, or
                       setGateway("flutterwave");
                       
                       handleFlutterPayment({
-                        callback: (response) => {
+                        callback: async (response) => {
                           //setPaymentRes(response);
-                          console.log(response);
+                          //console.log(response);
                           closePaymentModal();
                           setShowModal(false);
                           //setPrice(null);
                           if (response.status === "successful") {
                             //dispatch(orderPayment(true));
-                            OnPaymentSuccess(response)
+                            await onPaymentSuccess(response)
                             toast.success("Payment Successful");
                           }
                           // this will close the modal programmatically

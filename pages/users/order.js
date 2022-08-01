@@ -24,15 +24,14 @@ const order = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentOrderItem, setOrderItem] = useState(null);
   const [currentOrderItemIndex, setCurrentOrderItemIndex] = useState(-1);
-  //const [currentPrice, setPrice] = useState(null);
-  //const [currencyCode, setCurrencyCode] = useState(null);
+  
 
   useEffect(() => {
     axios
       .get(`${shopApi}list/order/${user?.id}`)
       .then((res) => {
         setOrderHistory(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((err) => {
         toast.error(`${err}`, {
@@ -41,11 +40,7 @@ const order = () => {
       });
   }, []);
 
-  useEffect(() => {
-    //setOrderHistory([]);
-    console.log(orderhistory)
-  }, [orderhistory])
-  //   console.log(orderhistory);
+  
   return (
     <div>
       <Head>
@@ -223,7 +218,7 @@ const order = () => {
                     </span>
                   </p>
                   <button
-                    onClick={() => {
+                    onClick={order?.status === "ordered"?() => {}:() => {
                       setShowModal(true);
                       setOrderItem(order);
                       setCurrentOrderItemIndex(index);
@@ -231,11 +226,11 @@ const order = () => {
                       //setCurrencyCode(order?.currency_code);
                       //router.push("/profile/orderdetails");
                     }}
-                    className={classNames("border-2 border-bellefuGreen bg-transparent px-5 md:text-md text-sm  md:px-7 py-2 text-black flex justify-center items-center rounded-full mt-3 md:mt-5", {"bg-bellefuOrange hover:bg-orange-30": order?.status === "processing"})
+                    className={classNames("border-2 border-bellefuGreen bg-transparent px-5 md:text-md text-sm  md:px-7 py-2 text-black flex justify-center items-center rounded-full mt-3 md:mt-5", {"bg-bellefuOrange hover:bg-orange-30": order?.status === "processing", "text-bellefuGreen tex-lg hover:cursor-default": (order?.status === "ordered") })
                     }
                   >
                     <span className="flex item-center space-x-4">
-                      <span className="text-[8px] md:text-sm">
+                      <span className={classNames("text-[8px] md:text-sm", {"text-bellefuGreen": order?.status === "ordered"})}>
                         {/* {order?.status === "processing"? "Make Payment": order?.status} */}
                         {order?.shipping_fee && order?.status === "pending"? "Pay Now!": order?.status}
                       </span>
