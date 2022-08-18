@@ -27,9 +27,10 @@ function Footer() {
       <div className="flex justify-evenly space-x-10 mb-12">
         <div className="flex flex-col space-y-3 w-80">
           <img
-            className="h-10 w-32"
+            className="h-10 w-32 rounded-lg"
             alt="About US"
-            src="https://www.linkpicture.com/q/bellefulogo_1_-removebg-preview.png"
+            src="/bellefulogo.png"
+            // src="https://www.linkpicture.com/q/bellefulogo_1_-removebg-preview.png"
           />
           <p className="text-[#D4D7D1] text-justify font-light text-sm">
             Bellefu.com is a dynamic online marketplace dedicated to
@@ -261,8 +262,9 @@ function Footer() {
           >
             <img
               alt="error"
-              src="https://www.linkpicture.com/q/play-removebg-preview-1.png"
-              className="w-40 h-10 mr-6"
+              // src="https://www.linkpicture.com/q/play-removebg-preview-1.png"
+              src="/applestore.png"
+              className="w-60 h-20 mr-6"
             />
           </a>
           <a
@@ -271,8 +273,9 @@ function Footer() {
           >
             <img
               alt="error"
-              src="https://www.linkpicture.com/q/ios-removebg-preview.png"
-              className="w-40 h-10"
+              src="/playstor.png"
+              // src="https://www.linkpicture.com/q/ios-removebg-preview.png"
+              className="w-40 h-10 mt-5 rounded-lg"
             />
           </a>
         </div>
