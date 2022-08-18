@@ -47,10 +47,10 @@ const UploadProductForm = ({stateHandler}) => {
 
   if (typeof window === "undefined") return null;
  
-  console.log(userDetails[0].userId);
-  console.log(userProducts);
-  console.log(userProducts.data.data);
-  console.log(isNewProduct);
+  // console.log(userDetails[0].userId);
+  // console.log(userProducts);
+  // console.log(userProducts.data.data);
+  // console.log(isNewProduct);
 
   return (
     <>
