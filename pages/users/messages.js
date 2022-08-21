@@ -325,6 +325,9 @@ const messages = ({ data1 }) => {
                   <div onClick={() => window.open(`tel:${phone}`)}>
                     <IoMdCall className="text-xl text-bellefuGreen " />{" "}
                   </div>
+                  <div onClick={() => setModalOpen(true)}>
+                    <FcVideoCall className="text-xl text-bellefuGreen " />{" "}
+                  </div>
                   <div
                     onClick={() => {
                       setRead(false);

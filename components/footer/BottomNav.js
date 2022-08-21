@@ -79,7 +79,6 @@ const BottomNav = () => {
           className="text-2xl text-white"
           onClick={() => {
             router.push("/");
-            window.location.reload();
           }}
         />
         <FaHeart className="text-white text-2xl" onClick={handlefav} />

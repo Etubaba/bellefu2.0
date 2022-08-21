@@ -7,7 +7,7 @@ import AlternateComponent from "./alternateComponent/AlternateComponent";
 import { BiArrowBack } from "react-icons/bi";
 
 const Layout = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const userId = useSelector((state) => state.bellefu?.profileDetails);
   return (
     <div className="bg-bellefuBackground max-w-[95%] lg:max-w-[90%] mx-auto mt-24">
