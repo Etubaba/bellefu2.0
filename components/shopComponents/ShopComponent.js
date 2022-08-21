@@ -110,13 +110,15 @@ const ShopComponent = ({ product }) => {
         .then((res) => {
           if (res.data.status) {
             setWait(false);
-            toast.success(`${product.title.substring(0, 20)} added to cart`);
+            toast.success(`${product.title.substring(0, 20)} added to cart`, {
+              position: "bottom-left",
+            });
 
             dispatch(favUpdated());
           }
         });
     } else {
-      toast.info("Login to add to cart", { position: "top-center" });
+      toast.info("Login to add to cart", { position: "bottom-left" });
     }
   };
 

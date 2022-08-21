@@ -2,17 +2,28 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoMdNotifications, IoMdAddCircleOutline } from "react-icons/io";
 import { RiLogoutBoxFill, RiLogoutBoxLine } from "react-icons/ri";
-import { AiOutlineClose } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineInfoCircle,
+  AiOutlineLogin,
+} from "react-icons/ai";
 import { FiRadio } from "react-icons/fi";
+import { GoLaw } from "react-icons/go";
 import { FaBloggerB } from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { MdShoppingCart, MdDashboard, MdDevices } from "react-icons/md";
+import {
+  MdShoppingCart,
+  MdDashboard,
+  MdDevices,
+  MdOutlinePrivacyTip,
+  MdOutlineHome,
+} from "react-icons/md";
 import { isLoggedIn, login, profileDetails } from "../../features/bellefuSlice";
 import axios from "axios";
 import Loader, { apiData, shopApi, UserAvataUrl } from "../../constant";
-import { BsShop, BsNewspaper } from "react-icons/bs";
+import { BsShop, BsNewspaper, BsFillPersonPlusFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 
 const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
@@ -189,56 +200,121 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
             <p>Dashboard</p>
           </div>
         )}
-
+        {!getIsLoggedIn && (
+          <span
+            className="bg-gray-100 my-4 flex font-bold tracking-wider p-2 text-left rounded text-sm"
+            onClick={() => {
+              setIsOpen(false);
+              router.push("/");
+            }}
+          >
+            <MdOutlineHome className="w-6 h-6 mr-2  text-gradient-to-r from-yellow-200 via-green-200 to-green-500" />
+            <p>Home</p>
+          </span>
+        )}
         <a className="" href="https://webinar.bellefu.com/" target="_blank">
-          <p
+          <span
             className="bg-gray-100 my-4 flex font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
             <MdDevices className="w-6 h-6 mr-2  text-gradient-to-r from-yellow-200 via-green-200 to-green-500" />
             <p>Webinar</p>
-          </p>{" "}
+          </span>{" "}
         </a>
-        <a href="https://radio.bellefu.com/" target="_blank">
-          {" "}
-          <p
-            className=" bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
-            onClick={() => setIsOpen(false)}
-          >
-            <FiRadio className="w-6 h-6 mr-2" />
-            <p>Bellefu Radio</p>
-          </p>
-        </a>
-
         <a href="https://blog.bellefu.com/" target="_blank">
-          <p
+          <span
             className="bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
             onClick={() => setIsOpen(false)}
           >
             <BsNewspaper className="w-6 h-6 mr-2   text-gradient-to-r from-yellow-200 via-green-200 to-green-500" />
-            Blog
-          </p>{" "}
+            <p>Blog</p>
+          </span>{" "}
         </a>
         {!getIsLoggedIn && (
           <>
-            <p
-              className="bg-gray-100 font-bold tracking-wider p-2 text-left rounded text-sm"
+            <span
+              className="mb-4 bg-gray-100 font-bold tracking-wider flex p-2 text-left rounded text-sm"
               onClick={() => {
                 router.push("/login"), setIsOpen(false), setLoading(true);
               }}
             >
-              Login
-            </p>
-            <p
-              className=" bg-gray-100 font-bold tracking-wider p-2 text-left rounded text-sm"
+              <AiOutlineLogin className="w-6 h-6 mr-2 mt-1  " />
+
+              <p className="bg-gray-100 font-bold tracking-wider p-2 text-left rounded text-sm">
+                Login
+              </p>
+            </span>
+            <span
+              className="mb-4 bg-gray-100  font-bold tracking-wider flex p-2 text-left rounded text-sm"
               onClick={() => (
                 router.push("/register"), setIsOpen(false), setLoading(true)
               )}
             >
-              Register
-            </p>
+              <BsFillPersonPlusFill className="w-6 h-6 mr-2 mt-1   " />
+              <p className="bg-gray-100 font-bold tracking-wider p-2 text-left rounded text-sm">
+                Register
+              </p>
+            </span>
+
+            <a href="https://about.bellefu.com/" target="_blank">
+              <span
+                className="bg-gray-100 flex my-4 font-bold tracking-wider p-2 text-left rounded text-sm"
+                onClick={() => setIsOpen(false)}
+              >
+                <AiOutlineInfoCircle className="w-6 h-6 mr-2   text-gradient-to-r from-yellow-200 via-green-200 to-green-500" />
+                <p>About us</p>
+              </span>{" "}
+            </a>
+
+            <a href="https://radio.bellefu.com/" target="_blank">
+              {" "}
+              <p
+                className=" bg-gray-100 flex mb-4 font-bold tracking-wider p-2 text-left rounded text-sm"
+                onClick={() => setIsOpen(false)}
+              >
+                <FiRadio className="w-6 h-6 mr-2" />
+                <p>Bellefu Radio</p>
+              </p>
+            </a>
+
+            <span
+              className="flex mb-4 bg-gray-100 p-2 text-left rounded"
+              onClick={() => (
+                router.push("/policy"), setIsOpen(false), setLoading(true)
+              )}
+            >
+              <MdOutlinePrivacyTip className="w-6 h-6 mr-2   " />
+              <p className=" mt-1 font-bold tracking-wider    text-sm">
+                Privacy Policy
+              </p>
+            </span>
+            {/* <span
+              className="flex mb-4"
+              onClick={() => (
+                router.push("/register"), setIsOpen(false), setLoading(true)
+              )}
+            >
+              <BsFillPersonPlusFill className="w-6 h-6 mr-2   " />
+              <p className="bg-gray-100 mt-1 font-bold tracking-wider p-2 text-left rounded text-sm">
+                Register
+              </p>
+            </span> */}
           </>
         )}
+        <span
+          className="flex mb-4 bg-gray-100 p-2 text-left rounded"
+          onClick={() => (
+            router.push("/terms-and-conditions"),
+            setIsOpen(false),
+            setLoading(true)
+          )}
+        >
+          <GoLaw className="w-6 h-6 mr-2   " />
+          <p className=" mt-1 font-bold tracking-wider    text-sm">
+            Terms and Conditions
+          </p>
+        </span>
+
         {getIsLoggedIn &&
           (!userShop ? (
             <div
@@ -271,7 +347,6 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
               <div onClick={() => router.push("/users/shop")} />
             </div>
           ))}
-
         <div
           className=" bg-gray-100 font-bold tracking-wider p-2 justify-left rounded text-sm flex items-left space-x-2"
           onClick={() => {
@@ -284,9 +359,8 @@ const MobileNavbar = ({ setLoading, isOpen, setIsOpen, username, msgRead }) => {
           Shops
           <div onClick={() => router.push("/shops")} />
         </div>
-
         {getIsLoggedIn && (
-          <div className="w-2/5 mx-auto pt-2">
+          <div className="w-2/5 mx-auto mb-6 pt-2">
             <div
               className="flex items-left justify-left space-x-1 px-2 py-1  bg-gray-100 font-bold tracking-wider rounded"
               onClick={() => {

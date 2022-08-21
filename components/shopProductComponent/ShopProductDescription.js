@@ -36,7 +36,7 @@ const ShopProductDescription = ({ productDetails }) => {
           }
         });
     } else {
-      toast.info("Login to add to cart", { position: "top-center" });
+      toast.info("Login to add to cart", { position: "bottom-left" });
     }
   };
   return (
