@@ -53,8 +53,9 @@ const Product = () => {
         `${apiData}get/product/cat/${newId}?page=${page}`
       );
       const { data } = await response.json();
-      setProduct(data.data);
-      setTotalPage(data.last_page);
+      setProduct(data?.data);
+      setTotalPage(data?.last_page);
+      console.log("productapi", data?.data);
     };
 
     getProduct();
@@ -88,8 +89,8 @@ const Product = () => {
 
   const price = product?.map((item) => parseFloat(item.price));
 
-  const maxPrice = price.length === 0 ? 1000 : Math.max(...price);
-  const minPrice = price.length === 0 ? 0 : Math.min(...price);
+  const maxPrice = price?.length === 0 ? 1000 : Math.max(...price);
+  const minPrice = price?.length === 0 ? 0 : Math.min(...price);
 
   const [startPrice, setStartPrice] = useState(minPrice);
   const [endPrice, setEndPrice] = useState(maxPrice);
@@ -99,8 +100,10 @@ const Product = () => {
     setEndPrice(value[1]);
   };
 
+
+  console.log('items',price.length)
   const filterProduct = product.filter((newP) => {
-    if (startPrice === 100 && subCatId === null) {
+    if ((startPrice === 100 || startPrice === 0 )&& subCatId === null) {
       return newP;
     } else if (newP.price >= startPrice && newP.price <= endPrice) {
       return newP;
@@ -108,6 +111,8 @@ const Product = () => {
       return newP;
     }
   });
+
+  console.log("filter", filterProduct);
 
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
