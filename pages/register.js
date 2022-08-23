@@ -134,7 +134,7 @@ const Register = ({ data, countries, countries1 }) => {
       })
       .then((res) => {
         if (formFields.socialSignup) router.replace(res.url);
-        else router.push(res);
+        else router.replace(res);
       })
       .catch((error) => {
         console.log(`Error for user registration ${error}`);
