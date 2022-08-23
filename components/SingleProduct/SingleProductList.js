@@ -14,6 +14,8 @@ import { apiData, productImageUrl } from "../../constant";
 const SingleProductList = ({ similarProductDetail }) => {
   const [fav2, setFav2] = useState(false);
 
+
+
   const isLoggedIn = useSelector(login);
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const favArr = useSelector((state) => state.bellefu?.favArr);
@@ -122,10 +124,13 @@ const SingleProductList = ({ similarProductDetail }) => {
         </div>
       </div>
       <div className="flex items justify-between">
-        <p className="text-bellefuGreen flex font-poppins font-semibold">
-          <p className="mr-1">$</p>
-          {similarProductDetail.price}
-        </p>
+        <span className="text-bellefuGreen flex font-poppins font-semibold">
+          <p
+            className="mr-1"
+            dangerouslySetInnerHTML={{ __html: similarProductDetail?.currencySymbol }}
+          />
+          <p> {similarProductDetail.price}</p>
+        </span>
         {fav2 || favArr?.includes(similarProductDetail.productId) ? (
           <div onClick={removeFav} className="cursor-pointer">
             <BsSuitHeartFill className="w-4 h-4 text-bellefuOrange" />

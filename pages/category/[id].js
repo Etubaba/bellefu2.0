@@ -47,14 +47,26 @@ const Product = () => {
   //setProductId(router.query.id);
 
   // getting product base on category
+
+
+
+
   useEffect(() => {
     const getProduct = async () => {
-      const response = await fetch(
-        `${apiData}get/product/cat/${newId}?page=${page}`
-      );
-      const { data } = await response.json();
-      setProduct(data.data);
-      setTotalPage(data.last_page);
+
+         axios.get(`${apiData}get/product/cat/${newId}?page=${page}`)
+         .then(res=>{
+            setProduct(res.data.data.data);
+            setTotalPage(res.data.data.last_page);
+            console.log('mainproduct',res.data.data.data)      
+         })
+
+      // const response = await fetch(
+      //   `${apiData}get/product/cat/${newId}?page=${page}`
+      // );
+      // const { data } = await response.json();
+      // setProduct(data.data);
+      // setTotalPage(data.last_page);
     };
 
     getProduct();
@@ -109,6 +121,9 @@ const Product = () => {
     }
   });
 
+
+
+  
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);

@@ -34,6 +34,9 @@ const Product = ({ details, title, description, image }) => {
   const newDetails = details.data;
   const similarProductDetails = details.similarProducts;
 
+
+ 
+
   const dispatch = useDispatch();
 
   if (newDetails) {
@@ -48,7 +51,7 @@ const Product = ({ details, title, description, image }) => {
   const index = useSelector(homeData);
 
 
-console.log('product',newDetails)
+
 
   return (
     <>
