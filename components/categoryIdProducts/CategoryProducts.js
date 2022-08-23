@@ -7,7 +7,7 @@ import Head from "next/head";
 const CategoryProducts = ({ product }) => {
 
 
-
+console.log('productcat ', product)
   return (
     <div>
 

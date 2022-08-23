@@ -128,12 +128,13 @@ const Register = ({ data, countries, countries1 }) => {
           dispatch(setProfileDetails(data.data));
 
           //Sign out the user after authentication, for bellefu to take control of login and logout
-          return signOut({ redirect: false, callbackUrl: "/verify-phone" });
-          //router.push("/verify-phone");
+          if (formFields.socialSignup) return signOut({ redirect: false, callbackUrl: "/verify-phone" });
+          return "/verify-phone";
         }
       })
-      .then((resSignOut) => {
-        router.replace(resSignOut.url);
+      .then((res) => {
+        if (formFields.socialSignup) router.replace(res.url);
+        else router.replace(res);
       })
       .catch((error) => {
         console.log(`Error for user registration ${error}`);

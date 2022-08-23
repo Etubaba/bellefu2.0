@@ -53,20 +53,12 @@ const Product = () => {
 
   useEffect(() => {
     const getProduct = async () => {
-
-         axios.get(`${apiData}get/product/cat/${newId}?page=${page}`)
-         .then(res=>{
-            setProduct(res.data.data.data);
-            setTotalPage(res.data.data.last_page);
-            console.log('mainproduct',res.data.data.data)      
-         })
-
-      // const response = await fetch(
-      //   `${apiData}get/product/cat/${newId}?page=${page}`
-      // );
-      // const { data } = await response.json();
-      // setProduct(data.data);
-      // setTotalPage(data.last_page);
+      const response = await fetch(
+        `${apiData}get/product/cat/${newId}?page=${page}`
+      );
+      const { data } = await response.json();
+      setProduct(data.data);
+      setTotalPage(data.last_page);
     };
 
     getProduct();
@@ -100,8 +92,8 @@ const Product = () => {
 
   const price = product?.map((item) => parseFloat(item.price));
 
-  const maxPrice = price.length === 0 ? 1000 : Math.max(...price);
-  const minPrice = price.length === 0 ? 0 : Math.min(...price);
+  const maxPrice = price?.length === 0 ? 1000 : Math.max(...price);
+  const minPrice = price?.length === 0 ? 0 : Math.min(...price);
 
   const [startPrice, setStartPrice] = useState(minPrice);
   const [endPrice, setEndPrice] = useState(maxPrice);
@@ -111,8 +103,10 @@ const Product = () => {
     setEndPrice(value[1]);
   };
 
+
+
   const filterProduct = product.filter((newP) => {
-    if (startPrice === 100 && subCatId === null) {
+    if ((startPrice === 100 || startPrice === 0 )&& subCatId === null) {
       return newP;
     } else if (newP.price >= startPrice && newP.price <= endPrice) {
       return newP;
@@ -121,15 +115,12 @@ const Product = () => {
     }
   });
 
-
-
-  
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);
   }
 
-  // console.log("product", filterProduct);
+
 
   return (
     <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-28">
