@@ -138,7 +138,10 @@ function Footer() {
                 Submit CV
               </a>
             </li>
-            <li className="link" onClick={() => router.push("/contact")}>
+            <li
+              className="link cursor-pointer"
+              onClick={() => router.push("/contact")}
+            >
               Contact
             </li>
             <li>
@@ -162,7 +165,7 @@ function Footer() {
             <li>
               <a
                 target="_blank"
-                className="link"
+                className="link cursor-pointer"
                 href="https://linktr.ee/bellefu"
               >
                 Linktree
@@ -171,7 +174,7 @@ function Footer() {
             <li>
               <a
                 target="_blank"
-                className="link"
+                className="link "
                 href="https://about.bellefu.com/"
               >
                 About us

@@ -75,7 +75,7 @@
 
 @layer components {
   .link {
-    @apply hover:after:scale-x-100 relative inline-block after:bottom-0 after:origin-left after:scale-x-0
+    @apply hover:after:scale-x-100 relative inline-block after:bottom-0 after:origin-left after:scale-x-0 cursor-pointer
     after:content-[""] after:w-[100%] after:h-[1px] after:bg-white after:absolute after:left-0 after:transition after:duration-700 after:ease-in-out;
   }
 }

@@ -65,7 +65,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
         .catch((err) => console.log(err));
     };
     getAdverts();
-  }, []);
+  }, [page]);
 
   // getting random ads
   useEffect(() => {
@@ -341,7 +341,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       {/* the ads start here */}
 
       {adverts.length === 0 ? (
-        <div onClick={() => router.push("/custom")} className="my-7">
+        <div onClick={() => router.push("/asdapply")} className="my-7">
           <img
             src="/advert.png"
             alt="ads"
@@ -395,7 +395,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       </div>
       {/* the ads start here */}
       {randomImage1?.image === undefined ? (
-        <div onClick={() => router.push("/custom")} className="my-7">
+        <div onClick={() => router.push("/adsapply")} className="my-7">
           <img
             src="/advert.png"
             alt="ads"
@@ -459,7 +459,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       </div>
 
       {randomImage2?.image === undefined ? (
-        <div onClick={() => router.push("/custom")} className="my-7">
+        <div onClick={() => router.push("/adsapply")} className="my-7">
           <img
             src="/advert.png"
             alt="ads"
