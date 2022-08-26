@@ -341,20 +341,20 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       {/* the ads start here */}
 
       {adverts.length === 0 ? (
-        <div onClick={() => router.push("/asdapply")} className="my-7">
+        <div onClick={() => router.push("/asdapply")} className="my-4">
           <img
             src="/advert.png"
             alt="ads"
-            className="w-full h-80 object-fill rounded-md"
+            className="w-full h-40 md:h-60 object-fill rounded-md"
           />
         </div>
       ) : (
-        <div className="my-7">
+        <div className="my-4">
           <a href={randomAdverts?.action} target="_blank">
             <img
               src={`${commercialUrl}${randomAdverts?.image}`}
               alt="ads"
-              className="w-full h-80 object-cover rounded-md"
+              className="w-full h-40 md:h-60 object-cover rounded-md"
             />
           </a>
         </div>
@@ -395,21 +395,21 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       </div>
       {/* the ads start here */}
       {randomImage1?.image === undefined ? (
-        <div onClick={() => router.push("/adsapply")} className="my-7">
+        <div onClick={() => router.push("/adsapply")} className="my-4">
           <img
             src="/advert.png"
             alt="ads"
-            className="w-full h-80 object-fill rounded-md"
+            className="w-full h-40 md:h-60 object-fill rounded-md"
           />
         </div>
       ) : (
         main.length > 8 &&
         getState === null && (
-          <a href={randomImage1?.action} target="_blank" className="my-7">
+          <a href={randomImage1?.action} target="_blank" className="my-4">
             <img
               src={`${commercialUrl}${randomImage1?.image}`}
               alt="ads"
-              className="w-full h-80 object-cover rounded-md"
+              className="w-full h-40 md:h-60 object-cover rounded-md"
             />
           </a>
         )
@@ -459,21 +459,21 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
       </div>
 
       {randomImage2?.image === undefined ? (
-        <div onClick={() => router.push("/adsapply")} className="my-7">
+        <div onClick={() => router.push("/adsapply")} className="my-4">
           <img
             src="/advert.png"
             alt="ads"
-            className="w-full h-80 object-fill rounded-md"
+            className="w-full h-40 md:h-60 object-fill rounded-md"
           />
         </div>
       ) : (
         main.length > 16 &&
         getState === null && (
-          <a href={randomImage2?.action} target="_blank" className=" my-5">
+          <a href={randomImage2?.action} target="_blank" className=" my-4">
             <img
               src={`${commercialUrl}${randomImage2?.image}`}
               alt="ads"
-              className="w-full h-80 object-cover rounded-md"
+              className="w-full h-40 md:h-60 object-cover rounded-md"
             />
           </a>
         )
