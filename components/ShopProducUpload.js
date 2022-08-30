@@ -52,7 +52,7 @@ const ShopProductUpload = ({ images, video }) => {
 
   const sizes = ["small", "medium", "large"];
 
-  console.log("shopId", shopId);
+  // console.log("shopId", shopId);
   const onChange = (input, setStateHandler) => (evt) => {
     //if (formFields[input]) return;
     if (
