@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { PusherProvider } from "react-pusher-hoc";
 import Pusher from "pusher-js";
 import Mobilefooter from "../components/footer/Mobilefooter";
+import Script from "next/script";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [loading, setLoading] = useState(false);

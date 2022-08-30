@@ -354,7 +354,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
             <img
               src={`${commercialUrl}${randomAdverts?.image}`}
               alt="ads"
-              className="w-full h-40 md:h-60 object-cover rounded-md"
+              className="w-full h-40 md:h-[200px] object-cover rounded-md"
             />
           </a>
         </div>
@@ -409,7 +409,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
             <img
               src={`${commercialUrl}${randomImage1?.image}`}
               alt="ads"
-              className="w-full h-40 md:h-60 object-cover rounded-md"
+              className="w-full h-40 md:h-[200px] object-cover rounded-md"
             />
           </a>
         )
@@ -473,7 +473,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
             <img
               src={`${commercialUrl}${randomImage2?.image}`}
               alt="ads"
-              className="w-full h-40 md:h-60 object-cover rounded-md"
+              className="w-full h-40 md:h-[200px] object-cover rounded-md"
             />
           </a>
         )
