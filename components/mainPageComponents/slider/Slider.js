@@ -23,7 +23,7 @@ export default function Slider({ slider }) {
         {newSlider.value?.map((slideimage, index) => (
           <div className="relative" key={index}>
             <img
-              className="h-52 md:h-64 lg:h-80 w-full rounded-xl  "
+              className="h-52 md:h-64 lg:h-[250px] w-full rounded-xl  "
 
               src={`${sliderUrl}${slideimage}`}
               alt={slideimage}
