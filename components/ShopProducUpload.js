@@ -31,6 +31,7 @@ const ShopProductUpload = ({ images, video }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const userDetails = useSelector(profileDetails);
+  const shopId = useSelector((state) => state.bellefu.shopIdentity);
   const dataTopost = useSelector((state) => state.bellefu.postAddata);
   const dataTopost2 = useSelector((state) => state.bellefu.profileDetails);
   const [userProducts, setUserProducts] = useState([]);
@@ -51,8 +52,7 @@ const ShopProductUpload = ({ images, video }) => {
 
   const sizes = ["small", "medium", "large"];
 
-  console.log(images);
-
+  console.log("shopId", shopId);
   const onChange = (input, setStateHandler) => (evt) => {
     //if (formFields[input]) return;
     if (
@@ -123,7 +123,7 @@ const ShopProductUpload = ({ images, video }) => {
       formData.append("countrycode", dataTopost.countrycode);
       //formData.append("states");
       formData.append("currencyCode", dataTopost.currencyCode);
-      formData.append("shopId", userDetails.shopId);
+      formData.append("shopId", shopId);
       formData.append("promoPrice", promoPrice);
       formData.append("size", size);
       formData.append("weight", weight);

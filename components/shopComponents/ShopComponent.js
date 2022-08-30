@@ -24,7 +24,7 @@ const ShopComponent = ({ product }) => {
   const isLoggedIn = useSelector(login);
   const dispatch = useDispatch();
 
-  console.log("user", currency);
+  // console.log("user", currency);
 
   if (loading) {
     setTimeout(() => {

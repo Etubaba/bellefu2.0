@@ -17,7 +17,7 @@ import GovId from "../components/GovId";
 import { useRouter } from "next/router";
 import { shopApi } from "../constant";
 import Payment from "../components/paymentComponent/Payment";
-import { payment, shopCreated } from "../features/bellefuSlice";
+import { payment, shopCreated, shopId } from "../features/bellefuSlice";
 import Head from "next/head";
 
 export default function CreateShop() {
@@ -151,10 +151,10 @@ export default function CreateShop() {
           },
         })
           .then((res) => {
-            console.log(res.status);
             if (res.data.status) {
               dispatch(payment(false));
               dispatch(shopCreated(true));
+              dispatch(shopId(res.data.data.id));
               localStorage.removeItem("coin");
               setModalOpen(true);
               setTerms(false);

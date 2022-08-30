@@ -8,10 +8,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { handleImagesUpdate, handleVideoUpdate, isProductForShop, profileDetails } from "../../features/bellefuSlice";
+import {
+  handleImagesUpdate,
+  handleVideoUpdate,
+  isProductForShop,
+  profileDetails,
+} from "../../features/bellefuSlice";
 import { toast } from "react-toastify";
 import Video from "./Video";
-
 
 const thumbsContainer = {
   display: "flex",
@@ -38,11 +42,8 @@ const img = {
 };
 
 export default function Images(props) {
-
-
-
-  const videoFile = useSelector(state => state.bellefu?.video);
-  const imageFile = useSelector(state => state.bellefu?.images);
+  const videoFile = useSelector((state) => state.bellefu?.video);
+  const imageFile = useSelector((state) => state.bellefu?.images);
   const user = useSelector(profileDetails);
   const isNewProductForShop = useSelector(isProductForShop);
 
@@ -54,13 +55,6 @@ export default function Images(props) {
   const [isUploadingProductToShop, setUploadingProductToShop] = useState(false);
   // const [vidfi, setVidfi] = useState("");
 
-
-
-
-
-
-  console.log(files);
-  console.log(files2);
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -72,9 +66,8 @@ export default function Images(props) {
         setFiles((prevState) => [
           ...prevState,
           URL.createObjectURL(acceptedFiles[0]),
-        ]);      }
-
-     
+        ]);
+      }
 
       // see the file object image  dey end for back end which is files2 as arrays of files
 
@@ -91,11 +84,6 @@ export default function Images(props) {
     },
   });
 
-
-
-
-
-
   // console.log(files2);
   const handleRemovetag = (tags) => {
     const newArr = files.filter((tag) => tag !== tags);
@@ -103,7 +91,6 @@ export default function Images(props) {
     setFiles(newArr);
     setFiles2(newArr2);
   };
-  
 
   const thumbs = files.map((file, index) => (
     <div style={thumb} key={index}>
@@ -131,7 +118,6 @@ export default function Images(props) {
         dispatch(handleVideoUpdate(videoFile));
         router.push("/postAds/Publish");
       }
-      
     } else {
       toast.error("You have not uoloaded any Images", {
         position: "top-center",
@@ -139,10 +125,11 @@ export default function Images(props) {
     }
   };
 
-
   return (
     <div>
-      {isUploadingProductToShop? <ShopProductUpload images={files2} video={videoFile} />: files.length === 0 ? (
+      {isUploadingProductToShop ? (
+        <ShopProductUpload images={files2} video={videoFile} />
+      ) : files.length === 0 ? (
         <div
           {...getRootProps()}
           className="border-dashed  space-y-4 border-4 mx-10 my-16 flex flex-col border-gray-300 justify-center p-10  items-center hover:border-blue-400 "
@@ -184,13 +171,10 @@ export default function Images(props) {
             </div>
           </div>
 
-
-
           {/* #################### VIDEO */}
           <Video />
 
           {/* ######################## */}
-
 
           <div className="p-5 flex justify-between">
             <button

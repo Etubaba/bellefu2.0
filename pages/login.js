@@ -184,7 +184,6 @@ const Login = () => {
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
                   User Name or Phone Number{" "}
-                  <strong className="text-red-500">*</strong>
                 </label>
               </p>
               <p>
@@ -209,7 +208,7 @@ const Login = () => {
                   id="password"
                   className="after:content-['*'] after:ml-0.5 after:text-red-500 text-sm font-medium text-slate-700"
                 >
-                  Password <strong className="text-red-500">*</strong>
+                  Password
                 </label>
               </p>
               {showPassword ? (
