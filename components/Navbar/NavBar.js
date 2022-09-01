@@ -14,6 +14,7 @@ import { RiAlertLine, RiLogoutBoxFill } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
 import {
   handlePusher,
+  handleQrcode,
   ifVerified,
   login,
   shopCreated,
@@ -248,6 +249,7 @@ const NavBar = () => {
         setUserShop(res.data.status);
         if (res.data.status) {
           dispatch(shopId(res.data?.data?.id));
+          dispatch(handleQrcode(res.data?.data?.qrcode));
           dispatch(shopCreated(true));
         }
       });

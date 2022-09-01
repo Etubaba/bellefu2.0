@@ -7,6 +7,7 @@ const initialState = {
     typeof window !== "undefined" ? localStorage.getItem("kycapply") : false,
   subcatselected: undefined,
   favArr: [],
+  qrcode: typeof window !== "undefined" ? localStorage.getItem("qrcode") : null,
   shopProduct:
     typeof window !== "undefined" ? localStorage.getItem("shop") : "",
   hasPaid: typeof window !== "undefined" ? localStorage.getItem("coin") : false,
@@ -166,6 +167,10 @@ export const bellefuSlice = createSlice({
     orderPayment: (state, action) => {
       state.orderPay = action.payload;
       localStorage.setItem("orderpay", state.orderPay);
+    },
+    handleQrcode: (state, action) => {
+      state.qrcode = action.payload;
+      localStorage.setItem("qrcode", state.qrcode);
     },
     idpending: (state, action) => {
       state.idApply = action.payload;
@@ -376,6 +381,7 @@ export const {
   fetchData,
   userFav,
   Subcat,
+  handleQrcode,
   chatting,
   msgRead,
   selectCat,

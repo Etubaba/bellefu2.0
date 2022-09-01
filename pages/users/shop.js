@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FaRegEdit } from "react-icons/fa";
+import { Card } from "../../public/card.png";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import {
   payment,
@@ -17,7 +18,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BsShopWindow } from "react-icons/bs";
-import { Modal } from "@mui/material";
+import { Backdrop, Fade, Modal } from "@mui/material";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { IconButton } from "@mui/material";
@@ -26,6 +27,7 @@ import { imageBaseUrl, shopApi } from "../../constant";
 import Payment from "../../components/paymentComponent/Payment";
 import { GoListOrdered } from "react-icons/go";
 import moment from "moment";
+import { Box } from "@mui/system";
 
 function shop() {
   const user = useSelector(profileDetails);
@@ -45,6 +47,7 @@ function shop() {
   const [modalopen, setModalOpen] = useState(false);
   const [modalopen2, setModalOpen2] = useState(false);
   const [sub, setSub] = useState(false);
+  const [qrcode, setQrcode] = useState(false);
 
   const [checked, setChecked] = useState(null);
   const [shippingfee, setShippingFee] = useState(null);
@@ -65,6 +68,10 @@ function shop() {
   const shopId = useSelector((state) => state.bellefu?.shopIdentity);
 
   const dispatch = useDispatch();
+
+  //get qrcode image of user
+  const qrcodeImage = useSelector((state) => state.bellefu?.qrcode);
+  console.log(qrcodeImage);
 
   useEffect(() => {
     axios
@@ -212,6 +219,33 @@ function shop() {
         });
     }, 2000);
   }
+
+  const edit = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 350,
+    height: 420,
+    bgcolor: "white",
+    boxShadow: 24,
+    borderRadius: 3,
+    paddingTop: 2,
+    margin: "0 auto",
+    padding: "15px",
+  };
+
+  const download = () => {
+    if (window !== "undefined") {
+      var element = document.createElement("a");
+      var file = new Blob([`${shopApi}get/qrcode/image/${qrcodeImage}`], {
+        type: "image/*",
+      });
+      element.href = URL.createObjectURL(file);
+      element.download = "image.jpg";
+      element.click();
+    }
+  };
 
   return (
     <>
@@ -449,6 +483,42 @@ function shop() {
           <Payment sub={setSubType} modal={setSub} />
         </div>
       </Modal>
+      {/* image modal goes here  */}
+
+      <Modal
+        open={qrcode}
+        onClose={() => setQrcode(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        opacity={6}
+        // sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Box sx={edit}>
+          <div className="flex justify-center items-center">
+            <img
+              src={`${imageBaseUrl}get/qrcode/image/${qrcodeImage}`}
+              alt="error"
+              className="md:w-72 w-60 h-60 md:h-72 my-4 object-contain"
+            />
+          </div>
+          <p className="text-center text-xs">
+            Download and share QRcode for your shop link.{" "}
+          </p>
+          <div className="flex mt-3 space-x-20 justify-around">
+            <a
+              href={`${imageBaseUrl}get/qrcode/image/${qrcodeImage}`}
+              download
+              onClick={() => {
+                download();
+                setQrcode(false);
+              }}
+              className=" bg-bellefuOrange hover:bg-orange-300 py-2 px-4 rounded-md shadow text-white"
+            >
+              Download
+            </a>
+          </div>
+        </Box>
+      </Modal>
       <div className="rounded-lg md:mt-5 mt-2 bg-bellefuWhite   h-auto w-full md:w-auto">
         <div className="flex justify-between px-3  lg:px-10 md:py-6 py-2 border-b">
           {shoporder ? (
@@ -456,6 +526,13 @@ function shop() {
           ) : (
             <h1 className="font-semibold text-sm">My Shop</h1>
           )}{" "}
+          <p
+            onClick={() => setQrcode(!qrcode)}
+            className="text-bellefuGreen underline text-xs md:text-base  cursor-pointer
+            hover:text-green-600"
+          >
+            Get QRcode
+          </p>
           {shopId === null || !shopOwner ? null : (
             <div>
               {shopDetails[0]?.expired ? (
@@ -484,13 +561,13 @@ function shop() {
                       </button>
                     )}
                   </div>
-                  {shoporder ? null : (
+                  {!shoporder && (
                     <div>
                       <button
                         onClick={() => router.push("/shop/upload-product")}
                         className="py-1 lg:py-1.5 hover:bg-orange-400  px-1.5 lg:px-3 rounded-full bg-bellefuOrange text-white text-sm lg:text-sm"
                       >
-                        Add new product
+                        Add product
                       </button>
                     </div>
                   )}
