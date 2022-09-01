@@ -27,10 +27,9 @@ const SingleProductSlider = ({ sliderDetails }) => {
         >
           {images?.map((image, index) => (
             <img
-              loading="lazy"
               src={`${productImageUrl}${image}`}
               key={index}
-              className="rounded-md w-full object-contain sm:object-fill "
+              className="rounded-md h-96 w-full object-contain sm:object-fill "
             />
           ))}
         </Carousel>

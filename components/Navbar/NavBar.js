@@ -46,6 +46,7 @@ const NavBar = () => {
   const [announcement, setAnnouncement] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [reload, setReload] = useState(0);
   const [notifyMsg, setNotifyMsg] = useState("");
   const [notifyType, setNotifyType] = useState("");
   const [from, setFrom] = useState("");
@@ -98,6 +99,7 @@ const NavBar = () => {
         .post(`${apiData}change/notification/read`, { userId: username?.id })
         .then((res) => {
           if (res.data.status) {
+            setReload((prev) => prev + 1);
             console.log("na lie ");
           }
         });
@@ -126,7 +128,7 @@ const NavBar = () => {
     axios
       .get(`${apiData}notification/count/${username?.id}`)
       .then((res) => setUnread(res.data.unread));
-  }, [notifyMsg, pusher]);
+  }, [notifyMsg, pusher, reload]);
 
   useEffect(() => {
     const addScript = document.createElement("script");
