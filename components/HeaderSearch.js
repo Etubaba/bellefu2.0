@@ -249,7 +249,7 @@ const HeaderSearch = ({
                 className="relative w-9/12 flex cursor-pointer text-gray-500"
               >
                 <ImLocation2 className="text-bellefuOrange mt-1 mr-1" />{" "}
-                <span>
+                <span className="text-sm">
                   {countryName !== null ? countryName : defaultCountry},{" "}
                   {selectedState}
                   {/* {countryName !== null ? countryName : defaultCountry} */}
