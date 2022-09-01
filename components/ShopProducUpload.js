@@ -10,8 +10,10 @@ import {
   profileDetails,
   newProductForShop,
   isProductForShop,
+  shopId as shopIdentity,
 } from "../features/bellefuSlice";
 import { apiData, shopApi } from "../constant";
+import axios from "axios";
 //import axios from "axios";
 
 // export async function getServerSideProps({params}) {
@@ -53,6 +55,16 @@ const ShopProductUpload = ({ images, video }) => {
   const sizes = ["small", "medium", "large"];
 
   // console.log("shopId", shopId);
+
+  //double check for shopId
+  useEffect(() => {
+    axios.get(`${shopApi}get/user/shop/${userDetails?.id}`).then((res) => {
+      if (res.data.status) {
+        dispatch(shopIdentity(res.data?.data?.id));
+      }
+    });
+  }, []);
+
   const onChange = (input, setStateHandler) => (evt) => {
     //if (formFields[input]) return;
     if (
@@ -119,9 +131,9 @@ const ShopProductUpload = ({ images, video }) => {
       // );
       formData.append("phone", dataTopost2.phone);
       formData.append("userid", dataTopost2.id);
-      //formData.append("citycode");
+      formData.append("citycode", dataTopost.cityCode);
       formData.append("countrycode", dataTopost.countrycode);
-      //formData.append("states");
+      formData.append("states", dataTopost.states);
       formData.append("currencyCode", dataTopost.currencyCode);
       formData.append("shopId", shopId);
       formData.append("promoPrice", promoPrice);

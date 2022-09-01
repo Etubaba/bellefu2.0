@@ -437,7 +437,6 @@ const NavBar = () => {
                     className="relative cursor-pointer "
                   >
                     <img
-                      // src={username?.avatar ? `https://bellefu.inmotionhub.xyz/get/user/images/${username?.avatar}` : "https://img.freepik.com/free-photo/organic-food-farm_342744-1362.jpg"}
                       src={`${UserAvataUrl}${username?.avatar}`}
                       className="rounded-full w-[2rem] h-[2rem] object-cover"
                     />

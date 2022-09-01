@@ -32,7 +32,11 @@ const ProductItem = ({ item }) => {
           {item?.name.charAt(0).toUpperCase() + item?.name.slice(1)}
         </p>
 
-        <p className="texx-gray-300 text-xs">{item?.description}</p>
+        <p className="texx-gray-300 text-xs">
+          {item?.description.length > 40
+            ? item?.description.substring(0, 40) + "..."
+            : item.description}{" "}
+        </p>
       </div>
 
       <button
