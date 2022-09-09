@@ -35,7 +35,7 @@ export default function Slider({ slider }) {
                     : "https://bellefu30web.vercel.app/"
                 }
                 target="_blank"
-              >
+              >  bbbb         
                 Learn More
               </a>
             </button> */}
