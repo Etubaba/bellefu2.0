@@ -67,7 +67,7 @@ const Shops = ({ shops }) => {
   }, [page]);
 
   const shop = shops?.data?.data;
-  console.log(newShop);
+
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);

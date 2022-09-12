@@ -6,9 +6,6 @@ import { useState } from "react";
 import { sliderUrl } from "../../../constant";
 
 export default function Slider({ slider }) {
-  //   const [newSlider] = slider;
-
-  console.log("compoSlide", slider);
   return (
     <div className="w-[99%]">
       <Carousel
