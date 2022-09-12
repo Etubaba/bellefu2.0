@@ -1,4 +1,4 @@
-import Body from "../components/ecommerce/Body";
+import BodyShop from "../components/ecommerce/BodyShop";
 import {
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
@@ -12,6 +12,10 @@ import HeaderSearch from "../components/HeaderSearch";
 import MobileCategoryBar from "../components/MobileCategorybar/MobileCategoryBar";
 import CategorySideBar from "../components/CategorySideBar";
 import { useSelector } from "react-redux";
+import Loader, { indexAPI, shopApi, apiData } from "../constant";
+import HeaderSearch from "../components/HeaderSearch";
+import MobileCategoryBarShop from "../components/MobileCategorybar/MobileCategoryBarShop";
+import CategorySideBarShop from "../components/CategorySideBarShop";
 
 const Shops = ({ shops }) => {
   const [page, setPage] = useState(1);
@@ -23,12 +27,24 @@ const Shops = ({ shops }) => {
   const indexData = useSelector((state) => state.bellefu.indexData);
   const slider = indexData?.slider[0]?.value;
 
+  const [shopCategory, setShopCategory] = useState([]);
+  console.log(shops?.data.data);
   useEffect(() => {
     const getCurrData = async () => {
       await axios
         .get(indexAPI)
         .then((res) => {
           setCurrData(res.data);
+        })
+        .catch((error) => {
+          console.log(`Error fetching index data: ${error.message}`);
+        });
+      // ________________________________________________ shop side bar category listing
+      await axios
+        .get(`${apiData}get/category/shops`)
+        .then((res) => {
+          // console.log(res.data?.data);
+          setShopCategory(res.data?.data);
         })
         .catch((error) => {
           console.log(`Error fetching index data: ${error.message}`);
@@ -43,14 +59,15 @@ const Shops = ({ shops }) => {
   useEffect(() => {
     if (page > 1) {
       axios.get(`${shopApi}view?page=${page}`).then((res) => {
+        console.log(res);
         setTotalPage(res.data.data.last_page);
         setNewShop(res.data.data.data);
       });
     }
   }, [page]);
 
-  const shop = newShop;
-
+  const shop = shops?.data?.data;
+  console.log(newShop);
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);
@@ -99,19 +116,20 @@ const Shops = ({ shops }) => {
           <div className="flex flex-col lg:flex-row">
             {/* category side bar */}
             <div className=" hidden lg:inline w-[20%] h-auto rounded-md mr-3">
-              <CategorySideBar categories={currData.categories} />
+              {/* <CategorySideBar categories={currData.categories} /> */}
+              <CategorySideBarShop categories={shopCategory} />
             </div>
-            {search === "" ? (
-              <div className=" h-auto lg:hidden my-4 rounded-sm">
-                <div>
-                  <h3 className=" block lg:hidden font-bold text-[1rem] sm:text-[1rem] m-5 lg:text-[1.2rem]">
-                    Search by categories
-                  </h3>
+            {/* {search === "" ? ( */}
+            <div className=" h-auto lg:hidden my-4 rounded-sm">
+              <div>
+                <h3 className=" block lg:hidden font-bold text-[1rem] sm:text-[1rem] m-5 lg:text-[1.2rem]">
+                  Search by categories
+                </h3>
 
-                  <MobileCategoryBar categories={currData.categories} />
-                </div>
+                <MobileCategoryBarShop categories={shopCategory} />
               </div>
-            ) : null}
+            </div>
+            {/* ) : null} */}
             {/* list of products & slider */}
             <div className="flex-1">
               {/* <Body
@@ -136,7 +154,7 @@ const Shops = ({ shops }) => {
                 slider={isLocationReady ? currData.slider : data.slider}
               /> */}
               <div className="px-2">
-                <Body shops={shop} />
+                <BodyShop shops={shop} />
               </div>
             </div>
           </div>

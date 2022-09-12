@@ -23,16 +23,13 @@
   box-sizing: border-box;
   font-family: inherit !important;
   margin-bottom: 0.5px !important;
-  margin-top:0.5px !important;
+  margin-top: 0.5px !important;
   max-width: 100%;
   padding: 0px 0px 0px 0px !important;
   text-align: center;
   width: 200px !important;
-    background-color: transparent !important;
-
+  background-color: transparent !important;
 }
-
-
 
 /* google translate banner-frame */
 
@@ -55,7 +52,7 @@
   }
 }
 .modal-bg {
-  background-color:rgba(192,192,192,0.5);
+  background-color: rgba(192, 192, 192, 0.5);
 }
 
 @tailwind base;
@@ -81,7 +78,10 @@
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 1px;
+}
+#shop::-webkit-scrollbar {
+  height: 3px;
 }
 
 ::-webkit-scrollbar-track {
@@ -97,10 +97,10 @@
 
 * {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
