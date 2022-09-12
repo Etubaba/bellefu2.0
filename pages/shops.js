@@ -1,4 +1,4 @@
-import Body from "../components/ecommerce/Body";
+import BodyShop from "../components/ecommerce/BodyShop";
 import {
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
@@ -19,7 +19,7 @@ const Shops = ({ shops }) => {
   const [currData, setCurrData] = useState([]);
   const [search, setSearch] = useState([]);
   const [shopCategory, setShopCategory] = useState([]);
-
+ console.log(shops?.data.data);
   useEffect(() => {
     const getCurrData = async () => {
       await axios
@@ -34,7 +34,7 @@ const Shops = ({ shops }) => {
       await axios
         .get(`${apiData}get/category/shops`)
         .then((res) => {
-          console.log(res.data?.data);
+          // console.log(res.data?.data);
           setShopCategory(res.data?.data);
         })
         .catch((error) => {
@@ -48,14 +48,15 @@ const Shops = ({ shops }) => {
   useEffect(() => {
     if (page > 1) {
       axios.get(`${shopApi}view?page=${page}`).then((res) => {
+        console.log(res);
         setTotalPage(res.data.data.last_page);
         setNewShop(res.data.data.data);
       });
     }
   }, [page]);
 
-  const shop = newShop;
-
+  const shop = shops?.data?.data;
+ console.log(newShop);
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);
@@ -141,7 +142,7 @@ const Shops = ({ shops }) => {
                 slider={isLocationReady ? currData.slider : data.slider}
               /> */}
               <div className="px-2">
-                <Body shops={shop} />
+                <BodyShop shops={shop} />
               </div>
             </div>
           </div>
