@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const BodyShop = ({ shops }) => {
   const [search, setSearch] = useState("");
   const router = useRouter();
+  const [grid, setGrid] = useState(true);
 
   const indexData = useSelector((state) => state.bellefu.indexData);
   const slider = indexData?.slider[0]?.value;
@@ -19,13 +20,12 @@ const BodyShop = ({ shops }) => {
       <div className=" mb-5 shadow-sm rounded-md">
         <MainProductHeader
           title="Trending Ads"
-
-          // grid={grid}
-          // changeView={setGrid}
+          grid={grid}
+          changeView={setGrid}
         />
       </div>
 
-      <ProductsShop shops={shops} />
+      <ProductsShop grid={grid} shops={shops} />
     </div>
   );
 };

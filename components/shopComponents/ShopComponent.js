@@ -127,11 +127,11 @@ const ShopComponent = ({ product }) => {
       <img
         onClick={viewDetails}
         src={`${productImageUrl}${product?.images[0]}`}
-        className="rounded-md w-full h-44 object-cover hover:opacity-50"
+        className="rounded-md w-full h-40 object-cover hover:opacity-50"
         alt={product.title}
       />
       {loading && <Loader isLoading={loading} />}
-      <p className="capitalize text-medium">{product.title.substring(0, 15)}</p>
+      <p className="capitalize text-base">{product.title.substring(0, 15)}</p>
       <div className="flex items-center space-x-2">
         <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
         <div className="flex items-center space-x-1">
