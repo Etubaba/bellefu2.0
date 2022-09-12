@@ -21,7 +21,6 @@ export default function Slider({ slider }) {
       >
         {slider?.map((slideimage, index) => (
           <div className="relative" key={index}>
-            {console.log(slideimage)}
             <img
               fetchpriority="high"
               className="h-52 md:h-64 lg:h-[250px] w-full rounded-xl  "
