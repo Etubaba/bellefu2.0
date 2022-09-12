@@ -6,11 +6,11 @@ import {
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loader, { indexAPI, shopApi } from "../constant";
+import Loader, { indexAPI, shopApi, apiData } from "../constant";
 import Slider from "../components/mainPageComponents/slider/Slider";
 import HeaderSearch from "../components/HeaderSearch";
-import MobileCategoryBar from "../components/MobileCategorybar/MobileCategoryBar";
-import CategorySideBar from "../components/CategorySideBar";
+import MobileCategoryBarShop from "../components/MobileCategorybar/MobileCategoryBarShop";
+import CategorySideBarShop from "../components/CategorySideBarShop";
 
 const Shops = ({ shops }) => {
   const [page, setPage] = useState(1);
@@ -18,6 +18,7 @@ const Shops = ({ shops }) => {
   const [newShop, setNewShop] = useState([]);
   const [currData, setCurrData] = useState([]);
   const [search, setSearch] = useState([]);
+  const [shopCategory, setShopCategory] = useState([]);
 
   useEffect(() => {
     const getCurrData = async () => {
@@ -25,6 +26,16 @@ const Shops = ({ shops }) => {
         .get(indexAPI)
         .then((res) => {
           setCurrData(res.data);
+        })
+        .catch((error) => {
+          console.log(`Error fetching index data: ${error.message}`);
+        });
+      // ________________________________________________ shop side bar category listing
+      await axios
+        .get(`${apiData}get/category/shops`)
+        .then((res) => {
+          console.log(res.data?.data);
+          setShopCategory(res.data?.data);
         })
         .catch((error) => {
           console.log(`Error fetching index data: ${error.message}`);
@@ -81,7 +92,7 @@ const Shops = ({ shops }) => {
             <div className="block  md:hidden lg:hidden mt-3">
               <Slider slider={currData.slider} />
             </div>
-          )}
+           )}
 
           {/* mobile header search */}
           {/* <div className="md:hidden">
@@ -92,19 +103,20 @@ const Shops = ({ shops }) => {
           <div className="flex flex-col lg:flex-row">
             {/* category side bar */}
             <div className=" hidden lg:inline w-[20%] h-auto rounded-md mr-3">
-              <CategorySideBar categories={currData.categories} />
+              {/* <CategorySideBar categories={currData.categories} /> */}
+              <CategorySideBarShop categories={shopCategory} />
             </div>
-            {search === "" ? (
+            {/* {search === "" ? ( */}
               <div className=" h-auto lg:hidden my-4 rounded-sm">
                 <div>
                   <h3 className=" block lg:hidden font-bold text-[1rem] sm:text-[1rem] m-5 lg:text-[1.2rem]">
                     Search by categories
                   </h3>
 
-                  <MobileCategoryBar categories={currData.categories} />
+                  <MobileCategoryBarShop categories={shopCategory} />
                 </div>
               </div>
-            ) : null}
+            {/* ) : null} */}
             {/* list of products & slider */}
             <div className="flex-1">
               {/* <Body
