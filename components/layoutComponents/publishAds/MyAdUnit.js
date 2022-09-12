@@ -85,6 +85,7 @@ const MyAd = ({ product }) => {
       .catch((err) => console.log(err));
   };
 
+  console.log("product", product);
   return (
     <div className="w-full">
       <div className="bg-bellefuWhite p-3 rounded-md border border-[#dfdfdf]">
@@ -97,9 +98,9 @@ const MyAd = ({ product }) => {
         <div className="flex items-center space-x-2">
           <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
           <div className="flex items-center space-x-1">
-            {/* <p className="text-bellefuBlack1 text-sm capitalize">
-                            {product.state},
-                        </p> */}
+            <p className="text-bellefuBlack1 text-sm capitalize">
+              {product.stateName},
+            </p>
             <p className="text-bellefuBlack1 text-sm capitalize">
               {product.country}
             </p>

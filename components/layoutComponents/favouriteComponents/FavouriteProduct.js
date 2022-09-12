@@ -81,18 +81,18 @@ const FavouriteProduct = ({ product }) => {
     <div className="bg-bellefuWhite shadow-md  mb-5 p-3 rounded-b-md">
       <img
         onClick={() => router.push(`/product/${product.productId}`)}
-        src={`${productImageUrl}${product.images[0]}`}
+        src={`${productImageUrl}${product?.images[0]}`}
         className="rounded-md w-full h-44 object-cover"
       />
       <p className="capitalize text-medium">{product.title.substring(0, 20)}</p>
       <div className="flex items-center space-x-2">
         <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
         <div className="flex items-center space-x-1">
-          {/* <p className="text-bellefuBlack1 text-sm capitalize">
-            {product.state},
-          </p> */}
           <p className="text-bellefuBlack1 text-sm capitalize">
-            {product.country_name}
+            {product?.stateName},
+          </p>
+          <p className="text-bellefuBlack1 text-sm capitalize">
+            {product?.country_name}
           </p>
         </div>
       </div>

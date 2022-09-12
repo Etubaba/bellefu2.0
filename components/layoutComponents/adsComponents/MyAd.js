@@ -21,9 +21,9 @@ const MyAd = ({ product }) => {
         <div className="flex items-center space-x-2">
           <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
           <div className="flex items-center space-x-1">
-            {/* <p className="text-bellefuBlack1 text-sm capitalize">
-              {product.state},
-            </p> */}
+            <p className="text-bellefuBlack1 text-sm capitalize">
+              {product?.stateName},
+            </p>
             <p className="text-bellefuBlack1 text-sm capitalize">
               {product.country}
             </p>

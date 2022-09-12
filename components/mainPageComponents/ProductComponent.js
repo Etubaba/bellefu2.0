@@ -136,6 +136,7 @@ const ProductComponent = ({ products, currency, location, currencyCode }) => {
             `${apiData}product/search/${where}/${search.toLocaleLowerCase()}`
           )
           .then((res) => {
+            // console.log(res.data);
             setSearchResult(res.data.data.data);
             setTotalPage(res.data.data.last_page);
             setSuggestion(res.data.suggest.data);

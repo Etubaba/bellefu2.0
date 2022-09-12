@@ -28,7 +28,7 @@ const Shops = ({ shops }) => {
   const slider = indexData?.slider[0]?.value;
 
   const [shopCategory, setShopCategory] = useState([]);
-  console.log(shops?.data.data);
+
   useEffect(() => {
     const getCurrData = async () => {
       await axios
