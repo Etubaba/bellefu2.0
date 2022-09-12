@@ -6,10 +6,10 @@ import {
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loader, { indexAPI, shopApi } from "../constant";
+// import Loader, { indexAPI, shopApi } from "../constant";
 import ShopSlider from "../components/mainPageComponents/slider/ShopSlider";
-import HeaderSearch from "../components/HeaderSearch";
-import MobileCategoryBar from "../components/MobileCategorybar/MobileCategoryBar";
+// import HeaderSearch from "../components/HeaderSearch";
+// import MobileCategoryBar from "../components/MobileCategorybar/MobileCategoryBar";
 import CategorySideBar from "../components/CategorySideBar";
 import { useSelector } from "react-redux";
 import Loader, { indexAPI, shopApi, apiData } from "../constant";
