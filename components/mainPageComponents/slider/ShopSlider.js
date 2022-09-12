@@ -6,8 +6,9 @@ import { useState } from "react";
 import { sliderUrl } from "../../../constant";
 
 export default function Slider({ slider }) {
-  const [newSlider] = slider;
+  //   const [newSlider] = slider;
 
+  console.log("compoSlide", slider);
   return (
     <div className="w-[99%]">
       <Carousel
@@ -18,8 +19,9 @@ export default function Slider({ slider }) {
         autoPlay={true}
         infiniteLoop={true}
       >
-        {newSlider.value?.map((slideimage, index) => (
+        {slider?.map((slideimage, index) => (
           <div className="relative" key={index}>
+            {console.log(slideimage)}
             <img
               fetchpriority="high"
               className="h-52 md:h-64 lg:h-[250px] w-full rounded-xl  "

@@ -7,17 +7,21 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader, { indexAPI, shopApi } from "../constant";
-import Slider from "../components/mainPageComponents/slider/Slider";
+import ShopSlider from "../components/mainPageComponents/slider/ShopSlider";
 import HeaderSearch from "../components/HeaderSearch";
 import MobileCategoryBar from "../components/MobileCategorybar/MobileCategoryBar";
 import CategorySideBar from "../components/CategorySideBar";
+import { useSelector } from "react-redux";
 
 const Shops = ({ shops }) => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(shops.data.last_page);
   const [newShop, setNewShop] = useState([]);
   const [currData, setCurrData] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const indexData = useSelector((state) => state.bellefu.indexData);
+  const slider = indexData?.slider[0]?.value;
 
   useEffect(() => {
     const getCurrData = async () => {
@@ -34,6 +38,8 @@ const Shops = ({ shops }) => {
     getCurrData();
   }, []);
 
+  // console.log("omor", currData.slider[0].value);
+  // const slider = currData?.slider[0]?.value;
   useEffect(() => {
     if (page > 1) {
       axios.get(`${shopApi}view?page=${page}`).then((res) => {
@@ -50,6 +56,7 @@ const Shops = ({ shops }) => {
     pageNumber.push(i);
   }
 
+  // const slider = currData?.slider;
   return (
     <div>
       <Head>
@@ -79,7 +86,7 @@ const Shops = ({ shops }) => {
 
           {search === "" && (
             <div className="block  md:hidden lg:hidden mt-3">
-              <Slider slider={currData.slider} />
+              <ShopSlider slider={slider} />
             </div>
           )}
 
@@ -135,7 +142,7 @@ const Shops = ({ shops }) => {
           </div>
         </div>
       </main>
-
+      {/* pagination */}
       {shop.length !== 0 && totalPage > 1 && (
         <div className="flex justify-center md:mb-0 mb-8 md:mt-10 mt-7 items-center w-full ">
           <button
