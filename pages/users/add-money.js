@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 const AddMoney = () => {
   const [totalPrice, setTotalPrice] = useState("");
   const [hasPaid, setHasPaid] = useState({});
-  const [convert, setConvert] = useState(false);
+  const [amountEntered, setAmountEntered] = useState(false);
   const [rate, setRate] = useState(0);
 
   const userId = useSelector(profileDetails);
@@ -111,6 +111,8 @@ const AddMoney = () => {
                 <input
                   type="number"
                   id="amount"
+                  // onBlur={() => setAmountEntered(true)}
+                  onFocus={() => setAmountEntered(false)}
                   className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
                   value={totalPrice}
                   onChange={(e) => {
@@ -144,83 +146,52 @@ const AddMoney = () => {
                 </p>
               </div>
 
-              {/* <div className="flex justify-center items-center my-5 ">
-                <button
-                  onClick={handleConvert}
-                  className="bg-bellefuOrange hover:bg-orange-400 rounded-xl text-white md:py-4 py-2 px-12 md:px-28"
-                >
-                  {" "}
-                  Convert
-                </button>
-              </div> */}
+              <div className="flex justify-end items-end my-5 ">
+                {amountEntered ? (
+                  <button
+                    onClick={() => setAmountEntered(false)}
+                    className="bg-bellefuOrange hover:bg-orange-400 rounded-md text-white md:py-2 py-2 px-3 md:px-4"
+                  >
+                    {" "}
+                    Cancel
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      if (totalPrice !== "") {
+                        setAmountEntered(true);
+                      } else {
+                        toast.error("Enter an amount to proceed", {
+                          position: "top-right",
+                        });
+                      }
+                    }}
+                    className="bg-bellefuOrange hover:bg-orange-400 rounded-md text-white md:py-2 py-2 px-3 md:px-4"
+                  >
+                    {" "}
+                    Proceed
+                  </button>
+                )}
+              </div>
 
               <div className="w-full">
                 <div>
                   <div className="flex px-8">
                     <div className=" mx-auto my-7 justify-center items-center flex  flex-col-reverse">
-                      <div className="md:mr-auto my-10 hover:bg-white">
-                        <button
-                          onClick={() => {
-                            handleFlutterPayment({
-                              callback: (response) => {
-                                console.log(response);
-                                setHasPaid(response);
-                                closePaymentModal(); // this will close the modal programmatically
-                                if (response.status === "successful") {
-                                  toast.success(
-                                    "Payment completed successfully"
-                                  );
-
-                                  axios
-                                    .post(`${apiData}fund/wallet`, {
-                                      userId: userId?.id,
-                                      amount: rate,
-                                    })
-                                    .then((res) => {
-                                      if (res.data.status) {
-                                        toast.success(
-                                          "Wallet updated successfully"
-                                        );
-                                        setTotalPrice("");
-                                        router.push("/users/my-wallet");
-                                      }
-                                    });
-                                }
-                              },
-                              onClose: () => {},
-                            });
-                          }}
-                          className="flex items-center  outline outline-bellefuOrange rounded-lg px-3 py-2"
-                        >
-                          <img
-                            src="/card.png"
-                            className="w-40"
-                            alt="visa card"
-                          />
-                          {/* <span className="pl-4 md:text-base text-sm">Pay with Card</span> */}
-                        </button>
-                      </div>
-
-                      <div className="w-[60%] ">
-                        <div className="flex w-full justify-center items-center ">
-                          <PayPalButtons
-                            createOrder={(data, actions) =>
-                              createOrder(data, actions)
-                            }
-                            onApprove={async (data, actions) => {
-                              return actions.order
-                                .capture()
-                                .then(async (details) => {
-                                  if (details.status == "COMPLETED") {
-                                    setTotalPrice("");
+                      {amountEntered && (
+                        <div className="md:mr-auto my-10 hover:bg-white">
+                          <button
+                            onClick={() => {
+                              handleFlutterPayment({
+                                callback: (response) => {
+                                  console.log(response);
+                                  setHasPaid(response);
+                                  closePaymentModal(); // this will close the modal programmatically
+                                  if (response.status === "successful") {
                                     toast.success(
-                                      "Payment completed successfully",
-                                      {
-                                        position: "top-right",
-                                      }
+                                      "Payment completed successfully"
                                     );
 
-                                    setTotalPrice("");
                                     axios
                                       .post(`${apiData}fund/wallet`, {
                                         userId: userId?.id,
@@ -231,17 +202,69 @@ const AddMoney = () => {
                                           toast.success(
                                             "Wallet updated successfully"
                                           );
+                                          setTotalPrice("");
                                           router.push("/users/my-wallet");
                                         }
                                       });
                                   }
-                                });
+                                },
+                                onClose: () => {},
+                              });
                             }}
-                            // onApprove={(data, actions) => onApprove(data, actions)}
-                          />
+                            className="flex items-center  outline outline-bellefuOrange rounded-lg px-3 py-2"
+                          >
+                            <img
+                              src="/card.png"
+                              className="w-40"
+                              alt="visa card"
+                            />
+                            {/* <span className="pl-4 md:text-base text-sm">Pay with Card</span> */}
+                          </button>
                         </div>
+                      )}
 
-                        {/* <div className="flex my-10 justify-center items-center">
+                      {amountEntered && (
+                        <div className="w-[70%] ">
+                          <div className="flex w-full justify-center items-center ">
+                            <PayPalButtons
+                              createOrder={(data, actions) =>
+                                createOrder(data, actions)
+                              }
+                              onApprove={async (data, actions) => {
+                                return actions.order
+                                  .capture()
+                                  .then(async (details) => {
+                                    if (details.status == "COMPLETED") {
+                                      setTotalPrice("");
+                                      toast.success(
+                                        "Payment completed successfully",
+                                        {
+                                          position: "top-right",
+                                        }
+                                      );
+
+                                      axios
+                                        .post(`${apiData}fund/wallet`, {
+                                          userId: userId?.id,
+                                          amount: rate,
+                                        })
+                                        .then((res) => {
+                                          if (res.data.status) {
+                                            toast.success(
+                                              "Wallet updated successfully"
+                                            );
+                                            setTotalPrice("");
+                                            router.push("/users/my-wallet");
+                                          }
+                                        });
+                                    }
+                                  });
+                              }}
+                              // onApprove={(data, actions) => onApprove(data, actions)}
+                            />
+                          </div>
+
+                          {/* <div className="flex my-10 justify-center items-center">
                   {" "}
                   <Buttonchlps
                     className="md:text-base text-sm"
@@ -250,7 +273,7 @@ const AddMoney = () => {
                   />
                 </div> */}
 
-                        {/* <button className=" outline   ">
+                          {/* <button className=" outline   ">
                           <img
                             src="/Paypal.png"
                             className="w-40"
@@ -258,7 +281,8 @@ const AddMoney = () => {
                           />
                      
                         </button> */}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
