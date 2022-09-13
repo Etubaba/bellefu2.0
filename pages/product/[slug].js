@@ -146,13 +146,16 @@ export default Product;
 export async function getServerSideProps(context) {
   const { productId, title, description, image, slug } = context.query;
 
-  const requests = await fetch(
-    `${apiData}get/single/product/${productId}`
-  ).then((res) => res.json());
+  const requests = await fetch(`${apiData}get/single/product/${slug}`).then(
+    (res) => res.json()
+  );
+
+  const res = await fetch(`${apiData}get/single/product/${slug}`);
+  const details = await res.json();
 
   return {
     props: {
-      details: requests,
+      details,
       title: title ?? "initial",
       description: description ?? "initial",
       image: image ?? "initial",

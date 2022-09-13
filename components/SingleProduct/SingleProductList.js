@@ -14,8 +14,6 @@ import { apiData, productImageUrl } from "../../constant";
 const SingleProductList = ({ similarProductDetail }) => {
   const [fav2, setFav2] = useState(false);
 
-
-
   const isLoggedIn = useSelector(login);
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const favArr = useSelector((state) => state.bellefu?.favArr);
@@ -101,9 +99,7 @@ const SingleProductList = ({ similarProductDetail }) => {
   return (
     <div className="bg-bellefuWhite shadow-md mb-2 p-3 rounded-b-md">
       <img
-        onClick={() =>
-          router.push(`/product/${similarProductDetail.productId}`)
-        }
+        onClick={() => router.push(`/product/${similarProductDetail.slug}`)}
         src={`${productImageUrl}${similarProductDetail?.images[0]}`}
         className="rounded-md w-full h-44 object-cover cursor-pointer"
       />
@@ -127,7 +123,9 @@ const SingleProductList = ({ similarProductDetail }) => {
         <span className="text-bellefuGreen flex font-poppins font-semibold">
           <p
             className="mr-1"
-            dangerouslySetInnerHTML={{ __html: similarProductDetail?.currencySymbol }}
+            dangerouslySetInnerHTML={{
+              __html: similarProductDetail?.currencySymbol,
+            }}
           />
           <p> {similarProductDetail.price}</p>
         </span>

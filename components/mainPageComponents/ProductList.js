@@ -46,7 +46,7 @@ const ProductList = ({
 
   const handleMessage = () => {
     if (getIsLoggedIn) {
-      router.push(`/product/${product.productId}`);
+      router.push(`/product/${product.slug}`);
       setLoading(true);
       dispatch(msgScroll(1));
     } else {
@@ -118,7 +118,7 @@ const ProductList = ({
         <>
           <div
             onClick={() => {
-              router.push(`/product/${product.productId}`);
+              router.push(`/product/${product.slug}`);
               setLoading(true);
             }}
           >

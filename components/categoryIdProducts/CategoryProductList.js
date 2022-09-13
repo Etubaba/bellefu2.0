@@ -103,7 +103,7 @@ const CategoryProductList = ({ product }) => {
   //handle message
   const handleMessage = () => {
     if (isLoggedIn) {
-      router.push(`/product/${product.productId}`);
+      router.push(`/product/${product.slug}`);
       dispatch(msgScroll(1));
     } else {
       // router.push("/login");
@@ -115,7 +115,7 @@ const CategoryProductList = ({ product }) => {
   return (
     <div className="bg-bellefuWhite shadow-md mb-2 p-3 rounded-b-md cursor-pointer">
       <img
-        onClick={() => router.push(`/product/${product?.productId}`)}
+        onClick={() => router.push(`/product/${product?.slug}`)}
         src={`${productImageUrl}${product?.images[0]}`}
         className="rounded-md w-full h-44 object-cover"
         alt={product?.title}

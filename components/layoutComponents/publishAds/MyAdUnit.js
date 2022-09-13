@@ -115,12 +115,12 @@ const MyAd = ({ product }) => {
     margin: "0 auto",
   };
 
-  // console.log("product", product);
+  console.log("product", product.slug);
   return (
     <div className="w-full">
       <div className="bg-bellefuWhite p-3 rounded-md border border-[#dfdfdf]">
         <img
-          onClick={() => router.push(`/product/${product.productId}`)}
+          onClick={() => router.push(`/product/${product.slug}`)}
           src={`${productImageUrl}${product.images[0]}`}
           className="rounded-md w-full h-44 object-cover"
         />
@@ -165,7 +165,7 @@ const MyAd = ({ product }) => {
             <div
               onClick={() => {
                 setOpen(!open);
-                router.push(`/product/${product.id}`);
+                router.push(`/product/${product.slug}`);
               }}
               className="flex items-center space-x-4 mb-2 hover:bg-bellefuBackground px-2 rounded-md py-1"
             >

@@ -21,7 +21,7 @@ const FavouriteProduct = ({ product }) => {
   const dispatch = useDispatch();
 
   const handleMessage = () => {
-    router.push(`/product/${product.productId}`);
+    router.push(`/product/${product.slug}`);
     dispatch(msgScroll(1));
   };
 
@@ -80,7 +80,7 @@ const FavouriteProduct = ({ product }) => {
   return (
     <div className="bg-bellefuWhite shadow-md  mb-5 p-3 rounded-b-md">
       <img
-        onClick={() => router.push(`/product/${product.productId}`)}
+        onClick={() => router.push(`/product/${product.slug}`)}
         src={`${productImageUrl}${product?.images[0]}`}
         className="rounded-md w-full h-44 object-cover"
       />
