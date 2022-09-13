@@ -13,15 +13,16 @@ import { useState, useEffect } from "react";
 import { payment, profileDetails, userDId } from "../../features/bellefuSlice";
 import { toast } from "react-toastify";
 import { setAutoFreeze } from "immer";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 
-export default function Payment({ modal, sub }) {
+export default function Payment({ modal, sub, handleCreate }) {
   const [wallet, setWallet] = useState(0);
   const [method, setMethod] = useState("card");
   const [voucher, setVoucher] = useState("");
   const [openCard, setOpenCard] = useState(false);
   const [dept, setDept] = useState("Select");
   const [reload, setReload] = useState(0);
-  const [subType, setSubType] = useState(25);
+  const [subType, setSubType] = useState("25");
   const [fee, setFee] = useState(null);
   const [voucherValue, setVoucherValue] = useState(0);
 
@@ -119,6 +120,45 @@ export default function Payment({ modal, sub }) {
     }
   };
 
+  const createOrder = async (data, actions) => {
+    console.log(data);
+    // await totalPrice
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: subType,
+            // value: "5",
+          },
+        },
+      ],
+    });
+  };
+  const onApprove = (data, actions) => {
+    console.log("onApprove => ",data);
+    return actions.order.capture().then(async (res) => {
+      // const { paypal } = res;
+      if (res.status.toLowerCase() === "completed") {
+        // enqueueSnackbar("Payment completed successfully", {
+        //   variant: "success",
+        // });
+        // setOrderID(res);
+
+        // axios
+        //   .post(`${BASE_URL}post/transaction`, {
+        //     amount: price,
+        //     paymentType: membership,
+        //     transactionId: res.id,
+        //     userId: user._Id,
+        //   })
+        //   .then((res) => console.log(res));
+        //await handleMakePayment(res.id, res.create_time);
+
+        handleCreate(subType);
+      }
+    });
+  };
+
   useEffect(() => {
     const getSub = async () => {
       axios
@@ -138,7 +178,7 @@ export default function Payment({ modal, sub }) {
 
   return (
     <>
-      <div className=" w-full  lg:w-[93%] pb-7  rounded-lg bg-[#ffffff]  h-auto">
+      <div className=" w-full  lg:w-[93%] pb-7  rounded-lg bg-[#ffffff]">
         <div className="bg-bellefuGreen justify-between flex p-4 ">
           <h3 className="md:font-semibold md:text-xl ml-2 text-xs md:ml-4 text-white">
             CHOOSE PAYMENT METHOD
@@ -180,7 +220,7 @@ export default function Payment({ modal, sub }) {
                 />
                 <h2 className="font-semibold ">VOUCHER</h2>
               </div>
-              <input
+              {method === "voucher" && <input
                 type="text"
                 onClick={() => setMethod("voucher")}
                 onBlur={voucherCheck}
@@ -188,7 +228,7 @@ export default function Payment({ modal, sub }) {
                   if (method === "voucher") setVoucher(e.target.value);
                 }}
                 className=" bg-[white] p-[8px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full lg:w-[18vw] shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
-              />
+              />}
             </div>
             <div className="col-span-6 sm:col-span-3 my-4 lg:my-0">
               <div className="flex">
@@ -204,7 +244,7 @@ export default function Payment({ modal, sub }) {
                 <h2 className="font-semibold ">CARD/ONLINE </h2>
               </div>
 
-              <div className="w-full">
+              { method === "card" && <div className="w-full">
                 <div className="flex items-center mb-2 hover:bg-bellefuBackground p-3 rounded-md border mt-4 relative">
                   <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
                     <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
@@ -259,7 +299,10 @@ export default function Payment({ modal, sub }) {
                         <img src="/card.png" className="w-24" alt="visa card" />
                       </li>
                       <li
-                        onClick={() => setDept("Paypal")}
+                        onClick={() => {
+                          setDept("Paypal");
+                          setOpenCard(!openCard)
+                        }}
                         className="px-4 py-3 hover:bg-bellefuBackground flex space-x-5 items-center cursor-pointe rounded"
                       >
                         <img
@@ -271,15 +314,22 @@ export default function Payment({ modal, sub }) {
                     </ul>
                   </div>
                 ) : null}
-              </div>
+              </div>}
             </div>
           </div>
+          { dept === "Paypal" && <div className="justify-center px-12 mb-8">
+            <PayPalButtons
+              createOrder={(data, actions) => createOrder(data, actions)}
+              onApprove={(data, actions) => onApprove(data, actions)} 
+            />
+          </div> }
           <div className="p-5 flex justify-between">
             <div>
               <p className="text-lg font-semibold ">Select Duration</p>
               <div className="flex space-x-2">
                 <input
                   onChange={(e) => setSubType(e.target.value)}
+                  checked={subType === "25"}
                   id="subType"
                   name="sub"
                   value={25}
@@ -304,6 +354,7 @@ export default function Payment({ modal, sub }) {
                 <p>${fee?.yearly}</p>
               </div>
             </div>
+            {method !== "card" &&
             <div>
               <button
                 // disabled={address===""?true:false}
@@ -313,7 +364,8 @@ export default function Payment({ modal, sub }) {
               >
                 Proceed
               </button>
-            </div>
+            </div> 
+            }
           </div>
         </div>
       </div>

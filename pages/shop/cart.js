@@ -63,6 +63,8 @@ function Cart() {
     acc += curr.price * curr.quantity;
     return acc;
   }, 0);
+
+  const currency = cartList[0]?.html_entity;
   return (
     <div className="max-w-5xl mx-auto mt-32">
       <div className="flex justify-between mt-5">
@@ -129,7 +131,13 @@ function Cart() {
 
                       <div className="text-crystamolPrice inline-block md:hidden mb-1  text-lg md:text-3xl font-semibold">
                         <span className="flex">
-                          <p>${cart.price * cart.quantity}</p>
+                          <p
+                            className="mr-1"
+                            dangerouslySetInnerHTML={{
+                              __html: cart.html_entity,
+                            }}
+                          />
+                          <p>{cart.price * cart.quantity}</p>
                         </span>
                       </div>
                       <div className="md:hidden inline-block">
@@ -140,7 +148,7 @@ function Cart() {
                               const item = cartList.find(
                                 (item) => item.cartId === cart.cartId
                               );
-                              console.log("cart", item);
+
                               item.quantity += 1;
                               setCartList((prev) => [...prev]);
 
@@ -284,7 +292,13 @@ function Cart() {
                   </div>
                   <div className="text-bellefuGreen hidden md:inline-block mr-5 mt-10 text-lg md:text-3xl font-semibold">
                     <span className="flex">
-                      <p>${cart.price * cart.quantity}</p>
+                      <p
+                        className="mr-1"
+                        dangerouslySetInnerHTML={{
+                          __html: cart.html_entity,
+                        }}
+                      />
+                      <p>{cart.price * cart.quantity}</p>
                     </span>
                   </div>
                 </div>
@@ -301,7 +315,13 @@ function Cart() {
                 <p>Subtotal</p>
 
                 <span className="flex">
-                  <p>${priceSum}</p>
+                  <p
+                    className="mr-1"
+                    dangerouslySetInnerHTML={{
+                      __html: currency,
+                    }}
+                  />
+                  <p>{priceSum}</p>
                 </span>
               </div>
               {/* <div className="flex justify-between text-lg ">
@@ -311,7 +331,13 @@ function Cart() {
               <div className="flex justify-between text-xl font-semibold">
                 <p>Total</p>
                 <span className="flex">
-                  <p>${priceSum}</p>
+                  <p
+                    className="mr-1"
+                    dangerouslySetInnerHTML={{
+                      __html: currency,
+                    }}
+                  />
+                  <p>{priceSum}</p>
                 </span>
               </div>
             </div>

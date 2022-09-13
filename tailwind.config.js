@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         bellefuGreen: "#76BA1B",
+        bellefuGreenWithOpacity: "rgba(118, 186, 27, 0.6)",
         bellefuOrange: "#FFA500",
         bellefuBackground: "#F9F9F9",
         bellefuWhite: "#FCFFF9",

@@ -53,6 +53,8 @@ const Checkout = () => {
     return acc;
   }, 0);
   // const shippingFee = 200;
+
+  const currency = cartList[0]?.html_entity;
   const totalPrice = priceSum;
 
   const userFullName = userId?.first_name + "  " + userId?.last_name;
@@ -173,14 +175,26 @@ const Checkout = () => {
 
                           <div className="md:hidden  text-bellefuOrange">
                             <span className="flex">
-                              <p>${cart.price * cart.quantity}</p>
+                              <p
+                                className="mr-1"
+                                dangerouslySetInnerHTML={{
+                                  __html: cart.html_entity,
+                                }}
+                              />
+                              <p>{cart.price * cart.quantity}</p>
                             </span>
                           </div>
                         </div>
                       </div>
                       <div className="hidden md:inline-block py-5 text-bellefuOrange">
                         <span className="flex">
-                          <p>${cart.price * cart.quantity}</p>
+                          <p
+                            className="mr-1"
+                            dangerouslySetInnerHTML={{
+                              __html: cart.html_entity,
+                            }}
+                          />
+                          <p>{cart.price * cart.quantity}</p>
                         </span>
                       </div>
                     </section>
@@ -204,7 +218,13 @@ const Checkout = () => {
                   </div>
                   <div className="font-semibold text-lg md:text-2xl text-bellefuOrange">
                     <span className="flex">
-                      <p>${totalPrice}</p>
+                      <p
+                        className="mr-1"
+                        dangerouslySetInnerHTML={{
+                          __html: currency,
+                        }}
+                      />
+                      <p>{totalPrice}</p>
                     </span>
                   </div>
                 </section>

@@ -347,10 +347,7 @@ const SingleProductDescription = ({ productDetails, verified }) => {
             <div className="flex items-center space-x-1 lg:mt-2">
               <BsClockFill className="w-4 h-4 text-gray-500" />
               <p className="text-bellefuBlack1 text-sm">
-                Posted on{" "}
-                {moment(productDetails[0]?.productPostedOn).format(
-                  "MMM Do YYYY"
-                )}
+                Posted on {moment(productDetails[0]?.createdAt).format("ll")}
               </p>
             </div>
             <div className="flex items-center space-x-2 -ml-1">
