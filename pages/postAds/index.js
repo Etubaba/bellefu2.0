@@ -17,6 +17,8 @@ import { webApi } from "../../constant";
 
 function Index({ data1, data2 }) {
 
+  console.log(data1);
+
   const locaten = useSelector((state) => state.bellefu?.postAddata);
 
   const [loading, setLoading] = useState(false);

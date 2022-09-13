@@ -69,9 +69,10 @@ const Products = ({ shops ,grid}) => {
     const newProduct = async () => {
       // if (searchCountry) setSearching(true);
 
-      axios
+    await  axios
         .get(`${shopApi}goods/category/${category}?page=${page}`)
         .then((res) => {
+          console.log(res.data?.data);
           console.log(res.data?.data?.data);
           // if (!res.data.data.data.length) initialRender.current = 1;
           // else if (res.data.data.data.length) initialRender.current = 2;

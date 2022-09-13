@@ -20,9 +20,11 @@ import { useState } from "react";
 export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
   const country = useSelector((state) => state.bellefu.indexData);
   const countryCode = useSelector((state) => state.bellefu.profileDetails?.country_code);
+  const countryCode2 = useSelector((state) => state.bellefu.profileDetails);
 
 
   console.log("country", country);
+  console.log("country", countryCode2);
 
   const [open1, setOpen1] = useState(false);
   const [inputdata, setInputData] = useState(null);
