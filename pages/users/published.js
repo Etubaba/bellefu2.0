@@ -15,6 +15,7 @@ const Published = () => {
 
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
   const verify = useSelector((state) => state.bellefu?.verificationStatus);
+
   const profile = useSelector(profileDetails);
   const router = useRouter();
 
@@ -32,7 +33,6 @@ const Published = () => {
     getProduct();
   }, [reload]);
 
-  console.log("ads", approvedProduct);
   const toPostAds = () => {
     if (verify.phone && profile.avatar !== "useravatar.jpg") {
       router.push("/postAds");

@@ -28,14 +28,10 @@ const Product = ({ details, title, description, image }) => {
 
   // if (queryExists) return router.replace(`/product/${productId}`);
 
-
-
-
   const newDetails = details.data;
   const similarProductDetails = details.similarProducts;
 
-
- 
+  //console.log('details=>',details);
 
   const dispatch = useDispatch();
 
@@ -50,35 +46,23 @@ const Product = ({ details, title, description, image }) => {
   }, []);
   const index = useSelector(homeData);
 
-
-
-
   return (
     <>
       <Head>
         {/* GENERAL META */}
         <meta name="title" content={title} />
         <meta name="description" content={description} />
-        <meta
-          name="og:image"
-          content={`${productImageUrl}${image}`}
-        />
+        <meta name="og:image" content={`${productImageUrl}${image}`} />
 
         {/* FACEBOOK META */}
         <meta name="og:title" content={title} />
         <meta name="og:description" content={description} />
-        <meta
-          name="og:image"
-          content={`${productImageUrl}${image}`}
-        />
+        <meta name="og:image" content={`${productImageUrl}${image}`} />
 
         {/* TWITTER META */}
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <meta
-          name="twitter:image"
-          content={`${productImageUrl}${image}`}
-        />
+        <meta name="twitter:image" content={`${productImageUrl}${image}`} />
       </Head>
       <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-24">
         {/* header section */}
@@ -160,7 +144,7 @@ export default Product;
 
 //server side fetching of the full product details
 export async function getServerSideProps(context) {
-  const { productId, title, description, image } = context.query;
+  const { productId, title, description, image, slug } = context.query;
 
   const requests = await fetch(
     `${apiData}get/single/product/${productId}`

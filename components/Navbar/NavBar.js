@@ -256,6 +256,18 @@ const NavBar = () => {
     }
   }, []);
 
+  const checkPath = () => {
+    const path = [
+      "/shops",
+      "/shopproduct/product",
+      "/shop/[slug]",
+      "/shop/cart",
+      "/shop/checkout",
+    ];
+
+    return path.includes(currentPath);
+  };
+
   return (
     <div className="fixed top-0 z-[1000] w-full ">
       {loading && <Loader isLoading={loading} />}
@@ -591,45 +603,49 @@ const NavBar = () => {
               ) : null}
             </div>
 
-            {currentPath === "/shops" ||
-            currentPath === "/shopproduct/product" ||
-            currentPath === "/shop/[slug]" ||
-            currentPath === "/shop/cart" ||
-            currentPath === "/shop/checkout" ? (
-              <div
-                className="relative cursor-pointer ml-10"
-                onClick={() => {
-                  router.push("/shop/cart");
-                  setLoading(!loading);
-                }}
-              >
-                <MdShoppingCart
-                  className={
-                    cartCount.length !== 0
-                      ? "text-white w-6 h-6 animate-shake"
-                      : "text-white w-6 h-6"
-                  }
-                />
+            {
+              // currentPath === "/shops" ||
+              // currentPath === "/shopproduct/product" ||
+              // currentPath === "/shop/[slug]" ||
+              // currentPath === "/shop/cart" ||
+              // currentPath === "/shop/checkout"
 
-                {cartCount.length !== 0 ? (
-                  <p className=" bg-bellefuOrange -top-2 left-4 h-4 w-4 absolute flex items-center justify-center rounded-full">
-                    <span className="text-white text-[10px] text-center ">
-                      {cartCount.length}
-                    </span>
+              checkPath() ? (
+                <div
+                  className="relative cursor-pointer ml-10"
+                  onClick={() => {
+                    router.push("/shop/cart");
+                    setLoading(!loading);
+                  }}
+                >
+                  <MdShoppingCart
+                    className={
+                      cartCount.length !== 0
+                        ? "text-white w-6 h-6 animate-shake"
+                        : "text-white w-6 h-6"
+                    }
+                  />
+
+                  {cartCount.length !== 0 ? (
+                    <p className=" bg-bellefuOrange -top-2 left-4 h-4 w-4 absolute flex items-center justify-center rounded-full">
+                      <span className="text-white text-[10px] text-center ">
+                        {cartCount.length}
+                      </span>
+                    </p>
+                  ) : null}
+                </div>
+              ) : (
+                <div
+                  onClick={toPostAds}
+                  className="flex hover:bg-orange-300 items-center bg-bellefuOrange px-2 py-2 rounded-md space-x-1 cursor-pointer"
+                >
+                  <IoMdAddCircleOutline className="text-white w-4 h-4 text-md font-semibold" />
+                  <p className="text-white hover:text-gray-200 capitalize text-md font-semibold">
+                    Post ads
                   </p>
-                ) : null}
-              </div>
-            ) : (
-              <div
-                onClick={toPostAds}
-                className="flex hover:bg-orange-300 items-center bg-bellefuOrange px-2 py-2 rounded-md space-x-1 cursor-pointer"
-              >
-                <IoMdAddCircleOutline className="text-white w-4 h-4 text-md font-semibold" />
-                <p className="text-white hover:text-gray-200 capitalize text-md font-semibold">
-                  Post ads
-                </p>
-              </div>
-            )}
+                </div>
+              )
+            }
           </div>
         </div>
       </nav>

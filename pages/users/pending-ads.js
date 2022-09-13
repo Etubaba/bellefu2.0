@@ -12,6 +12,7 @@ const pendingads = () => {
   const userId = useSelector((state) => state.bellefu?.profileDetails?.id);
 
   const test = 1285;
+  const favCheck = useSelector((state) => state.bellefu?.favLoad);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -22,7 +23,7 @@ const pendingads = () => {
     };
 
     getProduct();
-  }, []);
+  }, [favCheck]);
 
   return (
     <div className=" rounded-lg mt-2 lg:mt-5 bg-bellefuWhite h-auto w-auto pb-2">
