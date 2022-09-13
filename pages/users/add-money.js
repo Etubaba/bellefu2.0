@@ -179,7 +179,7 @@ const AddMoney = () => {
                   <div className="flex px-8">
                     <div className=" mx-auto my-7 justify-center items-center flex  flex-col-reverse">
                       {amountEntered && (
-                        <div className="md:mr-auto ml-4 my-4 hover:bg-white">
+                        <div className="md:mr-auto ml-3 my-4 hover:bg-white">
                           <button
                             onClick={() => {
                               handleFlutterPayment({
