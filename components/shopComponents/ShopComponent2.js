@@ -24,8 +24,6 @@ const ShopComponent2 = ({ product }) => {
   const isLoggedIn = useSelector(login);
   const dispatch = useDispatch();
 
-  console.log(product);
-
   if (loading) {
     setTimeout(() => {
       setLoading(false);
@@ -56,7 +54,6 @@ const ShopComponent2 = ({ product }) => {
           productId: product.productId,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.status) {
             setFav2(!fav2);
             toast.success(

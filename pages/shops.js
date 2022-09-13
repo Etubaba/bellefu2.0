@@ -28,7 +28,7 @@ const Shops = ({ shops }) => {
   const slider = indexData?.slider[0]?.value;
 
   const [shopCategory, setShopCategory] = useState([]);
-  console.log(shops?.data.data);
+
   useEffect(() => {
     const getCurrData = async () => {
       await axios
@@ -67,7 +67,7 @@ const Shops = ({ shops }) => {
   }, [page]);
 
   const shop = shops?.data?.data;
-  console.log(newShop);
+
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
     pageNumber.push(i);

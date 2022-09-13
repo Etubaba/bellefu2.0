@@ -11,6 +11,7 @@ const Expired = ({ product }) => {
   const [open, setOpen] = useState(false);
 
   const details = useSelector((state) => state.bellefu?.indexData);
+
   return (
     <div className="w-full">
       <div className="bg-bellefuWhite p-3 rounded-md border border-[#dfdfdf]">
@@ -22,9 +23,9 @@ const Expired = ({ product }) => {
         <div className="flex items-center space-x-2">
           <MdLocationOn className="w-4 h-4 text-bellefuBlack1" />
           <div className="flex items-center space-x-1">
-            {/* <p className="text-bellefuBlack1 text-sm capitalize">
-                            {product.state},
-                        </p> */}
+            <p className="text-bellefuBlack1 text-sm capitalize">
+              {product.stateName},
+            </p>
             <p className="text-bellefuBlack1 text-sm capitalize">
               {product.country}
             </p>
@@ -39,7 +40,7 @@ const Expired = ({ product }) => {
             {product.price}
           </p>
         </div>
-        <div className="flex items-center justify-between mt-2">
+        {/* <div className="flex items-center justify-between mt-2">
           <p className="text-[#767873]  capitalize italic text-xs font-medium">
             Active
           </p>
@@ -49,7 +50,7 @@ const Expired = ({ product }) => {
           >
             <BiDotsHorizontalRounded className="text-bellefuOrange" />
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* drop down beginning */}

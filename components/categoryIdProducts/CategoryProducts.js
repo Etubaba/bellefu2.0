@@ -5,16 +5,15 @@ import Loader from "../../constant";
 import Head from "next/head";
 
 const CategoryProducts = ({ product }) => {
-
-
-console.log('productcat ', product)
   return (
     <div>
-
       <Head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content={`goods or services for ${product[0]?.CatName}`} />
+        <meta
+          name="description"
+          content={`goods or services for ${product[0]?.CatName}`}
+        />
         <title>{product[0]?.CatName}</title>
       </Head>
       <MainProductHeader />

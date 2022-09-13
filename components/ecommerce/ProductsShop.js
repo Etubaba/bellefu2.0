@@ -5,6 +5,7 @@ import { apiData, shopApi } from "../../constant";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { Main } from "next/document";
 
 const Products = ({ shops }) => {
   const [page, setPage] = useState(1);
@@ -112,7 +113,13 @@ const Products = ({ shops }) => {
   }, [search, page]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div
+      className={
+        grid
+          ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      }
+    >
       {main.map((item, index) => (
         <div key={index}>
           {/* <ProductItem item={item} /> */}
