@@ -34,22 +34,17 @@ const DropdownShop = ({ category }) => {
     >
       <div
         key={category?.id}
-        className="flex items-center mb-7 hover:bg-bellefuBackground p-1 rounded-md"
+        className="flex  mb-7 hover:bg-bellefuBackground p-1 rounded-md"
       >
-        <div className="flex  items-center flex-1 space-x-2 cursor-pointer">
+        <div className="flex  flex-1 space-x-2 cursor-pointer">
           <img
             src={`${categoryUrl}${category?.image}`}
             alt="icons"
             className="w-8 h-8"
           />
-          <h5
-            className="text-bellefuBlack1 text-normal font-medium whitespace-nowrap"
-          >
+          <h5 className="text-bellefuBlack1  font-medium whitespace-nowrap">
             {category?.name}
           </h5>
-          <div>
-            <AiOutlineCaretRight className="text-gray-500 cursor-pointer" />
-          </div>
         </div>
       </div>
     </div>
