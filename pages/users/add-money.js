@@ -243,7 +243,7 @@ const AddMoney = () => {
                                         }
                                       );
 
-                                      axios
+                                     await axios
                                         .post(`${apiData}fund/wallet`, {
                                           userId: userId?.id,
                                           amount: rate,
