@@ -13,6 +13,7 @@ import { PusherProvider } from "react-pusher-hoc";
 import Pusher from "pusher-js";
 import Mobilefooter from "../components/footer/Mobilefooter";
 import Script from "next/script";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const pusherClient = new Pusher("8dd9d376f6e55dac9432", {
     cluster: "eu",
   });
+
+  const paypalSecret =
+    "AQ8zoFJxTEv2cH4_xjlcsm-ADmvE7bF5_fE9Ur0gKBwzUxgTkwtcQUMQ7CAFjy40waS3XHJcGtLGIImQ";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,47 +36,48 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   return (
     <Provider store={store}>
-      <PusherProvider value={pusherClient}>
-        <SessionProvider session={session}>
+      <PayPalScriptProvider options={{ "client-id": paypalSecret }}>
+        <PusherProvider value={pusherClient}>
+          <SessionProvider session={session}>
+            {loading ? (
+              <NavBar />
+            ) : (
+              <Skeleton
+                className="rounded my-3"
+                variant="rectangular"
+                animation="wave"
+                width={"100%"}
+                height={80}
+              />
+            )}{" "}
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </SessionProvider>
           {loading ? (
-            <NavBar />
+            <Footer />
           ) : (
             <Skeleton
-              className="rounded my-3"
+              className="rounded my-3 hidden sm:block lg:block"
               variant="rectangular"
               animation="wave"
               width={"100%"}
-              height={80}
+              height={500}
             />
           )}{" "}
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </SessionProvider>
-        {loading ? (
-          <Footer />
-        ) : (
-          <Skeleton
-            className="rounded my-3 hidden sm:block lg:block"
-            variant="rectangular"
-            animation="wave"
-            width={"100%"}
-            height={500}
-          />
-        )}{" "}
-        {loading ? (
-          <Mobilefooter />
-        ) : (
-          <Skeleton
-            className="rounded my-3 block sm:hidden lg:hidden"
-            variant="rectangular"
-            animation="wave"
-            width={"100%"}
-            height={400}
-          />
-        )}{" "}
-        <Script id="tawk" strategy="lazyOnload">
-          {`
+          {loading ? (
+            <Mobilefooter />
+          ) : (
+            <Skeleton
+              className="rounded my-3 block sm:hidden lg:hidden"
+              variant="rectangular"
+              animation="wave"
+              width={"100%"}
+              height={400}
+            />
+          )}{" "}
+          <Script id="tawk" strategy="lazyOnload">
+            {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
             (function(){
             var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -84,10 +89,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             })();
 
           `}
-        </Script>
-        <BottomNav />
-        <ToastContainer />
-      </PusherProvider>
+          </Script>
+          <BottomNav />
+          <ToastContainer />
+        </PusherProvider>
+      </PayPalScriptProvider>
     </Provider>
   );
 }

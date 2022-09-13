@@ -55,6 +55,7 @@ export default function Home({ data }) {
     return () => clearTimeout(timer);
   }, []);
 
+  console.log("cat", currData);
   return (
     <div>
       <Head>

@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import { useSelector } from "react-redux";
 import { profileDetails } from "../../features/bellefuSlice";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { apiData } from "../../constant";
@@ -33,17 +34,17 @@ const AddMoney = () => {
       name: userFullName,
     },
     customizations: {
-      title: "Add money",
-      description: "Add money to your wallet",
+      title: "Credit wallet money",
+      description: "Add money your wallet",
       logo: "https://www.linkpicture.com/q/bellefuApplogo.jpg",
     },
   };
 
-  const handleConvert = () => {
-    const amount = Number(totalPrice) * 100;
-    setRate(amount);
-    setConvert(true);
-  };
+  // const handleConvert = () => {
+  //   const amount = Number(totalPrice) * 100;
+  //   setRate(amount);
+  //   setConvert(true);
+  // };
 
   const router = useRouter();
 
@@ -67,6 +68,20 @@ const AddMoney = () => {
     }
   };
 
+  const createOrder = async (data, actions) => {
+    // await totalPrice
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: totalPrice,
+            // value: "5",
+          },
+        },
+      ],
+    });
+  };
+
   const formatedRate = rate
     .toLocaleString("en-US", {
       style: "currency",
@@ -88,13 +103,14 @@ const AddMoney = () => {
             Select Methods
           </h2>
           <div className="flex flex-col flex-auto mb-8">
-            <div className="bg-[#F8FDF2] hover:cursor-pointer mb-2 md:mr-12 py-8 rounded-lg border-2">
-              <div className="items-center mb-10 justify-center px-7 md:px-24 flex space-y-3 flex-col ">
-                <label className="font-semibold">
+            <div className="bg-[#F8FDF2] hover:cursor-pointer mb-2 px-16  md:mr-12 py-8 rounded-lg border-2">
+              <div className=" mb-10  space-y-3 flex-col ">
+                <label htmlFor="amount" className="font-semibold">
                   Enter Amount ({""} $ {""})
                 </label>
                 <input
                   type="number"
+                  id="amount"
                   className="w-full rounded-xl py-3 pl-5 outline outline-gray-300 focus:outline-bellefuOrange"
                   value={totalPrice}
                   onChange={(e) => {
@@ -104,13 +120,13 @@ const AddMoney = () => {
                 />
               </div>
 
-              <div className="flex justify-center items-center  font-semibold space-x-6 my-10">
+              <div className="flex   font-semibold space-x-6 my-10">
                 <p>100 Bellicoin</p>
                 <p>=</p>
                 <p>$1</p>
               </div>
               {/* {(totalPrice !== '' && convert) && */}
-              <div className="flex justify-center items-center  font-semibold space-x-6 my-5">
+              <div className="flex   font-semibold space-x-6 my-5">
                 <p>
                   {" "}
                   $ {""}
@@ -124,7 +140,7 @@ const AddMoney = () => {
                 <p>=</p>
                 <p>
                   {formatedRate}
-                  {""} Bellicoin
+                  {""} Bellecoin
                 </p>
               </div>
 
@@ -141,8 +157,8 @@ const AddMoney = () => {
               <div className="w-full">
                 <div>
                   <div className="flex px-8">
-                    <div className=" mx-auto my-7 justify-center items-center flex flex-col md:space-x-72 space-y-5 md:space-y-0 md:flex-row">
-                      <div className="md:mr-auto hover:bg-white">
+                    <div className=" mx-auto my-7 justify-center items-center flex  flex-col-reverse">
+                      <div className="md:mr-auto my-10 hover:bg-white">
                         <button
                           onClick={() => {
                             handleFlutterPayment({
@@ -154,7 +170,7 @@ const AddMoney = () => {
                                   toast.success(
                                     "Payment completed successfully"
                                   );
-                                  setTotalPrice("");
+
                                   axios
                                     .post(`${apiData}fund/wallet`, {
                                       userId: userId?.id,
@@ -165,6 +181,7 @@ const AddMoney = () => {
                                         toast.success(
                                           "Wallet updated successfully"
                                         );
+                                        setTotalPrice("");
                                         router.push("/users/my-wallet");
                                       }
                                     });
@@ -183,15 +200,64 @@ const AddMoney = () => {
                           {/* <span className="pl-4 md:text-base text-sm">Pay with Card</span> */}
                         </button>
                       </div>
-                      <div className="hover:bg-white">
-                        <button className="flex items-center outline outline-[#0192D0] rounded-lg px-3 ">
+
+                      <div className="w-[60%] ">
+                        <div className="flex w-full justify-center items-center ">
+                          <PayPalButtons
+                            createOrder={(data, actions) =>
+                              createOrder(data, actions)
+                            }
+                            onApprove={async (data, actions) => {
+                              return actions.order
+                                .capture()
+                                .then(async (details) => {
+                                  if (details.status == "COMPLETED") {
+                                    setTotalPrice("");
+                                    toast.success(
+                                      "Payment completed successfully",
+                                      {
+                                        position: "top-right",
+                                      }
+                                    );
+
+                                    setTotalPrice("");
+                                    axios
+                                      .post(`${apiData}fund/wallet`, {
+                                        userId: userId?.id,
+                                        amount: rate,
+                                      })
+                                      .then((res) => {
+                                        if (res.data.status) {
+                                          toast.success(
+                                            "Wallet updated successfully"
+                                          );
+                                          router.push("/users/my-wallet");
+                                        }
+                                      });
+                                  }
+                                });
+                            }}
+                            // onApprove={(data, actions) => onApprove(data, actions)}
+                          />
+                        </div>
+
+                        {/* <div className="flex my-10 justify-center items-center">
+                  {" "}
+                  <Buttonchlps
+                    className="md:text-base text-sm"
+                    onClick={sendApplication}
+                    text="Complete Application"
+                  />
+                </div> */}
+
+                        {/* <button className=" outline   ">
                           <img
                             src="/Paypal.png"
                             className="w-40"
                             alt="paypl card"
                           />
-                          {/* <span className="pl-4 md:text-base text-sm">Pay with Paypal</span> */}
-                        </button>
+                     
+                        </button> */}
                       </div>
                     </div>
                   </div>
