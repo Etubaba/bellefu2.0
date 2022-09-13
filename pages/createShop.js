@@ -19,6 +19,7 @@ import { shopApi } from "../constant";
 import Payment from "../components/paymentComponent/Payment";
 import { payment, shopCreated, shopId } from "../features/bellefuSlice";
 import Head from "next/head";
+import classNames from "classnames";
 
 export default function CreateShop() {
   const [checkpass, setCheckPass] = useState(false);
@@ -87,8 +88,12 @@ export default function CreateShop() {
 
   // if (hasPaid) setPaymentModal(false)
 
-  const handleCreate = (e) => {
-    e.preventDefault();
+  const handleCreate = (sub) => {
+    //e.preventDefault();
+    // if (sub) {
+    //   console.log(sub);
+    //   return;
+    // }
     if (hasPaid) {
       const formData = new FormData();
       formData.append("userId", userThings?.id);
@@ -98,7 +103,7 @@ export default function CreateShop() {
       formData.append("countryCode", userThings?.country_code);
       formData.append("stateCode", userThings?.state);
       formData.append("address", address);
-      formData.append("subType", subType === 25 ? "monthly" : "yearly");
+      formData.append("subType", sub === "25" ? "monthly" : "yearly");
       formData.append("accountNumber", accountnumber);
       formData.append("accountType", accounttype);
       formData.append("accountName", accountname);
@@ -250,9 +255,10 @@ export default function CreateShop() {
         onClose={() => setPaymentModal(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{overflow: "auto"}}
       >
-        <div className="flex flex-col items-center justify-center mx-auto mt-52 pt-2  rounded-lg shadow-md   w-[70%] md:w-[70%] lg:w-[70%]">
-          <Payment sub={setSubType} modal={setPaymentModal} />
+        <div className="flex flex-col items-center justify-center mx-auto h-auto pt-2 mt-40 rounded-lg shadow-md   w-[70%] md:w-[70%] lg:w-[70%]">
+          <Payment sub={setSubType} modal={setPaymentModal} handleCreate={handleCreate} />
         </div>
       </Modal>
 
@@ -424,7 +430,13 @@ export default function CreateShop() {
                           <GovId handleGovid={handleGovid} />
                         </div>
                       )}
-                      <div className="col-span-6 sm:col-span-3">
+                      <div className="flex items-center space-x-3 col-span-6 sm:col-span-3">
+                        <input
+                          onClick={() => setTerms(!terms)}
+                          type="checkbox"
+                          className="w-5 h-5"
+                          checked={terms}
+                        />
                         <label
                           onClick={() => router.push("/policy")}
                           className="block hover:text-orange-300 underline text-sm font-medium mb-2 text-bellefuOrange"
@@ -432,12 +444,6 @@ export default function CreateShop() {
                           Terms & Conditions{" "}
                           <strong className="text-red-500">*</strong>
                         </label>
-                        <input
-                          onClick={() => setTerms(!terms)}
-                          type="checkbox"
-                          className="w-5 h-5"
-                          checked={terms}
-                        />
                       </div>
                     </div>
                     <div
@@ -452,18 +458,19 @@ export default function CreateShop() {
                           e.preventDefault();
                           setPaymentModal(true);
                         }}
-                        className="bg-bellefuGreen rounded-lg text-white px-12 md:px-20 md:py-3 py-2 "
+                        className={classNames("bg-bellefuGreen rounded-lg text-white px-12 md:px-20 md:py-3 py-2 ", {"bg-bellefuGreenWithOpacity hover:cursor-not-allowed": !terms})}
+                        disabled={!terms}
                       >
-                        Complete Payment
+                        Proceed To Payment
                       </button>
                     </div>
 
-                    <button
+                    {/* <button
                       onClick={handleCreate}
                       class="flex justify-center items-centerw-[19vw]  w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-bellefuOrange hover:bg-[#ffc253] focus:outline-none focus:ring-2 focus:ring-offset-2 mt-5"
                     >
                       Submit
-                    </button>
+                    </button> */}
                   </div>
                 </form>
               </div>
