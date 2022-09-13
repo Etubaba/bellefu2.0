@@ -23,7 +23,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   });
 
   const paypalSecret =
-    "AQ8zoFJxTEv2cH4_xjlcsm-ADmvE7bF5_fE9Ur0gKBwzUxgTkwtcQUMQ7CAFjy40waS3XHJcGtLGIImQ";
+    "AV_V7FbYVGy-WfxbpSfRLH1tR3Pw8r7N59i7WRWzDAduERQ1oiU8OirH2S7MscI9g0TPDQ-wu2zAWEog";
+  // const paypalSecret =
+  //   "AQ8zoFJxTEv2cH4_xjlcsm-ADmvE7bF5_fE9Ur0gKBwzUxgTkwtcQUMQ7CAFjy40waS3XHJcGtLGIImQ";
 
   useEffect(() => {
     const timer = setTimeout(() => {
