@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { Main } from "next/document";
 
-const Products = ({ shops }) => {
+const Products = ({ shops ,grid}) => {
   const [page, setPage] = useState(1);
   const [countryData, setCountryData] = useState([]);
   const [productIndex, setProductIndex] = useState([]);
