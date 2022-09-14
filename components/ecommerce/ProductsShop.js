@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { Main } from "next/document";
 
-const Products = ({ shops ,grid}) => {
+const Products = ({ shops, grid }) => {
   const [page, setPage] = useState(1);
   const [countryData, setCountryData] = useState([]);
   const [productIndex, setProductIndex] = useState([]);
@@ -69,7 +69,7 @@ const Products = ({ shops ,grid}) => {
     const newProduct = async () => {
       // if (searchCountry) setSearching(true);
 
-    await  axios
+      await axios
         .get(`${shopApi}goods/category/${category}?page=${page}`)
         .then((res) => {
           console.log(res.data?.data);
@@ -121,7 +121,7 @@ const Products = ({ shops ,grid}) => {
           : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       }
     >
-      {main.map((item, index) => (
+      {main?.map((item, index) => (
         <div key={index}>
           {/* <ProductItem item={item} /> */}
           <ShopComponent2 key={index} product={item} />
