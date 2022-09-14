@@ -2,7 +2,7 @@ import React from "react";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { apiData, shopApi } from "../../constant";
+import { apiData, flutterwaveKey, shopApi } from "../../constant";
 import {
   AiOutlineCaretRight,
   AiOutlineCaretDown,
@@ -38,7 +38,8 @@ export default function Payment({ modal, sub, handleCreate }) {
 
   //flutterwave configuration
   const config = {
-    public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
+    public_key: flutterwaveKey,
+
     tx_ref: Date.now(),
     amount: subType,
     currency: "USD",
@@ -135,7 +136,7 @@ export default function Payment({ modal, sub, handleCreate }) {
     });
   };
   const onApprove = (data, actions) => {
-    console.log("onApprove => ",data);
+    console.log("onApprove => ", data);
     return actions.order.capture().then(async (res) => {
       // const { paypal } = res;
       if (res.status.toLowerCase() === "completed") {
@@ -220,15 +221,17 @@ export default function Payment({ modal, sub, handleCreate }) {
                 />
                 <h2 className="font-semibold ">VOUCHER</h2>
               </div>
-              {method === "voucher" && <input
-                type="text"
-                onClick={() => setMethod("voucher")}
-                onBlur={voucherCheck}
-                onChange={(e) => {
-                  if (method === "voucher") setVoucher(e.target.value);
-                }}
-                className=" bg-[white] p-[8px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full lg:w-[18vw] shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
-              />}
+              {method === "voucher" && (
+                <input
+                  type="text"
+                  onClick={() => setMethod("voucher")}
+                  onBlur={voucherCheck}
+                  onChange={(e) => {
+                    if (method === "voucher") setVoucher(e.target.value);
+                  }}
+                  className=" bg-[white] p-[8px] mt-1 focus:ring-bellefuGreen focus:outline-0 block w-full lg:w-[18vw] shadow-sm sm:text-sm border-gray-300 border-2 rounded-md"
+                />
+              )}
             </div>
             <div className="col-span-6 sm:col-span-3 my-4 lg:my-0">
               <div className="flex">
@@ -244,85 +247,93 @@ export default function Payment({ modal, sub, handleCreate }) {
                 <h2 className="font-semibold ">CARD/ONLINE </h2>
               </div>
 
-              { method === "card" && <div className="w-full">
-                <div className="flex items-center mb-2 hover:bg-bellefuBackground p-3 rounded-md border mt-4 relative">
-                  <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
-                    <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
-                      {dept}
-                    </h5>
+              {method === "card" && (
+                <div className="w-full">
+                  <div className="flex items-center mb-2 hover:bg-bellefuBackground p-3 rounded-md border mt-4 relative">
+                    <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
+                      <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
+                        {dept}
+                      </h5>
+                    </div>
+                    {!openCard ? (
+                      <div
+                        onClick={() =>
+                          method === "card" ? setOpenCard(!openCard) : null
+                        }
+                      >
+                        <AiOutlineCaretRight className="text-gray-300 cursor-pointer" />
+                      </div>
+                    ) : (
+                      <div onClick={() => setOpenCard(!openCard)}>
+                        <AiOutlineCaretDown className="text-gray-300 cursor-pointer" />
+                      </div>
+                    )}
                   </div>
-                  {!openCard ? (
-                    <div
-                      onClick={() =>
-                        method === "card" ? setOpenCard(!openCard) : null
-                      }
-                    >
-                      <AiOutlineCaretRight className="text-gray-300 cursor-pointer" />
+                  {openCard ? (
+                    <div className="w-full bg-bellefuWhite rounded border transition duration-300 ease-in">
+                      <ul className="rounded  py-4">
+                        <li
+                          onClick={() => {
+                            handleFlutterPayment({
+                              callback: (response) => {
+                                console.log(response);
+                                closePaymentModal();
+                                if (response.status === "successful") {
+                                  dispatch(payment(true));
+                                  toast.success("Payment completed Successful");
+                                  sub(subType);
+                                  modal(false);
+                                  axios
+                                    .post(`${apiData}card/payment`, {
+                                      gateway: "flutterwave",
+                                      amount: subType,
+                                      transactionId: response.transaction_id,
+                                      userId: user?.id,
+                                    })
+                                    .then((res) => console.log(res));
+                                }
+                                // this will close the modal programmatically
+                              },
+                              onClose: () => {},
+                            });
+                            setDept("Card");
+                          }}
+                          className="px-4 py-3 hover:bg-bellefuBackground flex space-x-5 items-center cursor-pointe rounded"
+                        >
+                          <img
+                            src="/card.png"
+                            className="w-24"
+                            alt="visa card"
+                          />
+                        </li>
+                        <li
+                          onClick={() => {
+                            setDept("Paypal");
+                            setOpenCard(!openCard);
+                          }}
+                          className="px-4 py-3 hover:bg-bellefuBackground flex space-x-5 items-center cursor-pointe rounded"
+                        >
+                          <img
+                            src="/Paypal.png"
+                            className="w-24"
+                            alt="visa card"
+                          />
+                        </li>
+                      </ul>
                     </div>
-                  ) : (
-                    <div onClick={() => setOpenCard(!openCard)}>
-                      <AiOutlineCaretDown className="text-gray-300 cursor-pointer" />
-                    </div>
-                  )}
+                  ) : null}
                 </div>
-                {openCard ? (
-                  <div className="w-full bg-bellefuWhite rounded border transition duration-300 ease-in">
-                    <ul className="rounded  py-4">
-                      <li
-                        onClick={() => {
-                          handleFlutterPayment({
-                            callback: (response) => {
-                              console.log(response);
-                              closePaymentModal();
-                              if (response.status === "successful") {
-                                dispatch(payment(true));
-                                toast.success("Payment completed Successful");
-                                sub(subType);
-                                modal(false);
-                                axios
-                                  .post(`${apiData}card/payment`, {
-                                    gateway: "flutterwave",
-                                    amount: subType,
-                                    transactionId: response.transaction_id,
-                                    userId: user?.id,
-                                  })
-                                  .then((res) => console.log(res));
-                              }
-                              // this will close the modal programmatically
-                            },
-                            onClose: () => {},
-                          });
-                          setDept("Card");
-                        }}
-                        className="px-4 py-3 hover:bg-bellefuBackground flex space-x-5 items-center cursor-pointe rounded"
-                      >
-                        <img src="/card.png" className="w-24" alt="visa card" />
-                      </li>
-                      <li
-                        onClick={() => {
-                          setDept("Paypal");
-                          setOpenCard(!openCard)
-                        }}
-                        className="px-4 py-3 hover:bg-bellefuBackground flex space-x-5 items-center cursor-pointe rounded"
-                      >
-                        <img
-                          src="/Paypal.png"
-                          className="w-24"
-                          alt="visa card"
-                        />
-                      </li>
-                    </ul>
-                  </div>
-                ) : null}
-              </div>}
+              )}
             </div>
           </div>
-          { dept === "Paypal" && <div className="justify-center px-12 mb-8">
-            <PayPalButtons
-              createOrder={(data, actions) => createOrder(data, actions)}
-              onApprove={(data, actions) => onApprove(data, actions)} 
-            />
-          </div> }
+          {dept === "Paypal" && (
+            <div className="justify-center px-12 mb-8">
+              <PayPalButtons
+                createOrder={(data, actions) => createOrder(data, actions)}
+                onApprove={(data, actions) => onApprove(data, actions)}
+              />
+            </div>
+          )}
           <div className="p-5 flex justify-between">
             <div>
               <p className="text-lg font-semibold ">Select Duration</p>
@@ -354,18 +365,18 @@ export default function Payment({ modal, sub, handleCreate }) {
                 <p>${fee?.yearly}</p>
               </div>
             </div>
-            {method !== "card" &&
-            <div>
-              <button
-                // disabled={address===""?true:false}
-                type="submit"
-                onClick={handlePayment}
-                class="flex justify-center items-center py-2 px-4 md:px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-bellefuOrange ml-7 hover:bg-[#ffc253] focus:outline-none focus:ring-2 focus:ring-offset-2 "
-              >
-                Proceed
-              </button>
-            </div> 
-            }
+            {method !== "card" && (
+              <div>
+                <button
+                  // disabled={address===""?true:false}
+                  type="submit"
+                  onClick={handlePayment}
+                  class="flex justify-center items-center py-2 px-4 md:px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-bellefuOrange ml-7 hover:bg-[#ffc253] focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                >
+                  Proceed
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ import {
 } from "../../features/bellefuSlice";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { apiData } from "../../constant";
+import { apiData, flutterwaveKey } from "../../constant";
 import { useRouter } from "next/router";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -174,7 +174,7 @@ export default function UnstyledSelectSimpleCard({ card }) {
   const pricing = userAmount?.adsplanprice;
 
   const router = useRouter();
-  async function createPost(id, amount,gateway) {
+  async function createPost(id, amount, gateway) {
     const formData = new FormData();
     //  things i dey post from redux store
     formData.append("title", dataTopost.title);
@@ -261,7 +261,7 @@ export default function UnstyledSelectSimpleCard({ card }) {
         toast.success("Payment successful", {
           position: "top-center",
         });
-        createPost(response?.transaction_id, response?.amount,"flutter-wave");
+        createPost(response?.transaction_id, response?.amount, "flutter-wave");
       }
       closePaymentModal(); // this will close the modal programmatically
     },
@@ -269,7 +269,7 @@ export default function UnstyledSelectSimpleCard({ card }) {
   };
 
   const config = {
-    public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
+    public_key: flutterwaveKey,
     tx_ref: Date.now(),
     amount: pricing,
     currency: "USD",
@@ -360,7 +360,11 @@ export default function UnstyledSelectSimpleCard({ card }) {
                       position: "top-right",
                     });
                     console.log(details?.purchase_units[0]?.amount?.value);
-                    await createPost(id, details?.purchase_units[0]?.amount?.value,"paypal");
+                    await createPost(
+                      id,
+                      details?.purchase_units[0]?.amount?.value,
+                      "paypal"
+                    );
                   }
                 });
               }}
