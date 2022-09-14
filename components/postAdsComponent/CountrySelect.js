@@ -19,9 +19,10 @@ import { useState } from "react";
 
 export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
   const country = useSelector((state) => state.bellefu.indexData);
-  const countryCode = useSelector((state) => state.bellefu.profileDetails?.country_code);
+  const countryCode = useSelector(
+    (state) => state.bellefu.profileDetails?.country_code
+  );
   const countryCode2 = useSelector((state) => state.bellefu.profileDetails);
-
 
   console.log("country", country);
   console.log("country", countryCode2);
@@ -32,23 +33,27 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
   const dispatch = useDispatch();
 
   // const handleThings = (counts) => {
-   React.useEffect(() => {
+  React.useEffect(() => {
     axios
       .get(`${webApi}get/postadd/states/${countryCode}`)
       .then((response) => {
         const newStateArr = response?.data.state;
-        catchState(newStateArr, country.defaultCountryName, country.defaultCurrency);
+        catchState(
+          newStateArr,
+          country.defaultCountryName,
+          country.defaultCurrency
+        );
         dispatch(handleCountryCodeUpdate(countryCode));
         dispatch(handleSymbolUpdate(country.defaultCurrency));
         dispatch(handleCurrencyUpdate(country.defaultCurrencyCode));
-        dispatch(handleCountryname( country.defaultCountryName));
+        dispatch(handleCountryname(country.defaultCountryName));
         console.log(newStateArr);
       })
       .catch((error) => {
         console.log(error);
       });
-   }, [countryCode])
-   
+  }, [countryCode]);
+
   // };
 
   return (
@@ -60,7 +65,7 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
         >
           <div className="flex items-center flex-1 space-x-3 cursor-pointer select-none">
             <h5 className="text-bellefuBlack1 font-medium whitespace-nowrap">
-              {country?.defaultCountryName}
+              {countryCode2?.country_code}
             </h5>
           </div>
           {/* {!open1 ? (
