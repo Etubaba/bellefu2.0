@@ -33,6 +33,8 @@ export const storeUrl = `${imageBaseUrl}get/store/image/`;
 
 export const videoUrl = `${imageBaseUrl}get/video/`;
 
+export const flutterwaveKey = `FLWPUBK-3aa15b59c9af0a44f067d02576a58fef-X`;
+
 export default function Loader({ isLoading }) {
   return (
     <Backdrop

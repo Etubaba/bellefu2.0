@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useDispatch, useSelector } from "react-redux";
-import { productImageUrl, shopApi } from "../constant";
+import { productImageUrl, shopApi, flutterwaveKey } from "../constant";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { orderPayment, profileDetails } from "../features/bellefuSlice";
@@ -30,7 +30,8 @@ const PaymentModal = ({
     userId,
   } = currentOrderItem;
   const config = {
-    public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
+    // public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
+    public_key: flutterwaveKey,
     tx_ref: Date.now(),
     amount: price * quantity,
     // amount: 999,

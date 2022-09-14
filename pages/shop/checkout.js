@@ -5,7 +5,7 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { useRouter } from "next/router";
 import { Modal } from "@mui/material";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
-import { productImageUrl, shopApi } from "../../constant";
+import { flutterwaveKey, productImageUrl, shopApi } from "../../constant";
 import { useDispatch, useSelector } from "react-redux";
 
 import axios from "axios";
@@ -61,7 +61,7 @@ const Checkout = () => {
   const userEmail = userId?.email;
 
   const config = {
-    public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
+    public_key: flutterwaveKey,
     tx_ref: Date.now(),
     amount: totalPrice,
     // amount: 999,

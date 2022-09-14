@@ -7,7 +7,7 @@ import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { apiData } from "../../constant";
+import { apiData, flutterwaveKey } from "../../constant";
 import { useRouter } from "next/router";
 
 const AddMoney = () => {
@@ -23,7 +23,7 @@ const AddMoney = () => {
   const currency = userId?.currency_code;
 
   const config = {
-    public_key: "FLWPUBK_TEST-d5182b3aba8527eb31fd5807e15bf23b-X",
+    public_key: flutterwaveKey,
     tx_ref: Date.now(),
     amount: totalPrice,
     currency: "USD",
@@ -243,7 +243,7 @@ const AddMoney = () => {
                                         }
                                       );
 
-                                     await axios
+                                      await axios
                                         .post(`${apiData}fund/wallet`, {
                                           userId: userId?.id,
                                           amount: rate,
