@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleIndexApi } from "../features/bellefuSlice";
 import { useEffect, useState } from "react";
 import Skeleton from "@mui/material/Skeleton";
-
+import HeadSEO from "../components/Navbar/HeadSEO";
 import HeaderSearch from "../components/HeaderSearch";
 import CategorySideBar from "../components/CategorySideBar";
 // import axios from "axios";
@@ -55,22 +55,9 @@ export default function Home({ data }) {
     return () => clearTimeout(timer);
   }, []);
 
-  console.log("cat", currData);
   return (
     <div>
-      <Head>
-        <title>Bellefu Digital Agro Connect</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="description"
-          content="Bellefu is a agricultural products site and connection between farmers and buyers that offers a wide. We are into food products, agricultural machinery,farmers"
-        />
-
-        <link
-          rel="icon"
-          href="https://www.linkpicture.com/q/bellefuApplogo.jpg"
-        />
-      </Head>
+      <HeadSEO />
       {/* Overall container */}
       <main className="bg-bellefuBackground ">
         <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-28">
