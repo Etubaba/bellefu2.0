@@ -62,7 +62,7 @@ const Products = ({ shops, grid }) => {
           // else if (res.data.data.data.length) initialRender.current = 2;
 
           setCountryData(res.data?.data?.data);
-          setTotalPage(res.data?.last_page);
+          setPage(res.data?.last_page);
           // setInitialData(res.data.data.data);
           // setSearching(false);
         })
@@ -90,7 +90,7 @@ const Products = ({ shops, grid }) => {
           // else if (res.data.data.data.length) initialRender.current = 2;
 
           setCategoryItem(res.data?.data?.data);
-          setTotalPage(res.data?.last_page);
+          setPage(res.data?.last_page);
           // setInitialData(res.data.data.data);
           // setSearching(false);
         })
