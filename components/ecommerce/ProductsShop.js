@@ -46,7 +46,10 @@ const Products = ({ shops, grid }) => {
       : shopData;
   // : shops;
 
-  //console.log("main",);
+  // console.log("shop => ", shopData);
+  // console.log("product =>", productIndex);
+  // console.log("page => ", page);
+  // console.log("condition => ", (page !== 1 && search === "" && getCountry === null))
 
   useEffect(() => {
     setCountryData([]);
@@ -54,23 +57,25 @@ const Products = ({ shops, grid }) => {
     const newProducts = async () => {
       // if (searchCountry) setSearching(true);
 
-      axios
-        .get(`${shopApi}goods/list/${getCountry}?page=${page}`)
-        .then((res) => {
-          // console.log(res.data?.data?.data);
-          // if (!res.data.data.data.length) initialRender.current = 1;
-          // else if (res.data.data.data.length) initialRender.current = 2;
+      if (getCountry) {
+        await axios
+          .get(`${shopApi}goods/list/${getCountry}?page=${page}`)
+          .then((res) => {
+            // console.log(res.data?.data?.data);
+            // if (!res.data.data.data.length) initialRender.current = 1;
+            // else if (res.data.data.data.length) initialRender.current = 2;
 
-          setCountryData(res.data?.data?.data);
-          setPage(res.data?.last_page);
-          // setInitialData(res.data.data.data);
-          // setSearching(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          // setSearching(false);
-        });
-    };
+            setCountryData(res.data?.data?.data);
+            setPage(res.data?.data?.last_page);
+            // setInitialData(res.data.data.data);
+            // setSearching(false);
+          })
+          .catch((err) => {
+            console.log(err);
+            // setSearching(false);
+          });
+        };
+      }
     newProducts();
   }, [getCountry, page]);
 
@@ -81,7 +86,8 @@ const Products = ({ shops, grid }) => {
     const newProduct = async () => {
       // if (searchCountry) setSearching(true);
 
-      await axios
+      if (category) {
+        await axios
         .get(`${shopApi}goods/category/${category}?page=${page}`)
         .then((res) => {
           // console.log(res.data?.data);
@@ -90,7 +96,7 @@ const Products = ({ shops, grid }) => {
           // else if (res.data.data.data.length) initialRender.current = 2;
 
           setCategoryItem(res.data?.data?.data);
-          setPage(res.data?.last_page);
+          setPage(res.data.data?.last_page);
           // setInitialData(res.data.data.data);
           // setSearching(false);
         })
@@ -98,6 +104,7 @@ const Products = ({ shops, grid }) => {
           console.log(err);
           // setSearching(false);
         });
+      }
     };
     newProduct();
   }, [category, page]);
