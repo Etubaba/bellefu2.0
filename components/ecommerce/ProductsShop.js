@@ -13,6 +13,7 @@ const Products = ({ shops, grid }) => {
   const [productIndex, setProductIndex] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [categoryitem, setCategoryItem] = useState([]);
+  const [shopData, setShopData] = useState([]);
 
   const getCountry = useSelector((state) => state.bellefu.countrySelected);
   const search = useSelector((state) => state.bellefu.searchFilter);
@@ -20,11 +21,19 @@ const Products = ({ shops, grid }) => {
     (state) => state.bellefu.indexData?.defaultCountry
   );
   const category = useSelector((state) => state.bellefu.catfilter);
-  console.log(category);
 
-  // console.log(getCountry);
-  // console.log(countryData);
-  console.log(searchResult);
+  useEffect(() => {
+    const getProduct = () => {
+      axios.get(`${shopApi}list/goods`).then((res) => {
+        setShopData(res.data.data.data);
+      });
+    };
+    getProduct();
+  }, []);
+
+  // console.log("7", shops);
+  // console.log("8", shopData);
+
   const main =
     getCountry !== null && search === ""
       ? countryData
@@ -34,7 +43,10 @@ const Products = ({ shops, grid }) => {
       ? categoryitem
       : page !== 1 && search === "" && getCountry === null
       ? productIndex
-      : shops;
+      : shopData;
+  // : shops;
+
+  //console.log("main",);
 
   useEffect(() => {
     setCountryData([]);
@@ -72,8 +84,8 @@ const Products = ({ shops, grid }) => {
       await axios
         .get(`${shopApi}goods/category/${category}?page=${page}`)
         .then((res) => {
-          console.log(res.data?.data);
-          console.log(res.data?.data?.data);
+          // console.log(res.data?.data);
+          //  console.log(res.data?.data?.data);
           // if (!res.data.data.data.length) initialRender.current = 1;
           // else if (res.data.data.data.length) initialRender.current = 2;
 

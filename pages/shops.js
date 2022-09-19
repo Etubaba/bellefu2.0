@@ -23,7 +23,7 @@ const Shops = ({ shops }) => {
   const [newShop, setNewShop] = useState([]);
   const [currData, setCurrData] = useState([]);
   const [search, setSearch] = useState("");
-
+  const [shopData, setShopData] = useState([]);
   const indexData = useSelector((state) => state.bellefu.indexData);
   const slider = indexData?.slider[0]?.value;
 
@@ -67,6 +67,9 @@ const Shops = ({ shops }) => {
   }, [page]);
 
   const shop = shops?.data?.data;
+
+  // console.log("serverShop", shop);
+  // console.log("effectshop", shopData);
 
   const pageNumber = [];
   for (let i = 1; i <= totalPage; i++) {
@@ -154,14 +157,14 @@ const Shops = ({ shops }) => {
                 slider={isLocationReady ? currData.slider : data.slider}
               /> */}
               <div className="px-2">
-                <BodyShop shops={shop} />
+                <BodyShop shops={shopData} />
               </div>
             </div>
           </div>
         </div>
       </main>
       {/* pagination */}
-      {shop.length !== 0 && totalPage > 1 && (
+      {shopData.length !== 0 && totalPage > 1 && (
         <div className="flex justify-center md:mb-0 mb-8 md:mt-10 mt-7 items-center w-full ">
           <button
             onClick={() => {
