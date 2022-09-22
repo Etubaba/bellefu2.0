@@ -232,7 +232,6 @@ const MyAd = ({ product }) => {
     }
   };
 
-  console.log("sub", subCat);
   return (
     <div className="w-full">
       <div className="bg-bellefuWhite p-3 rounded-md border border-[#dfdfdf]">
@@ -555,6 +554,11 @@ const MyAd = ({ product }) => {
             />
           </div>
 
+          <small className="text-red-600 my-4 text-center">
+            Do not upload image if you do not want
+            <br /> to replace the image.
+          </small>
+
           <Dropzone
             onDrop={(acceptedFiles) => {
               for (let i = 0; i < acceptedFiles.length; i++) {
@@ -569,7 +573,7 @@ const MyAd = ({ product }) => {
             {({ getRootProps, getInputProps }) => (
               <div
                 {...getRootProps()}
-                className="border-dashed space-y-4 border-2 mx-4 md:mx-10 my-4 md:my-8 flex flex-col border-gray-300 justify-center p-2 md:p-4  items-center "
+                className="border-dashed space-y-4 border-2 mx-4 md:mx-10 my-4 md:my-6 flex flex-col border-gray-300 justify-center p-2 md:p-4  items-center "
               >
                 <input {...getInputProps()} />
                 <p>
