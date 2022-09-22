@@ -11,6 +11,7 @@ import {
   MdOutlineKeyboardArrowDown,
   MdKeyboardArrowRight,
 } from "react-icons/md";
+import { webApi } from "../../constant";
 
 export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
   const stateName = useSelector((state) => state.bellefu?.postAddata);
@@ -22,9 +23,7 @@ export default function UnstyledSelectSimple4({ states, checker2, catchLgas }) {
 
   const handleThings = (counts) => {
     axios
-      .get(
-        `https://bellefu.inmotionhub.xyz/api/web30/get/postadd/lgas/${counts.code}`
-      )
+      .get(`${webApi}get/postadd/lgas/${counts.code}`)
       .then((response) => {
         const newLgaArr = response?.data.lga;
         dispatch(handleStateUpdate(counts.code));

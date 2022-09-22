@@ -24,9 +24,6 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
   );
   const countryCode2 = useSelector((state) => state.bellefu.profileDetails);
 
-  console.log("country", country);
-  console.log("country", countryCode2);
-
   const [open1, setOpen1] = useState(false);
   const [inputdata, setInputData] = useState(null);
   const [searchdata, setSearchData] = useState("");
@@ -47,7 +44,6 @@ export default function UnstyledSelectSimple3({ countryStuffs, catchState }) {
         dispatch(handleSymbolUpdate(country.defaultCurrency));
         dispatch(handleCurrencyUpdate(country.defaultCurrencyCode));
         dispatch(handleCountryname(country.defaultCountryName));
-        console.log(newStateArr);
       })
       .catch((error) => {
         console.log(error);

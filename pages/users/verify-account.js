@@ -20,10 +20,7 @@ import { toast } from "react-toastify";
 import Countdown from "react-countdown";
 
 function Verifyaccount() {
-  //conditional rendering
-
   const [showCount, setShowCount] = useState(false);
-
   const [verify, setVerify] = useState(false);
   const [phone, setPhone] = useState(false);
   const [idopen, setIdopen] = useState(false);

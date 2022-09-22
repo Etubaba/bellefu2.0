@@ -1,6 +1,9 @@
 import React from "react";
 import Layout from "../../components/postAdsComponent/Layout";
-import { handlePlansUpdate, handleAdsPlanPriceUpdate } from "../../features/bellefuSlice";
+import {
+  handlePlansUpdate,
+  handleAdsPlanPriceUpdate,
+} from "../../features/bellefuSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
@@ -10,7 +13,6 @@ import { useRouter } from "next/router";
 import { apiData } from "../../constant";
 
 export default function Publish({ data1 }) {
-
   const [adsplans, setAdsPlans] = useState(data1.data);
   const [showSuccess, setShowSuccess] = useState(false);
   const router = useRouter();
@@ -50,9 +52,6 @@ export default function Publish({ data1 }) {
   // publish ads.... section wey i do beware###########################
 
   const handlePublish = (e) => {
-    console.log(dataTopost.videofile);
-    console.log(dataTopost.images);
-
     e.preventDefault();
 
     if (dataTopost.plans === "") {
@@ -126,7 +125,7 @@ export default function Publish({ data1 }) {
       formData.append("currencyCode", dataTopost.currencyCode);
       formData.append("plans", dataTopost.plans);
 
-      console.log(formData);
+      //console.log(formData);
       axios({
         method: "POST",
         url: `${apiData}create/product`,
@@ -136,7 +135,6 @@ export default function Publish({ data1 }) {
         },
       })
         .then((res) => {
-
           if (res.data.status) {
             setShowSuccess(true);
             toast.success("Product published successfully", {
@@ -153,8 +151,8 @@ export default function Publish({ data1 }) {
         .catch((err) =>
           err
             ? toast.error("Something happend. Try again", {
-              position: "top-center",
-            })
+                position: "top-center",
+              })
             : null
         );
     }
@@ -172,7 +170,9 @@ export default function Publish({ data1 }) {
           <div className="w-[93%] my-2 p-5 lg:m-10 border rounded-lg hover:bg-[#F9FDF5]  h-auto">
             <div className="sm:flex lg:flex">
               <input
-                onClick={() => { handleFeatured(adsplans?.featuredFee) }}
+                onClick={() => {
+                  handleFeatured(adsplans?.featuredFee);
+                }}
                 id="ads_plan"
                 name="plans"
                 type="radio"
@@ -198,7 +198,9 @@ export default function Publish({ data1 }) {
           <div className="w-[93%] my-2 p-5 lg:m-10 border rounded-lg hover:bg-[#F9FDF5]  h-auto">
             <div className="sm:flex lg:flex ">
               <input
-                onClick={() => { handleUrgent(adsplans?.urgentFee) }}
+                onClick={() => {
+                  handleUrgent(adsplans?.urgentFee);
+                }}
                 id="ads_plan"
                 name="plans"
                 type="radio"
@@ -224,7 +226,9 @@ export default function Publish({ data1 }) {
           <div className="w-[93%] my-2 p-5 lg:m-10 border rounded-lg hover:bg-[#F9FDF5]  h-auto">
             <div className="sm:flex lg:flex">
               <input
-                onClick={() => { handleHighlighted(adsplans?.highlightedFee) }}
+                onClick={() => {
+                  handleHighlighted(adsplans?.highlightedFee);
+                }}
                 id="ads_plan"
                 name="plans"
                 type="radio"
@@ -308,9 +312,7 @@ export default function Publish({ data1 }) {
 }
 Publish.Layout = Layout;
 export async function getServerSideProps() {
-  const [data1Res] = await Promise.all([
-    fetch(`${apiData}view/product/plans`),
-  ]);
+  const [data1Res] = await Promise.all([fetch(`${apiData}view/product/plans`)]);
 
   const [data1] = await Promise.all([data1Res.json()]);
   //  console.log(data);
