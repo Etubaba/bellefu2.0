@@ -71,7 +71,7 @@ function shop() {
 
   //get qrcode image of user
   const qrcodeImage = useSelector((state) => state.bellefu?.qrcode);
-  console.log(qrcodeImage);
+  console.log("qr", qrcodeImage);
 
   useEffect(() => {
     axios
@@ -526,13 +526,15 @@ function shop() {
           ) : (
             <h1 className="font-semibold text-sm">My Shop</h1>
           )}{" "}
-          <p
-            onClick={() => setQrcode(!qrcode)}
-            className="text-bellefuGreen underline text-xs md:text-base  cursor-pointer
+          {qrcodeImage !== null && (
+            <p
+              onClick={() => setQrcode(!qrcode)}
+              className="text-bellefuGreen underline text-xs md:text-base  cursor-pointer
             hover:text-green-600"
-          >
-            Get QRcode
-          </p>
+            >
+              Get QRcode
+            </p>
+          )}
           {shopId === null || !shopOwner ? null : (
             <div>
               {shopDetails[0]?.expired ? (
