@@ -127,7 +127,7 @@ const MyAd = ({ product }) => {
       formData.append("currencyCode", user.currency_code);
       formData.append("plans", product.plan);
       formData.append("changedImage", file.length === 0 ? false : true);
-      formData.append("productId", product.productId);
+      formData.append("id", product.productId);
       axios({
         method: "POST",
         url: `${apiData}all/product/update`,
@@ -141,7 +141,10 @@ const MyAd = ({ product }) => {
             toast.success(`${product.title} updated successfully`, {
               position: "top-center",
             });
+            setModalEdit(false);
+            dispatch(favUpdated());
           }
+
           // res.status === 200
           //   ? setShowSuccess(false)
           //   : setShowSuccess(true) &&
